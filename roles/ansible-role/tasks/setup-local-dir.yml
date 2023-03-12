@@ -1,0 +1,12 @@
+---
+- name: Ensure ~/.local exists
+  file:
+    path: "{{ ansible_env.HOME }}/.local"
+    state: directory
+    mode: '0755'
+
+- name: Run task only on x86_64 or amd64
+  ansible.builtin.debug:
+    msg: "This host is x86_64 or amd64"
+  when: ansible_architecture in ['x86_64', 'amd64']
+

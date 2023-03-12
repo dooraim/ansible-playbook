@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------- #
+#                                   Git Alias                                  #
+# ---------------------------------------------------------------------------- #
+
+alias gln='logging'
+alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
+alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias glga="git log --graph --oneline --all --decorate"
+
+logging(){
+  if [ "$1" ]; then
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' -n $1 --color=always | nl | less -r
+  else
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' --color=always | nl | less -r
+  fi
+
+}
+
+view_diff(){
+  if [ "$1" ]; then
+    git diff HEAD~$1..HEAD
+  else
+    git diff HEAD^..HEAD
+  fi
+}

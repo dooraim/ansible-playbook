@@ -1,0 +1,132 @@
+# defaults file
+---
+
+# defaults file for ansible-role-p10k
+
+# Powerlevel10k Git repository url
+p10k_repository_url: 'https://github.com/romkatv/powerlevel10k.git'
+
+# Install p10k for the following linux users
+# Default: the linux user running Ansible
+p10k_users:
+  - "{{ ansible_user_id }}"
+
+# Zsh plugin used, zsh, ohmyzsh, prezto, Zim, etc..
+# All plugin names can be found here https://github.com/romkatv/powerlevel10k#installation
+zsh_plugin: zsh
+
+# Setup p10k theme to use
+# Valid values: lean, classic, rainbow, pure
+p10k_prompt_style: "lean"
+
+# Show current time
+# Valid values: no, 24-hour, 12-hour
+p10k_prompt_time: "24-hour"
+
+# Prompt sperator
+# Valid values: angled, vertical, slanted, round
+p10k_prompt_separator: "angled"
+
+# Prompt heads
+# Valid values: sharp, blurred, slanted, round
+p10k_prompt_head: "sharp"
+
+# Prompt tails
+# Valid values: flat, blurred, sharp, slanted, round
+p10k_prompt_tails: flat
+
+# Terminal prompt height
+# Valid values: one-line, two-lines
+p10k_prompt_height: two-lines
+
+# Prompt connection, only used if "p10k_prompt_height" value is "two-lines"
+# Valid values: disconnected, dotted, solid
+p10k_prompt_connection: disconnected
+
+# Prompt connection color, only used if
+# "p10k_prompt_connection" value is "dotted" or "solid"
+# or "p10k_prompt_frame" is not "no"
+# Valid values: lightest, light, dark, darkest, black, white, green, blue
+p10k_prompt_connection_color: "dark"
+
+# Prompt frame connection
+# Valid values: no, left, right, full
+p10k_prompt_frame: left
+
+# Sparse prompt with an empty line before promp
+# Valid values: compact, sparse
+p10k_prompt_spacing: compact
+
+# Terminal flow
+# Valid values: concise, fluent
+p10k_prompt_flow: concise
+
+# Enable transient prompt
+# Valid values: yes, no
+p10k_transient_prompt: "no"
+
+nvm_version: "v0.40.3"
+node_version: "22"
+nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm"
+
+tarballs_dir:
+  - url: https://github.com/sharkdp/bat/releases/download
+    version: v0.25.0
+    arch: x86_64
+    target: unknown-linux-gnu
+    name: bat
+    file: bat
+    extension: tar.gz
+  - url: https://github.com/sharkdp/fd/releases/download
+    version: v10.2.0
+    arch: x86_64
+    target: unknown-linux-gnu
+    name: fd
+    file: fd
+    extension: tar.gz
+  - url: https://github.com/BurntSushi/ripgrep/releases/download
+    version: 14.1.1
+    arch: x86_64
+    target: unknown-linux-musl
+    name: ripgrep
+    file: rg
+    extension: tar.gz
+
+tarballs_file:
+  - url: https://github.com/junegunn/fzf/releases/download
+    version: v0.64.0
+    name: fzf-0.64.0-linux
+    arch: amd64
+    file: fzf
+    extension: tar.gz
+  - url: https://github.com/jesseduffield/lazygit/releases/download
+    version: v0.53.0
+    name: lazygit_0.53.0_Linux
+    arch: x86_64
+    file: lazygit
+    extension: tar.gz
+
+nvim_url: https://github.com/neovim/neovim/releases/download
+nvim_version: v0.11.2
+nvim_name: nvim-linux-x86_64
+nvim_extension: tar.gz
+
+nvim_old_url: https://github.com/neovim/neovim-releases/releases/download
+nvim_old_version: v0.11.2
+nvim_old_name: nvim-linux-x86_64
+nvim_old_extension: tar.gz
+
+fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
+fzy_source_package_name: "fzy"
+fzy_dest: "{{ ansible_env.HOME }}/fzy"
+fzy_source_package_prefix: "{{ ansible_env.HOME }}/.local/bin"
+
+luarock_url: https://github.com/luarocks/luarocks/releases/download
+luarock_version: v3.12.2
+luarock_name: linux-x86_64
+luarock_file: luarocks
+luarock_extension: zip
+
+nvm_url: https://github.com/nvm-sh/nvm/archive/refs/tags
+nvm_version: 0.40.3
+nvm_extention: zip

@@ -1,0 +1,23 @@
+---
+- name: Ensure is removed from .tmux/plugins
+  file:
+    path: "{{ ansible_env.HOME }}/.tmux/plugins"
+    state: absent
+
+- name: Ensure is removed from .tmux.conf
+  file:
+    path: "{{ ansible_env.HOME }}/.tmux.conf"
+    state: absent
+
+- name: Clone TPM repository
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+
+- name: write .tmux.conf for user
+  template:
+    src: tmux.conf.j2
+    dest: "{{ ansible_env.HOME }}/.tmux.conf"
+    backup: yes
+    mode: "u=rw,go=rw"
+

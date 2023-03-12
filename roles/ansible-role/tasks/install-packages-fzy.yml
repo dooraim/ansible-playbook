@@ -1,0 +1,31 @@
+---
+- name: Clone the repository from Git fzy
+  git:
+    repo: "{{ fzy_source_package_url | default('https://github.com/jhawthorn/fzy.git') }}"
+    dest: "{{ ansible_env.HOME }}/myapp/fzy"
+    version: "{{ fzy_source_repo_branch | default('master') }}"
+    force: yes
+
+- name: Compile and install from source fzy
+  args:
+    chdir: "{{ ansible_env.HOME }}/myapp/fzy"
+  shell: |
+    make
+
+- name: Ensure is removed
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin/fzy"
+    state: absent
+
+- name: Copy bin file to ~/.local/bin fzy
+  copy:
+    src: "{{ ansible_env.HOME }}/myapp/fzy/fzy"
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+
+- name: Make file in ~/.local/bin/ executable
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin/fzy"
+    mode: '0755'
+    state: file
+

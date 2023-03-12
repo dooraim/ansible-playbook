@@ -1,0 +1,73 @@
+---
+- name: Download tarballs neovim locals with custom names
+  ansible.builtin.get_url:
+    url: "{{ nvim_old_url }}/{{ nvim_old_version }}/{{ nvim_old_name }}.{{ nvim_old_extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/neovim.{{ nvim_old_extension }}"
+    mode: '0644'
+  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "20.04"
+
+- name: Download tarballs neovim locals with custom names
+  ansible.builtin.get_url:
+    url: "{{ nvim_url }}/{{ nvim_version }}/{{ nvim_name }}.{{ nvim_extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/{{ nvim_name }}.{{ nvim_extension }}"
+    mode: '0644'
+  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04"
+
+- name: Rename directory from old to new
+  ansible.builtin.command: "mv {{ ansible_env.HOME }}/myapp/nvim-linux-x86_64.tar.gz {{ ansible_env.HOME }}/myapp/neovim.tar.gz"
+  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04"
+
+- name: Extract tarballs neovim
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/neovim.tar.gz"
+    dest: "{{ ansible_env.HOME }}/myapp"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Rename directory from old to new
+  ansible.builtin.command: "mv {{ ansible_env.HOME }}/myapp/nvim-linux-x86_64 {{ ansible_env.HOME }}/myapp/neovim"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Ensure is removed from .config
+  file:
+    path: "{{ ansible_env.HOME }}/.config/nvim"
+    state: absent
+
+- name: Ensure is removed from bin
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin/neovim"
+    state: absent
+
+- name: Ensure is removed from lib
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/lib/nvim"
+    state: absent
+
+- name: Ensure is removed from share
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/nvim"
+    state: absent
+
+- name: Copy bin file to ~/.local/bin for neovim
+  copy:
+    src: "{{ ansible_env.HOME }}/myapp/neovim/bin"
+    dest: "{{ ansible_env.HOME }}/.local/"
+    remote_src: yes
+
+- name: Copy bin file to ~/.local/lib for neovim
+  copy:
+    src: "{{ ansible_env.HOME }}/myapp/neovim/lib"
+    dest: "{{ ansible_env.HOME }}/.local/"
+    remote_src: yes
+
+- name: Copy bin file to ~/.local/share for neovim
+  copy:
+    src: "{{ ansible_env.HOME }}/myapp/neovim/share"
+    dest: "{{ ansible_env.HOME }}/.local/"
+    remote_src: yes
+
+- name: Create nvim directory
+  ansible.builtin.copy:
+    src: nvim
+    dest: "{{ ansible_env.HOME }}/.config/"
+    mode: '0644'
+

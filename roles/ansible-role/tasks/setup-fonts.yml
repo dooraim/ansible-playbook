@@ -1,0 +1,46 @@
+---
+- name: Create fonts directory
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    mode: '0755'
+    state: directory
+
+- name: Download zip with custom fonts Meslo
+  ansible.builtin.get_url:
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Meslo.zip"
+    dest: "{{ ansible_env.HOME }}/myapp/Meslo.zip"
+    mode: '0644'
+
+- name: Extract zip Meslo
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/Meslo.zip"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+
+- name: Download zip with custom fonts noto-sans
+  ansible.builtin.get_url:
+    url: "https://www.1001fonts.com/download/noto-sans.zip"
+    dest: "{{ ansible_env.HOME }}/myapp/noto-sans.zip"
+    mode: '0644'
+
+- name: Extract zip noto-sans
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/noto-sans.zip"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+
+- name: Download zip with custom fonts JetBrainsMono
+  ansible.builtin.get_url:
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
+    dest: "{{ ansible_env.HOME }}/myapp/JetBrainsMono.zip"
+    mode: '0644'
+
+- name: Extract zip JetBrainsMono
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/JetBrainsMono.zip"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+
+- name: Clear and regenerate your font cache
+  ansible.builtin.shell: "fc-cache -f -v"
+
+- name: Verify the installation
+  ansible.builtin.shell: "fc-list | grep 'Meslo'"
+
