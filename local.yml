@@ -5,3 +5,4 @@
 
   roles:
     - { role: ansible-role-docker, docker_users: dooraim }
+    - { role: ansible-dooraim-role, username: dooraim }
