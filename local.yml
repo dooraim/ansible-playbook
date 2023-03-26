@@ -4,5 +4,5 @@
   become: true
 
   roles:
-    - ansible-role-docker
-
+    - 
+    { role: ansible-role-docker, docker_users: dooraim }
