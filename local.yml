@@ -4,3 +4,4 @@
 
   roles:
     - { role: ansible-dooraim-role, username: dooraim }
+    - { role: ansible-role-lazygit, username: dooraim }
