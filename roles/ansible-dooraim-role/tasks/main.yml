@@ -134,11 +134,49 @@
     autoclean: yes
   when: ansible_facts['os_family'] == "Debian"
 
-- name: Install NEOVIM
-  snap:
-    name: nvim
-    classic: yes
-  when: ansible_facts['os_family'] == "Debian"
+- name: Ensure ~/.local exists
+  file:
+    path: "{{ ansible_env.HOME }}/.local"
+    state: directory
+    mode: '0755'
+
+- name: Download Neovim tarball
+  get_url:
+    url: "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
+    dest: "/tmp/nvim-linux-x86_64.tar.gz"
+    mode: '0644'
+
+- name: Extract Neovim tarball
+  become: true
+  become_user: "{{ username }}"
+  unarchive:
+    src: "/tmp/nvim-linux-x86_64.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Copy bin to ~/.local/bin
+  become: true
+  become_user: "{{ username }}"
+  copy:
+    src: "/tmp/nvim-linux-x86_64/bin"
+    dest: "~{{ username }}/.local/"
+    remote_src: yes
+
+- name: Copy lib to ~/.local/lib
+  become: true
+  become_user: "{{ username }}"
+  copy:
+    src: "/tmp/nvim-linux-x86_64/lib"
+    dest: "~{{ username }}/.local/"
+    remote_src: yes
+
+- name: Copy share to ~/.local/share
+  become: true
+  become_user: "{{ username }}"
+  copy:
+    src: "/tmp/nvim-linux-x86_64/share"
+    dest: "~{{ username }}/.local/"
+    remote_src: yes
 
 - name: Install glab
   snap:
