@@ -1,0 +1,106 @@
+# ---------------------------------------------------------------------------- #
+#                                   Git Alias                                  #
+# ---------------------------------------------------------------------------- #
+
+alias g="git status"
+alias ga="git add"
+alias gaa="git add ."
+alias gau="git add -u"
+alias gc="git commit -v"
+alias gca="git commit -am"
+alias gb="git branch -vv"
+alias gbd="git branch -d"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gt="git stash"
+alias gta="git stash apply"
+alias gm="git merge"
+alias gr="git rebase"
+alias gln='logging'
+alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
+alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias glga="git log --graph --oneline --all --decorate"
+alias gs="git show"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gbl="git blame"
+alias gps="git push"
+alias gpl="git pull"
+alias go="git checkout "
+alias gk="gitk --all&"
+alias gx="gitx --all"
+alias gcl="git clone --recurse-submodules"
+alias gbr="git branch -r"
+alias gfa="git fetch --all"
+alias gf="git fetch"
+alias gmnf="git merge --no-ff"
+alias gvdf='view_diff'
+alias grn="git remote rename"
+alias gra="git remote add"
+# vedo tutti i remote del repository
+alias grs="git remote show"
+# faccio il fetch di tutti i branch e vedo lo stato dei branch in termini di commit prima e dopo
+alias gfabv="git fetch --all; git branch -vv"
+# vedo quali commit non sono ancora stati pushati
+alias glnp="git log --branches --not --remotes"
+
+# show ignored files by git
+alias gx="ign = ls-files -o -i --exclude-standard"
+
+# Untrack Files without deleting them
+alias grmc="git rm -r --cached"
+
+# Pipe for update note
+alias gupdate="git add . && git commit -m "update" && git push"
+
+alias gclean="git remote prune"
+alias grst="git restore --staged"
+alias grsta="git restore --staged *"
+alias glp="git log -p --"
+alias glpb="git log --"
+alias gcla="git clean -fdx"
+# Metod
+
+logging(){
+  if [ "$1" ]; then
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' -n $1 --color=always | nl | less -r
+  else
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' --color=always | nl | less -r
+  fi
+
+}
+
+view_diff(){
+  if [ "$1" ]; then
+    git diff HEAD~$1..HEAD
+  else
+    git diff HEAD^..HEAD
+  fi
+}
+
+alias fa="forgit::add"
+alias fcc="forgit::checkout::commit"
+alias fcpfb="forgit::cherry::pick::from::branch"
+alias ffu="forgit::fixup"
+alias fil="forgit::ignore::list"
+alias frlo="forgit::reflog"
+alias fss="forgit::stash::show"
+alias fb="forgit::blame"
+alias fcf="forgit::checkout::file"
+alias fclean="forgit::clean"
+alias fi="forgit::ignore"
+alias fiu="forgit::ignore::update"
+alias frh="forgit::reset::head"
+alias fw="forgit::warn"
+alias fbd="forgit::branch::delete"
+alias fct="forgit::checkout::tag"
+alias fd="forgit::diff"
+alias fic="forgit::ignore::clean"
+alias flo="forgit::log"
+alias frc="forgit::revert::commit"
+alias fcb="forgit::checkout::branch"
+alias fcp="forgit::cherry::pick"
+alias fe="forgit::error"
+alias fig="forgit::ignore::get"
+alias fr="forgit::rebase"
+alias fsp="forgit::stash::push"

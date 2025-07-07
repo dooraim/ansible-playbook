@@ -1,0 +1,48 @@
+#-------------------------------------------------------------
+# Command Directory
+#-------------------------------------------------------------
+
+alias ..='cd ..;pwd'
+alias ...='cd ../..;pwd'
+alias ....='cd ../../..;pwd'
+alias c='clear'
+alias ll='ls -lah'
+alias mkdir='mkdir -p -v'
+
+#-------------------------------------------------------------
+# Bash
+#-------------------------------------------------------------
+# Detect OS from /etc/os-release
+if [[ -f /etc/os-release ]]; then
+  . /etc/os-release
+  OS_ID=$ID
+else
+  OS_ID=$(uname -s)
+fi
+
+# Define aliases based on OS
+case "$OS_ID" in
+  ubuntu)
+    alias bat='batcat'
+    ;;
+  fedora)
+    alias bat='bat'
+    ;;
+  *)
+    echo "Unknown or unsupported OS: $OS_ID"
+    ;;
+esac
+
+alias tree='tree -C --dirsfirst'
+# This renames all files in the current directory containing a specific string with another string
+alias rename='function _rename() { for i in *$1*; do mv "$i" "${i/$1/$2}"; done }; _rename'
+# This shows all directories in the PATH variable, one per line.
+alias path='echo -e ${PATH//:/\\n}'
+# This updates and upgrades all the packages on the system using the apt package manager.
+alias update='sudo apt-get update'
+alias install='sudo apt-get install'
+# This will show all files sorted by modification date, the most recent first.
+alias lr='ls -ltr'
+alias reload='source ~/.zshrc'
+alias grep='grep --color=auto'
+alias occupy='du -cxh'

@@ -1,0 +1,17 @@
+# meta file
+---
+galaxy_info:
+  role_name: fill_this_in
+  author: appsilon
+  company: Appsilon
+  description: fill_this_in
+  license: MIT
+  min_ansible_version: 2.11.1
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - development
+    - system
+dependencies: []
