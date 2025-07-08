@@ -140,6 +140,21 @@
     state: directory
     mode: '0755'
 
+- name: Remove ~/.local/bin/nvim
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin/nvim"
+    state: absent
+
+- name: Remove ~/.local/lib/nvim
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/lib/nvim"
+    state: absent
+
+- name: Remove ~/.local/share/nvim
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/nvim"
+    state: absent
+
 - name: Download Neovim tarball
   get_url:
     url: "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
@@ -162,6 +177,14 @@
     dest: "~{{ username }}/.local/"
     remote_src: yes
 
+- name: Make all files in ~/.local/bin executable
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/nvim"
+    mode: '0755'
+    state: file
+
 - name: Copy lib to ~/.local/lib
   become: true
   become_user: "{{ username }}"
@@ -169,6 +192,7 @@
     src: "/tmp/nvim-linux-x86_64/lib"
     dest: "~{{ username }}/.local/"
     remote_src: yes
+    mode: '0755'
 
 - name: Copy share to ~/.local/share
   become: true
@@ -177,6 +201,7 @@
     src: "/tmp/nvim-linux-x86_64/share"
     dest: "~{{ username }}/.local/"
     remote_src: yes
+    mode: '0755'
 
 - name: Install glab
   snap:
