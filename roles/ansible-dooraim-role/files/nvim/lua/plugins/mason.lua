@@ -44,12 +44,11 @@ return {
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- prettier formatter
-        "stylua", -- lua formatter
-        "ruff",
-        "yamllint",
+        -- "prettier", -- prettier formatter
+        -- "stylua", -- lua formatter
+        -- "ruff",
+        -- "yamllint",
       },
     })
   end,
 }
-
