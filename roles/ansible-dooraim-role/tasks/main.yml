@@ -140,6 +140,41 @@
     state: directory
     mode: '0755'
 
+- name: Remove ~/.local/bin/lazygit
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin/lazygit"
+    state: absent
+
+- name: Download Neovim tarball
+  get_url:
+    url: "https://github.com/jesseduffield/lazygit/releases/download/v0.53.0/lazygit_0.53.0_Linux_x86_64.tar.gz"
+    dest: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
+    mode: '0644'
+
+- name: Extract lazygit tarball
+  become: true
+  become_user: "{{ username }}"
+  unarchive:
+    src: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Copy bin lazygit to ~/.local/bin
+  become: true
+  become_user: "{{ username }}"
+  copy:
+    src: "/tmp/lazygit"
+    dest: "~{{ username }}/.local/bin/"
+    remote_src: yes
+
+- name: Make all files in ~/.local/bin/lazygit executable
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/lazygit"
+    mode: '0755'
+    state: file
+
 - name: Remove ~/.local/bin/nvim
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.local/bin/nvim"
