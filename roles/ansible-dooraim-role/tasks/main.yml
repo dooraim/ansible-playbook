@@ -473,3 +473,12 @@
   debug:
     msg: "NPM version: {{ npm_version_output.stdout }}"
 
+- name: Set Git user name
+  ansible.builtin.command: git config --global user.name "{{ git_user_name }}"
+
+- name: Set Git user email
+  ansible.builtin.command: git config --global user.email "{{ git_user_email }}"
+
+- name: Set Git core editor
+  ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"
+
