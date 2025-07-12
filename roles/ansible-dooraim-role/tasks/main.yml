@@ -85,7 +85,7 @@
   become: false
   become_user: "{{ username }}"
   copy:
-    src: "~{{ username }}/myapp/peco_linux_amd64"
+    src: "~{{ username }}/myapp/peco_linux_amd64/peco"
     dest: "~{{ username }}/.local/bin/"
     remote_src: yes
   when: ansible_architecture in ['x86_64', 'amd64']
