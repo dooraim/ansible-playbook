@@ -70,25 +70,41 @@ node_version: "22"
 nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh"
 
 tarballs_dir:
-  - url: https://github.com/sharkdp/bat/releases/download/
+  - url: https://github.com/sharkdp/bat/releases/download
     version: v0.25.0
-    name: bat-v0.25.0-x86_64-unknown-linux-gnu
+    arch: x86_64
+    target: unknown-linux-gnu
+    name: bat
     file: bat
+    extension: tar.gz
+  - url: https://github.com/sharkdp/fd/releases/download
+    version: v10.2.0
+    arch: x86_64
+    target: unknown-linux-gnu
+    name: fd
+    file: fd
+    extension: tar.gz
+  - url: https://github.com/BurntSushi/ripgrep/releases/download
+    version: 14.1.1
+    arch: x86_64
+    target: unknown-linux-musl
+    name: ripgrep
+    file: rg
     extension: tar.gz
 
 tarballs_file:
-  - url: https://github.com/junegunn/fzf/releases/download/
+  - url: https://github.com/junegunn/fzf/releases/download
     version: v0.64.0
     name: fzf-0.64.0-linux_amd64
     file: fzf
     extension: tar.gz
-  - url: https://github.com/jesseduffield/lazygit/releases/download/
+  - url: https://github.com/jesseduffield/lazygit/releases/download
     version: v0.53.0
     name: lazygit_0.53.0_Linux_x86_64
     file: lazygit
     extension: tar.gz
 
-nvim_url: https://github.com/neovim/neovim/releases/download/
+nvim_url: https://github.com/neovim/neovim/releases/download
 nvim_version: v0.11.2
 nvim_name: nvim-linux-x86_64
 nvim_extension: tar.gz

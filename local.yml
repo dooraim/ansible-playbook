@@ -3,5 +3,4 @@
   connection: local
 
   roles:
-    - { role: ansible-dooraim-role, username: dooraim }
-
+    - { role: ansible-dooraim-role, tags: ['nosudo'] }
