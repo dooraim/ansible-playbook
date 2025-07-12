@@ -90,6 +90,14 @@
     remote_src: yes
   when: ansible_architecture in ['x86_64', 'amd64']
 
+- name: Make file in ~/.local/bin/ executable peco
+  become: false
+  become_user: "{{ username }}"
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/peco"
+    mode: '0755'
+    state: file
+
 - name: Download tarballs with custom names
   ansible.builtin.get_url:
     url: "{{ item.url }}/{{ item.version }}/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
