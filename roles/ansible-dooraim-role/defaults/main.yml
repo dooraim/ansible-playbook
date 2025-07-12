@@ -88,6 +88,11 @@ tarballs_file:
     file: lazygit
     extension: tar.gz
 
+nvim_url: https://github.com/neovim/neovim/releases/download/
+nvim_version: v0.11.2
+nvim_name: nvim-linux-x86_64
+nvim_extension: tar.gz
+
 fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
 fzy_source_package_name: "fzy"
 fzy_dest: "~{{ username }}/fzy"

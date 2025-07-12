@@ -131,6 +131,11 @@
 #     autoclean: yes
 #   when: ansible_facts['os_family'] == "Debian"
 
+- name: Remove myapp
+  ansible.builtin.file:
+    path: "~{{ username }}/myapp"
+    state: absent
+
 - name: Create ~/myapp directory
   ansible.builtin.file:
     path: ~{{ username }}/myapp
@@ -150,20 +155,20 @@
 
 - name: Remove ~/.local/bin/ files
   ansible.builtin.file:
-    path: "~{{ username }}/.local/bin/{{ item.file }}"
+    path: "~{{ username }}/.local/bin/*"
     state: absent
-  loop: "{{ tarballs_dir }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Remove ~/.local/bin/ files
+- name: Remove ~/.local/lib/ files
   ansible.builtin.file:
-    path: "~{{ username }}/.local/bin/{{ item.file }}"
+    path: "~{{ username }}/.local/lib/*"
     state: absent
-  loop: "{{ tarballs_file }}"
+
+- name: Remove ~/.local/share/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/share/*"
+    state: absent
 
 - name: Download tarballs with custom names
-  become: false
-  become_user: "{{ username }}"
   ansible.builtin.get_url:
     url: "{{ item.url }}/{{ item.version }}/{{ item.name }}.{{ item.extension }}"
     dest: "~{{ username }}/myapp/{{ item.name }}.{{ item.extension }}"
@@ -227,7 +232,7 @@
   loop: "{{ tarballs_file }}"
   when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Make file in ~/.local/bin/lazygit executable
+- name: Make file in ~/.local/bin/ executable
   become: false
   become_user: "{{ username }}"
   ansible.builtin.file:
@@ -248,7 +253,7 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Clone the repository from Git
+- name: Clone the repository from Git fzy
   become: false
   become_user: "{{ username }}"
   git:
@@ -257,7 +262,7 @@
     version: "{{ fzy_source_repo_branch | default('master') }}"
     force: yes
 
-- name: Compile and install from source
+- name: Compile and install from source fzy
   become: false
   become_user: "{{ username }}"
   args:
@@ -265,12 +270,50 @@
   shell: |
     make
 
-- name: Copy bin file to ~/.local/bin
+- name: Copy bin file to ~/.local/bin fzy
   become: false
   become_user: "{{ username }}"
   copy:
     src: "~{{ username }}/myapp/fzy/fzy"
     dest: "~{{ username }}/.local/bin/"
+    remote_src: yes
+
+- name: Download tarballs neovim locals with custom names
+  ansible.builtin.get_url:
+    url: "{{ nvim_url }}/{{ nvim_version }}/{{ nvim_name }}.{{ nvim_extension }}"
+    dest: "~{{ username }}/myapp/{{ nvim_name }}.{{ nvim_extension }}"
+    mode: '0644'
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Extract tarballs neovim
+  become: false
+  become_user: "{{ username }}"
+  unarchive:
+    src: "~{{ username }}/myapp/{{ nvim_name }}.{{ nvim_extension }}"
+    dest: "~{{ username }}/myapp"
+
+- name: Copy bin file to ~/.local/bin for neovim
+  become: false
+  become_user: "{{ username }}"
+  copy:
+    src: "~{{ username }}/myapp/{{ nvim_file }}/bin"
+    dest: "~{{ username }}/.local/"
+    remote_src: yes
+
+- name: Copy lib file to ~/.local/lib for neovim
+  become: false
+  become_user: "{{ username }}"
+  copy:
+    src: "~{{ username }}/myapp/{{ nvim_file }}/lib"
+    dest: "~{{ username }}/.local/"
+    remote_src: yes
+
+- name: Copy bin file to ~/.local/share for neovim
+  become: false
+  become_user: "{{ username }}"
+  copy:
+    src: "~{{ username }}/myapp/{{ nvim_file }}/share"
+    dest: "~{{ username }}/.local/"
     remote_src: yes
 # - name: Remove ~/.local/bin/nvim
 #   ansible.builtin.file:
