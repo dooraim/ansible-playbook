@@ -143,15 +143,23 @@
     state: directory
     mode: '0755'
 
-- name: Remove ~/.local/bin/lazygit
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/lazygit"
-    state: absent
-
 - name: Run task only on x86_64 or amd64
   ansible.builtin.debug:
     msg: "This host is x86_64 or amd64"
   when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Remove ~/.local/bin/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/{{ item.file }}"
+    state: absent
+  loop: "{{ tarballs_dir }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Remove ~/.local/bin/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/{{ item.file }}"
+    state: absent
+  loop: "{{ tarballs_file }}"
 
 - name: Download tarballs with custom names
   become: false
@@ -264,44 +272,6 @@
     src: "~{{ username }}/myapp/fzy/fzy"
     dest: "~{{ username }}/.local/bin/"
     remote_src: yes
-
-- name: Make file in ~/.local/bin/lazygit executable
-  become: false
-  become_user: "{{ username }}"
-  ansible.builtin.file:
-    path: "~{{ username }}/.local/bin/fzy"
-    mode: '0755'
-
-# - name: Download Neovim tarball
-#   get_url:
-#     url: "https://github.com/jesseduffield/lazygit/releases/download/v0.53.0/lazygit_0.53.0_Linux_x86_64.tar.gz"
-#     dest: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
-#     mode: '0644'
-#
-# - name: Extract lazygit tarball
-#   become: true
-#   become_user: "{{ username }}"
-#   unarchive:
-#     src: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
-#     dest: "/tmp"
-#     remote_src: yes
-#
-# - name: Copy bin lazygit to ~/.local/bin
-#   become: true
-#   become_user: "{{ username }}"
-#   copy:
-#     src: "/tmp/lazygit"
-#     dest: "~{{ username }}/.local/bin/"
-#     remote_src: yes
-#
-# - name: Make all files in ~/.local/bin/lazygit executable
-#   become: true
-#   become_user: "{{ username }}"
-#   ansible.builtin.file:
-#     path: "~{{ username }}/.local/bin/lazygit"
-#     mode: '0755'
-#     state: file
-#
 # - name: Remove ~/.local/bin/nvim
 #   ansible.builtin.file:
 #     path: "{{ ansible_env.HOME }}/.local/bin/nvim"
