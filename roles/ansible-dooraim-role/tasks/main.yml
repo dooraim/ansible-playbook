@@ -1,138 +1,141 @@
 # tasks file
 ---
+#
+# - name: install packages on Ubuntu
+#   package:
+#     name:
+#       - htop
+#       - ranger
+#       - tmux
+#       - git
+#       - zsh
+#       - picocom
+#       - minicom
+#       - ssh
+#       - tree
+#       - rsync
+#       - iperf3
+#       - npm
+#       - build-essential
+#       - autoconf
+#       - bison
+#       - flex
+#       - texinfo
+#       - help2man
+#       - gawk
+#       - libtool-bin
+#       - libncurses5-dev
+#       - unzip
+#       - qemu-user
+#       - libssl-dev
+#       - device-tree-compiler
+#       - swig
+#       - bridge-utils
+#       - net-tools
+#       - nfs-kernel-server
+#       - uml-utilities
+#       - rlwrap
+#       - curl
+#       - xsel
+#       - peco
+#       - fd-find
+#       - ripgrep
+#       - cppcheck
+#       - snapd
+#       - gparted
+#       - samba
+#       - samba-common-bin
+#       - build-essential
+#       - libncurses-dev
+#       - libelf-dev
+#       - libssl-dev
+#       - clang
+#       - lld
+#       - llvm
+#       - qemu-system-arm
+#       - bc
+#       - make
+#       - crossbuild-essential-armhf
+#       - crossbuild-essential-arm64
+#       - pkg-config
+#       - pipx
+#       - luarocks
+#       - imagemagick
+#       - ghostscript
+#       - texlive-latex-base
+#     autoclean: yes
+#     update_cache: yes
+#     cache_valid_time: 86400 #One day
+#   when: ansible_facts['os_family'] == "Debian"
+#
+# - name: Install packages on Fedora
+#   ansible.builtin.dnf:
+#     name:
+#       - htop
+#       - ranger
+#       - bat
+#       - tmux
+#       - git
+#       - zsh
+#       - picocom
+#       - minicom
+#       - openssh
+#       - tree
+#       - rsync
+#       - iperf3
+#       - autoconf
+#       - bison
+#       - flex
+#       - texinfo
+#       - help2man
+#       - gawk
+#       - libtool
+#       - ncurses-devel
+#       - unzip
+#       - qemu-user
+#       - openssl-devel
+#       - dtc  # device-tree-compiler
+#       - swig
+#       - bridge-utils
+#       - net-tools
+#       - nfs-utils  # nfs-kernel-server
+#       - rlwrap
+#       - curl
+#       - xsel
+#       - fzf
+#       - fd-find
+#       - ripgrep
+#       - cppcheck
+#       - snapd
+#       - gparted
+#       - samba
+#       - samba-common
+#       - clang
+#       - neovim
+#       - bcc-tools
+#       - llvm
+#       - libbpf-devel
+#       - kernel-devel
+#       - gcc
+#       - make
+#     state: present
+#     update_cache: yes
+#   when: ansible_facts['distribution'] == "Fedora"
+#
+# - name: install python packages
+#   package:
+#     name:
+#       - python3
+#       - python3-virtualenv
+#       - python3-pip
+#     autoclean: yes
+#   when: ansible_facts['os_family'] == "Debian"
 
-- name: install packages on Ubuntu
-  package:
-    name:
-      - htop
-      - ranger
-      - bat
-      - tmux
-      - git
-      - zsh
-      - picocom
-      - minicom
-      - ssh
-      - tree
-      - rsync
-      - iperf3
-      - npm
-      - build-essential
-      - autoconf
-      - bison
-      - flex
-      - texinfo
-      - help2man
-      - gawk
-      - libtool-bin
-      - libncurses5-dev
-      - unzip
-      - qemu-user
-      - libssl-dev
-      - device-tree-compiler
-      - swig
-      - bridge-utils
-      - net-tools
-      - nfs-kernel-server
-      - uml-utilities
-      - rlwrap
-      - curl
-      - xsel
-      - fzf
-      - peco
-      - fzy
-      - fd-find
-      - ripgrep
-      - cppcheck
-      - snapd
-      - gparted
-      - samba
-      - samba-common-bin
-      - build-essential
-      - libncurses-dev
-      - libelf-dev
-      - libssl-dev
-      - clang
-      - lld
-      - llvm
-      - qemu-system-arm
-      - bc
-      - make
-      - crossbuild-essential-armhf
-      - crossbuild-essential-arm64
-      - pkg-config
-      - pipx
-      - luarocks
-      - imagemagick
-      - ghostscript
-      - texlive-latex-base
-    autoclean: yes
-    update_cache: yes
-    cache_valid_time: 86400 #One day
-  when: ansible_facts['os_family'] == "Debian"
-
-- name: Install packages on Fedora
-  ansible.builtin.dnf:
-    name:
-      - htop
-      - ranger
-      - bat
-      - tmux
-      - git
-      - zsh
-      - picocom
-      - minicom
-      - openssh
-      - tree
-      - rsync
-      - iperf3
-      - autoconf
-      - bison
-      - flex
-      - texinfo
-      - help2man
-      - gawk
-      - libtool
-      - ncurses-devel
-      - unzip
-      - qemu-user
-      - openssl-devel
-      - dtc  # device-tree-compiler
-      - swig
-      - bridge-utils
-      - net-tools
-      - nfs-utils  # nfs-kernel-server
-      - rlwrap
-      - curl
-      - xsel
-      - fzf
-      - fd-find
-      - ripgrep
-      - cppcheck
-      - snapd
-      - gparted
-      - samba
-      - samba-common
-      - clang
-      - neovim
-      - bcc-tools
-      - llvm
-      - libbpf-devel
-      - kernel-devel
-      - gcc
-      - make
-    state: present
-    update_cache: yes
-  when: ansible_facts['distribution'] == "Fedora"
-
-- name: install python packages
-  package:
-    name:
-      - python3
-      - python3-virtualenv
-      - python3-pip
-    autoclean: yes
-  when: ansible_facts['os_family'] == "Debian"
+- name: Create ~/myapp directory
+  ansible.builtin.file:
+    path: ~{{ username }}/myapp
+    state: directory
+    mode: '0755'
 
 - name: Ensure ~/.local exists
   file:
@@ -145,340 +148,455 @@
     path: "{{ ansible_env.HOME }}/.local/bin/lazygit"
     state: absent
 
-- name: Download Neovim tarball
-  get_url:
-    url: "https://github.com/jesseduffield/lazygit/releases/download/v0.53.0/lazygit_0.53.0_Linux_x86_64.tar.gz"
-    dest: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
-    mode: '0644'
+- name: Run task only on x86_64 or amd64
+  ansible.builtin.debug:
+    msg: "This host is x86_64 or amd64"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Extract lazygit tarball
-  become: true
+- name: Download tarballs with custom names
+  become: false
+  become_user: "{{ username }}"
+  ansible.builtin.get_url:
+    url: "{{ item.url }}/{{ item.version }}/{{ item.name }}.{{ item.extension }}"
+    dest: "~{{ username }}/myapp/{{ item.name }}.{{ item.extension }}"
+    mode: '0644'
+  loop: "{{ tarballs_dir }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Extract tarballs
+  become: false
   become_user: "{{ username }}"
   unarchive:
-    src: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
-    dest: "/tmp"
-    remote_src: yes
+    src: "~{{ username }}/myapp/{{ item.name }}.{{ item.extension }}"
+    dest: "~{{ username }}/myapp"
+  loop: "{{ tarballs_dir }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Copy bin lazygit to ~/.local/bin
-  become: true
+- name: Copy bin file to ~/.local/bin
+  become: false
   become_user: "{{ username }}"
   copy:
-    src: "/tmp/lazygit"
+    src: "~{{ username }}/myapp/{{ item.name }}/{{ item.file }}"
     dest: "~{{ username }}/.local/bin/"
     remote_src: yes
+  loop: "{{ tarballs_dir }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Make all files in ~/.local/bin/lazygit executable
-  become: true
+- name: Make file in ~/.local/bin/lazygit executable
+  become: false
   become_user: "{{ username }}"
   ansible.builtin.file:
-    path: "~{{ username }}/.local/bin/lazygit"
+    path: "~{{ username }}/.local/bin/{{ item.file }}"
     mode: '0755'
     state: file
+  loop: "{{ tarballs_dir }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Remove ~/.local/bin/nvim
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/nvim"
-    state: absent
-
-- name: Remove ~/.local/lib/nvim
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/lib/nvim"
-    state: absent
-
-- name: Remove ~/.local/share/nvim
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/share/nvim"
-    state: absent
-
-- name: Download Neovim tarball
-  get_url:
-    url: "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
-    dest: "/tmp/nvim-linux-x86_64.tar.gz"
+- name: Download tarballs with custom names
+  ansible.builtin.get_url:
+    url: "{{ item.url }}/{{ item.version }}/{{ item.name }}.{{ item.extension }}"
+    dest: "~{{ username }}/myapp/{{ item.name }}.{{ item.extension }}"
     mode: '0644'
+  loop: "{{ tarballs_file }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Extract Neovim tarball
-  become: true
+- name: Extract tarballs
+  become: false
   become_user: "{{ username }}"
   unarchive:
-    src: "/tmp/nvim-linux-x86_64.tar.gz"
-    dest: "/tmp"
-    remote_src: yes
+    src: "~{{ username }}/myapp/{{ item.name }}.{{ item.extension }}"
+    dest: "~{{ username }}/myapp"
+  loop: "{{ tarballs_file }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Copy bin to ~/.local/bin
-  become: true
+- name: Copy bin file to ~/.local/bin
+  become: false
   become_user: "{{ username }}"
   copy:
-    src: "/tmp/nvim-linux-x86_64/bin"
-    dest: "~{{ username }}/.local/"
+    src: "~{{ username }}/myapp/{{ item.file }}"
+    dest: "~{{ username }}/.local/bin/"
     remote_src: yes
+  loop: "{{ tarballs_file }}"
+  when: ansible_architecture in ['x86_64', 'amd64']
 
-- name: Make all files in ~/.local/bin executable
-  become: true
+- name: Make file in ~/.local/bin/lazygit executable
+  become: false
   become_user: "{{ username }}"
   ansible.builtin.file:
-    path: "~{{ username }}/.local/bin/nvim"
+    path: "~{{ username }}/.local/bin/{{ item.file }}"
     mode: '0755'
     state: file
+  loop: "{{ tarballs_file }}"
 
-- name: Copy lib to ~/.local/lib
-  become: true
+- name: Ensure build dependencies are present
+  become: false
   become_user: "{{ username }}"
-  copy:
-    src: "/tmp/nvim-linux-x86_64/lib"
-    dest: "~{{ username }}/.local/"
-    remote_src: yes
-    mode: '0755'
-
-- name: Copy share to ~/.local/share
-  become: true
-  become_user: "{{ username }}"
-  copy:
-    src: "/tmp/nvim-linux-x86_64/share"
-    dest: "~{{ username }}/.local/"
-    remote_src: yes
-    mode: '0755'
-
-- name: Install glab
-  snap:
-    name: glab
-    classic: yes
-  when: ansible_facts['os_family'] == "Debian"
-
-
-- name: set default shell for users
-  user:
-    name: '{{ username }}'
-    shell: /bin/zsh
-
-- name: Create fonts directory
-  become: true
-  become_user: "{{ username }}"
-  file:
-    path: "~{{ username }}/.fonts"
-    mode: '0755'
-    state: directory
-
-- name: Create nvim directory
-  become: true
-  become_user: "{{ username }}"
-  ansible.builtin.copy:
-    src: nvim
-    dest: "~{{ username }}/.config/"
-    mode: '0644'
-
-- name: Copy powerlevel10k recommanded fonts
-  become: true
-  become_user: "{{ username }}"
-  copy:
-    src: "fonts/{{ item }}"
-    dest: "~{{ username }}/.fonts/{{ item }}"
-    mode: '0644'
-  loop:
-    - MesloLGS NF Bold Italic.ttf
-    - MesloLGS NF Bold.ttf
-    - MesloLGS NF Italic.ttf
-    - MesloLGS NF Regular.ttf
-
-- name: ensure fonts directory
-  become: true
-  become_user: "{{ username }}"
-  file:
-    path: "{{ fonts_path }}"
-    state: directory
-
-- name: clone oh-my-zsh for user
-  tags:
-    # Suppress warning: [ANSIBLE0006] git used in place of git module
-    # Git module doesn't allow us to set `core.autocrlf=input`.
-    - skip_ansible_lint
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: "https://github.com/ohmyzsh/ohmyzsh.git"
-    dest: "~{{ username }}/.oh-my-zsh"
-
-- name: clone powerlevel10k for users
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: 'https://github.com/romkatv/powerlevel10k.git'
-    version: master
-    dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
-
-- name: clone zsh-autosuggestions for users
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
-
-- name: clone forgit for users
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: 'https://github.com/wfxr/forgit.git'
-    version: 755b3dd9f85c044a3bd76059b24b1ad63d5c0617
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
-
-- name: clone syntax highlighting  for users
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
-
-- name: clone enhancd for users
-  become_user: "{{ username }}"
-  git:
-    repo: 'https://github.com/b4b4r07/enhancd.git'
-    version: main
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
-
-- name: write .p10k.zsh for users
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: p10k.zsh.j2
-    dest: ~{{ username }}/.p10k.zsh
-    backup: yes
-    mode: 'u=rw,go=r'
-
-- name: write .zshrc for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: zshrc.j2
-    dest: "~{{ username }}/.zshrc"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_fzf for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: alias_fzf.j2
-    dest: "~{{ username }}/.alias_fzf"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_git for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: alias_git.j2
-    dest: "~{{ username }}/.alias_git"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_lab for user
-  become_user: "{{ username }}"
-  template:
-    src: alias_lab.j2
-    dest: "~{{ username }}/.alias_lab"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_tmux for user
-  become_user: "{{ username }}"
-  template:
-    src: alias_tmux.j2
-    dest: "~{{ username }}/.alias_tmux"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_utility for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: alias_utility.j2
-    dest: "~{{ username }}/.alias_utility"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: write .alias_yabt for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: alias_yabt.j2
-    dest: "~{{ username }}/.alias_yabt"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: Clone TPM repository
-  become: true
-  become_user: "{{ username }}"
-  git:
-    repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "~{{ username }}/.tmux/plugins/tpm"
-
-- name: write .tmux.conf for user
-  become: true
-  become_user: "{{ username }}"
-  template:
-    src: tmux.conf.j2
-    dest: "~{{ username }}/.tmux.conf"
-    backup: yes
-    mode: "u=rw,go=rw"
-
-- name: Ensure curl is installed
   package:
-    name: curl
+    name:
+      - build-essential  # for Debian/Ubuntu
+      - gcc
+      - make
+      - git
     state: present
+  when: ansible_os_family == "Debian"
 
-- name: Install NVM
-  shell: "curl -o- {{ nvm_install_url }} | bash"
+- name: Clone the repository from Git
+  become: false
+  become_user: "{{ username }}"
+  git:
+    repo: "{{ fzy_source_package_url | default('https://github.com/jhawthorn/fzy.git') }}"
+    dest: "{{ fzy_dest}}"
+    version: "{{ fzy_source_repo_branch | default('master') }}"
+    force: yes
+
+- name: Compile and install from source
+  become: false
+  become_user: "{{ username }}"
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm"
+    chdir: "{{ fzy_dest }}"
+  shell: |
+    make
+    make install PREFIX=~{{ username }}/.local
 
-- name: Load NVM environment
-  shell: 'echo ". $HOME/.nvm/nvm.sh" >> ~/.bashrc && . $HOME/.nvm/nvm.sh'
-  args:
-    executable: /bin/bash
+- name: Remove fzy
+  ansible.builtin.file:
+    path: "{{ fzy_dest }}"
+    state: absent
 
-- name: Install Node.js using NVM
-  shell: ". $HOME/.nvm/nvm.sh && nvm install {{ node_version }}"
-  args:
-    executable: /bin/bash
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}"
-
-- name: Verify Node.js version
-  shell: ". $HOME/.nvm/nvm.sh && node -v"
-  args:
-    executable: /bin/bash
-  register: node_version_output
-
-- name: Print Node.js version
-  debug:
-    msg: "Node.js version installed: {{ node_version_output.stdout }}"
-
-- name: Verify current NVM version
-  shell: ". $HOME/.nvm/nvm.sh && nvm current"
-  args:
-    executable: /bin/bash
-  register: nvm_current_output
-
-- name: Print current NVM-managed Node.js version
-  debug:
-    msg: "NVM current version: {{ nvm_current_output.stdout }}"
-
-- name: Verify NPM version
-  shell: ". $HOME/.nvm/nvm.sh && npm -v"
-  args:
-    executable: /bin/bash
-  register: npm_version_output
-
-- name: Print NPM version
-  debug:
-    msg: "NPM version: {{ npm_version_output.stdout }}"
-
-- name: Set Git user name
-  ansible.builtin.command: git config --global user.name "{{ git_user_name }}"
-
-- name: Set Git user email
-  ansible.builtin.command: git config --global user.email "{{ git_user_email }}"
-
-- name: Set Git core editor
-  ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"
+# - name: Download Neovim tarball
+#   get_url:
+#     url: "https://github.com/jesseduffield/lazygit/releases/download/v0.53.0/lazygit_0.53.0_Linux_x86_64.tar.gz"
+#     dest: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
+#     mode: '0644'
+#
+# - name: Extract lazygit tarball
+#   become: true
+#   become_user: "{{ username }}"
+#   unarchive:
+#     src: "/tmp/lazygit_0.53.0_Linux_x86_64.tar.gz"
+#     dest: "/tmp"
+#     remote_src: yes
+#
+# - name: Copy bin lazygit to ~/.local/bin
+#   become: true
+#   become_user: "{{ username }}"
+#   copy:
+#     src: "/tmp/lazygit"
+#     dest: "~{{ username }}/.local/bin/"
+#     remote_src: yes
+#
+# - name: Make all files in ~/.local/bin/lazygit executable
+#   become: true
+#   become_user: "{{ username }}"
+#   ansible.builtin.file:
+#     path: "~{{ username }}/.local/bin/lazygit"
+#     mode: '0755'
+#     state: file
+#
+# - name: Remove ~/.local/bin/nvim
+#   ansible.builtin.file:
+#     path: "{{ ansible_env.HOME }}/.local/bin/nvim"
+#     state: absent
+#
+# - name: Remove ~/.local/lib/nvim
+#   ansible.builtin.file:
+#     path: "{{ ansible_env.HOME }}/.local/lib/nvim"
+#     state: absent
+#
+# - name: Remove ~/.local/share/nvim
+#   ansible.builtin.file:
+#     path: "{{ ansible_env.HOME }}/.local/share/nvim"
+#     state: absent
+#
+# - name: Download Neovim tarball
+#   get_url:
+#     url: "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
+#     dest: "/tmp/nvim-linux-x86_64.tar.gz"
+#     mode: '0644'
+#
+# - name: Extract Neovim tarball
+#   become: true
+#   become_user: "{{ username }}"
+#   unarchive:
+#     src: "/tmp/nvim-linux-x86_64.tar.gz"
+#     dest: "/tmp"
+#     remote_src: yes
+#
+# - name: Copy bin to ~/.local/bin
+#   become: true
+#   become_user: "{{ username }}"
+#   copy:
+#     src: "/tmp/nvim-linux-x86_64/bin"
+#     dest: "~{{ username }}/.local/"
+#     remote_src: yes
+#
+# - name: Make all files in ~/.local/bin executable
+#   become: true
+#   become_user: "{{ username }}"
+#   ansible.builtin.file:
+#     path: "~{{ username }}/.local/bin/nvim"
+#     mode: '0755'
+#     state: file
+#
+# - name: Copy lib to ~/.local/lib
+#   become: true
+#   become_user: "{{ username }}"
+#   copy:
+#     src: "/tmp/nvim-linux-x86_64/lib"
+#     dest: "~{{ username }}/.local/"
+#     remote_src: yes
+#     mode: '0755'
+#
+# - name: Copy share to ~/.local/share
+#   become: true
+#   become_user: "{{ username }}"
+#   copy:
+#     src: "/tmp/nvim-linux-x86_64/share"
+#     dest: "~{{ username }}/.local/"
+#     remote_src: yes
+#     mode: '0755'
+#
+# - name: Install glab
+#   snap:
+#     name: glab
+#     classic: yes
+#   when: ansible_facts['os_family'] == "Debian"
+#
+#
+# - name: set default shell for users
+#   user:
+#     name: '{{ username }}'
+#     shell: /bin/zsh
+#
+# - name: Create fonts directory
+#   become: true
+#   become_user: "{{ username }}"
+#   file:
+#     path: "~{{ username }}/.fonts"
+#     mode: '0755'
+#     state: directory
+#
+# - name: Create nvim directory
+#   become: true
+#   become_user: "{{ username }}"
+#   ansible.builtin.copy:
+#     src: nvim
+#     dest: "~{{ username }}/.config/"
+#     mode: '0644'
+#
+# - name: Copy powerlevel10k recommanded fonts
+#   become: true
+#   become_user: "{{ username }}"
+#   copy:
+#     src: "fonts/{{ item }}"
+#     dest: "~{{ username }}/.fonts/{{ item }}"
+#     mode: '0644'
+#   loop:
+#     - MesloLGS NF Bold Italic.ttf
+#     - MesloLGS NF Bold.ttf
+#     - MesloLGS NF Italic.ttf
+#     - MesloLGS NF Regular.ttf
+#
+# - name: ensure fonts directory
+#   become: true
+#   become_user: "{{ username }}"
+#   file:
+#     path: "{{ fonts_path }}"
+#     state: directory
+#
+# - name: clone oh-my-zsh for user
+#   tags:
+#     # Suppress warning: [ANSIBLE0006] git used in place of git module
+#     # Git module doesn't allow us to set `core.autocrlf=input`.
+#     - skip_ansible_lint
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: "https://github.com/ohmyzsh/ohmyzsh.git"
+#     dest: "~{{ username }}/.oh-my-zsh"
+#
+# - name: clone powerlevel10k for users
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: 'https://github.com/romkatv/powerlevel10k.git'
+#     version: master
+#     dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+#
+# - name: clone zsh-autosuggestions for users
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+#     version: master
+#     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+#
+# - name: clone forgit for users
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: 'https://github.com/wfxr/forgit.git'
+#     version: 755b3dd9f85c044a3bd76059b24b1ad63d5c0617
+#     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
+#
+# - name: clone syntax highlighting  for users
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+#     version: master
+#     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+#
+# - name: clone enhancd for users
+#   become_user: "{{ username }}"
+#   git:
+#     repo: 'https://github.com/b4b4r07/enhancd.git'
+#     version: main
+#     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
+#
+# - name: write .p10k.zsh for users
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: p10k.zsh.j2
+#     dest: ~{{ username }}/.p10k.zsh
+#     backup: yes
+#     mode: 'u=rw,go=r'
+#
+# - name: write .zshrc for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: zshrc.j2
+#     dest: "~{{ username }}/.zshrc"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_fzf for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_fzf.j2
+#     dest: "~{{ username }}/.alias_fzf"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_git for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_git.j2
+#     dest: "~{{ username }}/.alias_git"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_lab for user
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_lab.j2
+#     dest: "~{{ username }}/.alias_lab"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_tmux for user
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_tmux.j2
+#     dest: "~{{ username }}/.alias_tmux"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_utility for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_utility.j2
+#     dest: "~{{ username }}/.alias_utility"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: write .alias_yabt for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: alias_yabt.j2
+#     dest: "~{{ username }}/.alias_yabt"
+#     backup: yes
+#     mode: "u=rw,go=r"
+#
+# - name: Clone TPM repository
+#   become: true
+#   become_user: "{{ username }}"
+#   git:
+#     repo: "https://github.com/tmux-plugins/tpm.git"
+#     dest: "~{{ username }}/.tmux/plugins/tpm"
+#
+# - name: write .tmux.conf for user
+#   become: true
+#   become_user: "{{ username }}"
+#   template:
+#     src: tmux.conf.j2
+#     dest: "~{{ username }}/.tmux.conf"
+#     backup: yes
+#     mode: "u=rw,go=rw"
+#
+# - name: Ensure curl is installed
+#   package:
+#     name: curl
+#     state: present
+#
+# - name: Install NVM
+#   shell: "curl -o- {{ nvm_install_url }} | bash"
+#   args:
+#     creates: "{{ ansible_env.HOME }}/.nvm"
+#
+# - name: Load NVM environment
+#   shell: 'echo ". $HOME/.nvm/nvm.sh" >> ~/.bashrc && . $HOME/.nvm/nvm.sh'
+#   args:
+#     executable: /bin/bash
+#
+# - name: Install Node.js using NVM
+#   shell: ". $HOME/.nvm/nvm.sh && nvm install {{ node_version }}"
+#   args:
+#     executable: /bin/bash
+#     creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}"
+#
+# - name: Verify Node.js version
+#   shell: ". $HOME/.nvm/nvm.sh && node -v"
+#   args:
+#     executable: /bin/bash
+#   register: node_version_output
+#
+# - name: Print Node.js version
+#   debug:
+#     msg: "Node.js version installed: {{ node_version_output.stdout }}"
+#
+# - name: Verify current NVM version
+#   shell: ". $HOME/.nvm/nvm.sh && nvm current"
+#   args:
+#     executable: /bin/bash
+#   register: nvm_current_output
+#
+# - name: Print current NVM-managed Node.js version
+#   debug:
+#     msg: "NVM current version: {{ nvm_current_output.stdout }}"
+#
+# - name: Verify NPM version
+#   shell: ". $HOME/.nvm/nvm.sh && npm -v"
+#   args:
+#     executable: /bin/bash
+#   register: npm_version_output
+#
+# - name: Print NPM version
+#   debug:
+#     msg: "NPM version: {{ npm_version_output.stdout }}"
+#
+# - name: Set Git user name
+#   ansible.builtin.command: git config --global user.name "{{ git_user_name }}"
+#
+# - name: Set Git user email
+#   ansible.builtin.command: git config --global user.email "{{ git_user_email }}"
+#
+# - name: Set Git core editor
+#   ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"
 

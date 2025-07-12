@@ -69,3 +69,22 @@ nvm_version: "v0.40.3"
 node_version: "22"
 nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh"
 
+tarballs_dir:
+  - url: https://github.com/sharkdp/bat/releases/download/
+    version: v0.25.0
+    name: bat-v0.25.0-x86_64-unknown-linux-gnu
+    file: bat
+    extension: tar.gz
+
+tarballs_file:
+  - url: https://github.com/junegunn/fzf/releases/download/
+    version: v0.64.0
+    name: fzf-0.64.0-linux_amd64
+    file: fzf
+    extension: tar.gz
+
+fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
+fzy_source_package_name: "fzy"
+fzy_dest: "~{{ username }}/fzy"
+fzy_source_package_prefix: "~{{ username }}/.local/bin"
+
