@@ -4,3 +4,4 @@
 
   roles:
     - { role: ansible-dooraim-role, tags: ['nosudo'] }
+    - { role: ansible-general, tags: ['sudo'] }

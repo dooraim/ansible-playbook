@@ -1,135 +1,5 @@
 # tasks file
 ---
-#
-# - name: install packages on Ubuntu
-#   package:
-#     name:
-#       - htop
-#       - ranger
-#       - tmux
-#       - git
-#       - zsh
-#       - picocom
-#       - minicom
-#       - ssh
-#       - tree
-#       - rsync
-#       - iperf3
-#       - npm
-#       - build-essential
-#       - autoconf
-#       - bison
-#       - flex
-#       - texinfo
-#       - help2man
-#       - gawk
-#       - libtool-bin
-#       - libncurses5-dev
-#       - unzip
-#       - qemu-user
-#       - libssl-dev
-#       - device-tree-compiler
-#       - swig
-#       - bridge-utils
-#       - net-tools
-#       - nfs-kernel-server
-#       - uml-utilities
-#       - rlwrap
-#       - curl
-#       - xsel
-#       - peco
-#       - ripgrep
-#       - cppcheck
-#       - snapd
-#       - gparted
-#       - samba
-#       - samba-common-bin
-#       - build-essential
-#       - libncurses-dev
-#       - libelf-dev
-#       - libssl-dev
-#       - clang
-#       - lld
-#       - llvm
-#       - qemu-system-arm
-#       - bc
-#       - make
-#       - crossbuild-essential-armhf
-#       - crossbuild-essential-arm64
-#       - pkg-config
-#       - pipx
-#       - luarocks
-#       - imagemagick
-#       - ghostscript
-#       - texlive-latex-base
-#     autoclean: yes
-#     update_cache: yes
-#     cache_valid_time: 86400 #One day
-#   when: ansible_facts['os_family'] == "Debian"
-#
-# - name: Install packages on Fedora
-#   ansible.builtin.dnf:
-#     name:
-#       - htop
-#       - ranger
-#       - bat
-#       - tmux
-#       - git
-#       - zsh
-#       - picocom
-#       - minicom
-#       - openssh
-#       - tree
-#       - rsync
-#       - iperf3
-#       - autoconf
-#       - bison
-#       - flex
-#       - texinfo
-#       - help2man
-#       - gawk
-#       - libtool
-#       - ncurses-devel
-#       - unzip
-#       - qemu-user
-#       - openssl-devel
-#       - dtc  # device-tree-compiler
-#       - swig
-#       - bridge-utils
-#       - net-tools
-#       - nfs-utils  # nfs-kernel-server
-#       - rlwrap
-#       - curl
-#       - xsel
-#       - fzf
-#       - fd-find
-#       - ripgrep
-#       - cppcheck
-#       - snapd
-#       - gparted
-#       - samba
-#       - samba-common
-#       - clang
-#       - neovim
-#       - bcc-tools
-#       - llvm
-#       - libbpf-devel
-#       - kernel-devel
-#       - gcc
-#       - make
-#     state: present
-#     update_cache: yes
-#   when: ansible_facts['distribution'] == "Fedora"
-#
-# - name: install python packages
-#   package:
-#     name:
-#       - python3
-#       - python3-virtualenv
-#       - python3-pip
-#     autoclean: yes
-#   when: ansible_facts['os_family'] == "Debian"
-
 - name: Remove myapp
   ansible.builtin.file:
     path: "~{{ username }}/myapp"
@@ -195,6 +65,30 @@
     path: "~{{ username }}/.local/state/"
     state: directory
     mode: '0755'
+
+- name: Download tarballs with custom peco
+  ansible.builtin.get_url:
+    url: "https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz"
+    dest: "~{{ username }}/myapp/peco_linux_amd64.tar.gz"
+    mode: '0644'
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Extract tarballs peco
+  become: false
+  become_user: "{{ username }}"
+  unarchive:
+    src: "~{{ username }}/myapp/peco_linux_amd64.tar.gz"
+    dest: "~{{ username }}/myapp"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Copy bin file to ~/.local/bin peco
+  become: false
+  become_user: "{{ username }}"
+  copy:
+    src: "~{{ username }}/myapp/peco_linux_amd64"
+    dest: "~{{ username }}/.local/bin/"
+    remote_src: yes
+  when: ansible_architecture in ['x86_64', 'amd64']
 
 - name: Download tarballs with custom names
   ansible.builtin.get_url:
