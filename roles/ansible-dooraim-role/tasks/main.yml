@@ -245,7 +245,7 @@
   become_user: "{{ username }}"
   git:
     repo: "{{ fzy_source_package_url | default('https://github.com/jhawthorn/fzy.git') }}"
-    dest: "{{ fzy_dest}}"
+    dest: "~{{ username }}/myapp/fzy"
     version: "{{ fzy_source_repo_branch | default('master') }}"
     force: yes
 
@@ -253,15 +253,24 @@
   become: false
   become_user: "{{ username }}"
   args:
-    chdir: "{{ fzy_dest }}"
+    chdir: "~{{ username }}/myapp/fzy"
   shell: |
     make
-    make install PREFIX=~{{ username }}/.local
 
-- name: Remove fzy
+- name: Copy bin file to ~/.local/bin
+  become: false
+  become_user: "{{ username }}"
+  copy:
+    src: "~{{ username }}/myapp/fzy/fzy"
+    dest: "~{{ username }}/.local/bin/"
+    remote_src: yes
+
+- name: Make file in ~/.local/bin/lazygit executable
+  become: false
+  become_user: "{{ username }}"
   ansible.builtin.file:
-    path: "{{ fzy_dest }}"
-    state: absent
+    path: "~{{ username }}/.local/bin/fzy"
+    mode: '0755'
 
 # - name: Download Neovim tarball
 #   get_url:
@@ -599,4 +608,9 @@
 #
 # - name: Set Git core editor
 #   ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"
+
+- name: Remove myapp
+  ansible.builtin.file:
+    path: "~{{ username }}/myapp"
+    state: absent
 
