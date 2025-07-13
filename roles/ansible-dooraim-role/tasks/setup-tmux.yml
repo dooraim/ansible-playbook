@@ -1,0 +1,12 @@
+---
+- name: Clone TPM repository
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "~{{ username }}/.tmux/plugins/tpm"
+
+- name: write .tmux.conf for user
+  template:
+    src: tmux.conf.j2
+    dest: "~{{ username }}/.tmux.conf"
+    backup: yes
+    mode: "u=rw,go=rw"

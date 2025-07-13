@@ -67,7 +67,7 @@ p10k_transient_prompt: "no"
 
 nvm_version: "v0.40.3"
 node_version: "22"
-nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh"
+nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm"
 
 tarballs_dir:
   - url: https://github.com/sharkdp/bat/releases/download

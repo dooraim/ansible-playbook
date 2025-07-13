@@ -1,0 +1,15 @@
+---
+- name: Install glab
+  snap:
+    name: glab
+    classic: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Set Git user name
+  ansible.builtin.command: git config --global user.name "{{ git_user_name }}"
+
+- name: Set Git user email
+  ansible.builtin.command: git config --global user.email "{{ git_user_email }}"
+
+- name: Set Git core editor
+  ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"

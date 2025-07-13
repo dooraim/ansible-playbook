@@ -1,0 +1,87 @@
+---
+- name: Ensure ~/.local exists
+  file:
+    path: "~{{ username }}/.local"
+    state: directory
+    mode: '0755'
+
+- name: Run task only on x86_64 or amd64
+  ansible.builtin.debug:
+    msg: "This host is x86_64 or amd64"
+  when: ansible_architecture in ['x86_64', 'amd64']
+
+- name: Remove ~/.fonts/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.fonts/"
+ 
+- name: Remove ~/.local/bin/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/"
+    state: absent
+
+- name: Remove ~/.local/lib/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/lib/"
+    state: absent
+
+- name: Remove ~/.local/share/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/share/"
+    state: absent
+
+- name: Remove ~/.local/state/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/state/"
+    state: absent
+
+- name: Remove ~/.tmux files
+  ansible.builtin.file:
+    path: "~{{ username }}/.tmux"
+    state: absent
+
+- name: Remove ~/.npm files
+  ansible.builtin.file:
+    path: "~{{ username }}/.npm"
+    state: absent
+
+- name: create ~/.npm/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.npm/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.tmux/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.tmux/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.fonts/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.fonts/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.local/bin/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/bin/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.local/lib/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/lib/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.local/share/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/share/"
+    state: directory
+    mode: '0755'
+
+- name: create ~/.local/state/ files
+  ansible.builtin.file:
+    path: "~{{ username }}/.local/state/"
+    state: directory
+    mode: '0755'

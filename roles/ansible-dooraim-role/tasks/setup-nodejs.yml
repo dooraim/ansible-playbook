@@ -1,0 +1,46 @@
+---
+- name: Ensure curl is installed
+  package:
+    name: curl
+    state: present
+
+- name: Install NVM
+  shell: "curl -o- {{ nvm_install_url }}/{{ nvm_version}}/install.sh | bash"
+  args:
+    creates: "~{{ username }}/.nvm"
+
+- name: Install Node.js using NVM
+  shell: ". $HOME/.nvm/nvm.sh && nvm install {{ node_version }}"
+  args:
+    executable: /bin/zsh
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}"
+
+- name: Verify Node.js version
+  shell: ". $HOME/.nvm/nvm.sh && node -v"
+  args:
+    executable: /bin/zsh
+  register: node_version_output
+
+- name: Print Node.js version
+  debug:
+    msg: "Node.js version installed: {{ node_version_output.stdout }}"
+
+- name: Verify current NVM version
+  shell: ". $HOME/.nvm/nvm.sh && nvm current"
+  args:
+    executable: /bin/zsh
+  register: nvm_current_output
+
+- name: Print current NVM-managed Node.js version
+  debug:
+    msg: "NVM current version: {{ nvm_current_output.stdout }}"
+
+- name: Verify NPM version
+  shell: ". $HOME/.nvm/nvm.sh && npm -v"
+  args:
+    executable: /bin/zsh
+  register: npm_version_output
+
+- name: Print NPM version
+  debug:
+    msg: "NPM version: {{ npm_version_output.stdout }}"
