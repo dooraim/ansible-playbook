@@ -1,31 +1,4 @@
 ---
-- name: set default shell for users
-  user:
-    name: '{{ username }}'
-    shell: /bin/zsh
-
-- name: Create fonts directory
-  file:
-    path: "~{{ username }}/.fonts"
-    mode: '0755'
-    state: directory
-
-- name: Copy powerlevel10k recommanded fonts
-  copy:
-    src: "fonts/{{ item }}"
-    dest: "~{{ username }}/.fonts/{{ item }}"
-    mode: '0644'
-  loop:
-    - MesloLGS NF Bold Italic.ttf
-    - MesloLGS NF Bold.ttf
-    - MesloLGS NF Italic.ttf
-    - MesloLGS NF Regular.ttf
-
-- name: ensure fonts directory
-  file:
-    path: "{{ fonts_path }}"
-    state: directory
-
 - name: clone oh-my-zsh for user
   tags:
     # Suppress warning: [ANSIBLE0006] git used in place of git module
@@ -33,90 +6,91 @@
     - skip_ansible_lint
   git:
     repo: "https://github.com/ohmyzsh/ohmyzsh.git"
-    dest: "~{{ username }}/.oh-my-zsh"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
 - name: clone powerlevel10k for users
   git:
     repo: 'https://github.com/romkatv/powerlevel10k.git'
     version: master
-    dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
 
 - name: clone zsh-autosuggestions for users
   git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
 
 - name: clone forgit for users
   git:
     repo: 'https://github.com/wfxr/forgit.git'
     version: 755b3dd9f85c044a3bd76059b24b1ad63d5c0617
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/forgit'
 
 - name: clone syntax highlighting  for users
   git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
     version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
 
 - name: clone enhancd for users
   git:
     repo: 'https://github.com/babarot/enhancd.git'
     version: main
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/enhancd'
 
 - name: write .p10k.zsh for users
   template:
     src: p10k.zsh.j2
-    dest: ~{{ username }}/.p10k.zsh
+    dest: "{{ ansible_env.HOME }}/.p10k.zsh"
     backup: yes
     mode: 'u=rw,go=r'
 
 - name: write .zshrc for user
   template:
     src: zshrc.j2
-    dest: "~{{ username }}/.zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_fzf for user
   template:
     src: alias_fzf.j2
-    dest: "~{{ username }}/.alias_fzf"
+    dest: "{{ ansible_env.HOME }}/.alias_fzf"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_git for user
   template:
     src: alias_git.j2
-    dest: "~{{ username }}/.alias_git"
+    dest: "{{ ansible_env.HOME }}/.alias_git"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_lab for user
   template:
     src: alias_lab.j2
-    dest: "~{{ username }}/.alias_lab"
+    dest: "{{ ansible_env.HOME }}/.alias_lab"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_tmux for user
   template:
     src: alias_tmux.j2
-    dest: "~{{ username }}/.alias_tmux"
+    dest: "{{ ansible_env.HOME }}/.alias_tmux"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_utility for user
   template:
     src: alias_utility.j2
-    dest: "~{{ username }}/.alias_utility"
+    dest: "{{ ansible_env.HOME }}/.alias_utility"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: write .alias_yabt for user
   template:
     src: alias_yabt.j2
-    dest: "~{{ username }}/.alias_yabt"
+    dest: "{{ ansible_env.HOME }}/.alias_yabt"
     backup: yes
     mode: "u=rw,go=r"
+

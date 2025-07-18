@@ -95,12 +95,14 @@ tarballs_dir:
 tarballs_file:
   - url: https://github.com/junegunn/fzf/releases/download
     version: v0.64.0
-    name: fzf-0.64.0-linux_amd64
+    name: fzf-0.64.0-linux
+    arch: amd64
     file: fzf
     extension: tar.gz
   - url: https://github.com/jesseduffield/lazygit/releases/download
     version: v0.53.0
-    name: lazygit_0.53.0_Linux_x86_64
+    name: lazygit_0.53.0_Linux
+    arch: x86_64
     file: lazygit
     extension: tar.gz
 
@@ -109,8 +111,22 @@ nvim_version: v0.11.2
 nvim_name: nvim-linux-x86_64
 nvim_extension: tar.gz
 
+nvim_old_url: https://github.com/neovim/neovim-releases/releases/download
+nvim_old_version: v0.11.2
+nvim_old_name: nvim-linux-x86_64
+nvim_old_extension: tar.gz
+
 fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
 fzy_source_package_name: "fzy"
-fzy_dest: "~{{ username }}/fzy"
-fzy_source_package_prefix: "~{{ username }}/.local/bin"
+fzy_dest: "{{ ansible_env.HOME }}/fzy"
+fzy_source_package_prefix: "{{ ansible_env.HOME }}/.local/bin"
 
+luarock_url: https://github.com/luarocks/luarocks/releases/download
+luarock_version: v3.12.2
+luarock_name: linux-x86_64
+luarock_file: luarocks
+luarock_extension: zip
+
+nvm_url: https://github.com/nvm-sh/nvm/archive/refs/tags
+nvm_version: 0.40.3
+nvm_extention: zip

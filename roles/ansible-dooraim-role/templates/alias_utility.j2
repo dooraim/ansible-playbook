@@ -12,27 +12,8 @@ alias mkdir='mkdir -p -v'
 #-------------------------------------------------------------
 # Bash
 #-------------------------------------------------------------
-# Detect OS from /etc/os-release
-if [[ -f /etc/os-release ]]; then
-  . /etc/os-release
-  OS_ID=$ID
-else
-  OS_ID=$(uname -s)
-fi
 
-# Define aliases based on OS
-case "$OS_ID" in
-  ubuntu)
-    alias bat='batcat'
-    ;;
-  fedora)
-    alias bat='bat'
-    ;;
-  *)
-    echo "Unknown or unsupported OS: $OS_ID"
-    ;;
-esac
-
+alias bat='batcat'
 alias tree='tree -C --dirsfirst'
 # This renames all files in the current directory containing a specific string with another string
 alias rename='function _rename() { for i in *$1*; do mv "$i" "${i/$1/$2}"; done }; _rename'

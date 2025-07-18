@@ -1,0 +1,27 @@
+---
+- name: Download tarballs with custom names
+  ansible.builtin.get_url:
+    url: "{{ item.url }}/{{ item.version }}/{{ item.name }}_{{ item.arch }}.{{ item.extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+    mode: '0644'
+  loop: "{{ tarballs_file }}"
+
+- name: Ensure is removed
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
+    state: absent
+  loop: "{{ tarballs_file }}"
+
+- name: Extract tarballs
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+  loop: "{{ tarballs_file }}"
+
+- name: Make file in ~/.local/bin/ executable
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
+    mode: '0755'
+    state: file
+  loop: "{{ tarballs_file }}"
+
