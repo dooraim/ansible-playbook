@@ -10,6 +10,14 @@ vim.keymap.set('n', '<leader>/', telescope.live_grep, { desc = 'Telescope live g
 vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
 
 wk.register({
+  d = {
+    name = "DiffView",
+    o = { "<cmd>DiffviewOpen<CR>", "Open DiffView" },
+    c = { "<cmd>DiffviewClose<CR>", "Close DiffView" },
+    h = { "<cmd>DiffviewFileHistory<CR>", "File History (Git)" },
+    r = { "<cmd>DiffviewRefresh<CR>", "Refresh DiffView" },
+    t = { "<cmd>DiffviewToggleFiles<CR>", "Toggle File Panel" },
+  },
   f = {
     name = "+find",
     ["<space>"] = { telescope.find_files, "Find Files" },
