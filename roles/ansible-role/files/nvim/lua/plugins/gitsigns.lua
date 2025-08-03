@@ -14,19 +14,5 @@ return {
     require("gitsigns").setup({
       current_line_blame = true, -- Show git blame inline for the current line
     })
-
-    local wk = require("which-key") -- Ensure which-key is loaded
-
-    wk.register({
-      h = {
-        name = "Git Hunk", -- This adds a group name for <leader>h
-        s = { "<cmd>Gitsigns stage_hunk<CR>", "Stage Hunk" },
-        r = { "<cmd>Gitsigns reset_hunk<CR>", "Reset Hunk" },
-        p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview Hunk" },
-        i = { "<cmd>Gitsigns preview_hunk_inline<CR>", "Preview Hunk Inline" },
-        b = { "<cmd>Gitsigns blame<CR>", "Blame" },
-        l = { "<cmd>Gitsigns blame_line<CR>", "Blame Line" },
-      },
-    }, { prefix = "<leader>" })
   end,
 }
