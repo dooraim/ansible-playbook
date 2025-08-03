@@ -1,0 +1,30 @@
+return {
+  "AckslD/nvim-neoclip.lua",
+  dependencies = {
+    { "kkharji/sqlite.lua", module = "sqlite" },
+    { "nvim-telescope/telescope.nvim" },
+  },
+  config = function()
+    require("neoclip").setup({
+      history = 1000,
+      enable_persistent_history = true,
+      keys = {
+        telescope = {
+          i = {
+            select = "<cr>",
+            paste = "<c-p>",
+            paste_behind = "<c-k>",
+            replay = "<c-q>",
+            delete = "<c-d>",
+            edit = "<c-e>",
+          },
+        },
+      },
+    })
+    require("telescope").load_extension("neoclip")
+  end,
+  keys = {
+    { "<leader>fy", "<cmd>Telescope neoclip<cr>", desc = "Clipboard History" },
+  },
+}
+

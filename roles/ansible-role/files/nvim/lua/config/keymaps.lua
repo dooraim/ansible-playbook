@@ -5,6 +5,10 @@
 local wk = require("which-key")
 local telescope = require('telescope.builtin')
 
+vim.keymap.set('n', '<leader><space>', telescope.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>/', telescope.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
+
 wk.register({
   f = {
     name = "+find",
