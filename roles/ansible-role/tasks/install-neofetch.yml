@@ -1,7 +1,7 @@
 ---
 - name: Clone the repository from Git fzy
   git:
-    repo: "git clone https://github.com/dylanaraps/neofetch.git"
+    repo: "https://github.com/dylanaraps/neofetch.git"
     dest: "{{ ansible_env.HOME }}/myapp/neofetch"
     version: "master"
     force: yes
@@ -15,5 +15,5 @@
   args:
     chdir: "{{ ansible_env.HOME }}/myapp/neofetch"
   shell: |
-    make install PREFIX=$HOME/.local
+    make install PREFIX={{ ansible_env.HOME }}/.local
 
