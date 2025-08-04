@@ -1,0 +1,19 @@
+---
+- name: Clone the repository from Git pfetch
+  git:
+    repo: "https://github.com/dylanaraps/pfetch.git"
+    dest: "{{ ansible_env.HOME }}/myapp/pfetch"
+    version: "master"
+    force: yes
+
+- name: Ensure is removed
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin/pfetch"
+    state: absent
+
+- name: Compile and install from source pfetch
+  args:
+    chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
+  shell: |
+    make install PREFIX={{ ansible_env.HOME }}/.local
+
