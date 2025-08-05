@@ -38,3 +38,9 @@
     nvm install node
   args:
     executable: /bin/bash
+
+- name: Create symlink for node
+  shell: ln -sf "$(which node)" ~/.local/bin/node
+
+- name: Create symlink for npm
+  shell: ln -sf "$(which npm)" ~/.local/bin/npm
