@@ -40,7 +40,7 @@
     executable: /bin/bash
 
 - name: Create symlink for node
-  shell: ln -sf "$(which node)" ~/.local/bin/node
+  shell: ln -sf  ~/.nvm/versions/node/v24.5.0/bin/node ~/.local/bin/node
 
 - name: Create symlink for npm
-  shell: ln -sf "$(which npm)" ~/.local/bin/npm
+  shell: ln -sf ~/.nvm/versions/node/v24.5.0/bin/npm ~/.local/bin/npm
