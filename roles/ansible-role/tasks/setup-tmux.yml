@@ -1,4 +1,10 @@
 ---
+- name: Remove all tmux files
+  shell: |
+    rm -rf {{ ansible_env.HOME }}/.tmux
+    rm -rf {{ ansible_env.HOME }}/.tmux.conf
+  failed_when: false
+
 - name: Ensure is removed from .tmux/plugins
   file:
     path: "{{ ansible_env.HOME }}/.tmux/plugins"
@@ -20,4 +26,3 @@
     dest: "{{ ansible_env.HOME }}/.tmux.conf"
     backup: yes
     mode: "u=rw,go=rw"
-

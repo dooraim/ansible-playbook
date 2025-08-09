@@ -6,6 +6,10 @@
     version: "master"
     force: yes
 
+- name: Remove all pfetch files
+  shell: rm -rf {{ ansible_env.HOME }}/pfetch
+  failed_when: false
+
 - name: Ensure is removed
   file:
     path: "{{ ansible_env.HOME }}/.local/bin/pfetch"

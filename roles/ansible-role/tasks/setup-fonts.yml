@@ -39,8 +39,7 @@
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
 
 - name: Clear and regenerate your font cache
-  ansible.builtin.shell: "fc-cache -f -v"
+  shell: "fc-cache -f -v"
 
 - name: Verify the installation
-  ansible.builtin.shell: "fc-list | grep 'Meslo'"
-
+  shell: "fc-list | grep 'Meslo'"

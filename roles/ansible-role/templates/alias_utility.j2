@@ -13,7 +13,6 @@ alias mkdir='mkdir -p -v'
 # Bash
 #-------------------------------------------------------------
 
-alias bat='batcat'
 alias tree='tree -C --dirsfirst'
 # This renames all files in the current directory containing a specific string with another string
 alias rename='function _rename() { for i in *$1*; do mv "$i" "${i/$1/$2}"; done }; _rename'

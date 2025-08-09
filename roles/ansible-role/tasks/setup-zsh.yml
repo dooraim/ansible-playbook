@@ -1,4 +1,18 @@
 ---
+- name: Remove all zsh files
+  shell: |
+    rm -rf {{ ansible_env.HOME }}/.oh-my-zsh
+    rm -rf {{ ansible_env.HOME }}/.p10k.zsh
+    rm -rf {{ ansible_env.HOME }}/.zshrc
+    rm -rf {{ ansible_env.HOME }}/.alias_fzf
+    rm -rf {{ ansible_env.HOME }}/.alias_git
+    rm -rf {{ ansible_env.HOME }}/.alias_forgit
+    rm -rf {{ ansible_env.HOME }}/.alias_lab
+    rm -rf {{ ansible_env.HOME }}/.alias_tmux
+    rm -rf {{ ansible_env.HOME }}/.alias_utility
+    rm -rf {{ ansible_env.HOME }}/.alias_yab
+  failed_when: false
+
 - name: clone oh-my-zsh for user
   tags:
     # Suppress warning: [ANSIBLE0006] git used in place of git module
