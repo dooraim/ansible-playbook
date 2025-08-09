@@ -1,0 +1,56 @@
+name: Test Ansible Role on Multiple Platforms
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-ansible:
+    name: Test on ${{ matrix.platform.name }}
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - name: ubuntu-20.04-x86_64
+            image: ubuntu:20.04
+            arch: amd64
+            runner: ubuntu-20.04
+          - name: ubuntu-24.04-x86_64
+            image: ubuntu:24.04
+            arch: amd64
+            runner: ubuntu-24.04
+          - name: ubuntu-24.04-arm64
+            image: ubuntu:24.04
+            arch: arm64
+            runner: ubuntu-24.04-arm64  # Native ARM64 runner
+
+    env:
+      PLATFORM: linux/${{ matrix.platform.arch }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Ansible tests in Docker
+        run: |
+          docker run --rm --platform $PLATFORM \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            ${{ matrix.platform.image }} bash -c "
+              set -e
+              apt-get update &&
+              apt-get install -y python3 python3-pip sshpass ansible \
+              tar unzip git build-essential curl wget fontconfig &&
+              mkdir -p ~/.local/{bin,lib,share} &&
+              mkdir -p ~/.config &&
+              ansible --version &&
+              ansible-playbook local.yml &&
+              ls -la ~/.local/bin &&
+              export PATH=\$HOME/.local/bin:\$PATH &&
+
+              echo '--- Checking installed binaries ---'
+              for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
+                \$cmd --version
+              done
+            "
+
