@@ -12,6 +12,10 @@
   shell: |
     make
 
+- name: Remove files with shell loop
+  shell: rm {{ ansible_env.HOME }}/.local/bin/fzy
+  failed_when: false
+
 - name: Ensure is removed
   file:
     path: "{{ ansible_env.HOME }}/.local/bin/fzy"

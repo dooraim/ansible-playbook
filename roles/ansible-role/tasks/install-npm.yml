@@ -1,4 +1,12 @@
 ---
+- name: Remove all files
+  shell: |
+    rm -rf {{ ansible_env.HOME }}/.nvm
+    rm -rf {{ ansible_env.HOME }}/.npm
+    rm -rf {{ ansible_env.HOME }}/.local/bin/node
+    rm -rf {{ ansible_env.HOME }}/.local/bin/npm
+  failed_when: false
+
 - name: Ensure is removed
   file:
     path: "{{ ansible_env.HOME }}/.nvm"
@@ -10,7 +18,7 @@
     state: absent
 
 - name: Download tarballs with custom names
-  ansible.builtin.get_url:
+  get_url:
     url: "{{ nvm_url }}/v{{ nvm_version}}.{{ nvm_extention }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
@@ -27,12 +35,12 @@
     dest: "{{ ansible_env.HOME }}/myapp"
 
 - name: Moving file
-  ansible.builtin.shell: "mv {{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}/* {{ ansible_env.HOME }}/.nvm/."
+  shell: "mv {{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}/* {{ ansible_env.HOME }}/.nvm/."
   args:
     executable: /bin/bash
 
 - name: Install nvm using bash
-  ansible.builtin.shell: |
+  shell: |
     export NVM_DIR="$HOME/.nvm" && \
     . "$NVM_DIR/nvm.sh" && \
     nvm install node

@@ -92,29 +92,87 @@ tarballs_dir:
     file: rg
     extension: tar.gz
 
+tarballs_dir_arm64:
+  - url: https://github.com/sharkdp/bat/releases/download
+    version: v0.25.0
+    arch: aarch64
+    target: unknown-linux-gnu
+    name: bat
+    file: bat
+    extension: tar.gz
+  - url: https://github.com/sharkdp/fd/releases/download
+    version: v10.2.0
+    arch: aarch64
+    target: unknown-linux-gnu
+    name: fd
+    file: fd
+    extension: tar.gz
+  - url: https://github.com/BurntSushi/ripgrep/releases/download
+    version: 14.1.1
+    arch: aarch64
+    target: unknown-linux-gnu
+    name: ripgrep
+    file: rg
+    extension: tar.gz
+
 tarballs_file:
   - url: https://github.com/junegunn/fzf/releases/download
-    version: v0.64.0
-    name: fzf-0.64.0-linux
+    version: v0.65.1
+    name: fzf-0.65.1-linux
     arch: amd64
     file: fzf
     extension: tar.gz
   - url: https://github.com/jesseduffield/lazygit/releases/download
-    version: v0.53.0
-    name: lazygit_0.53.0_Linux
+    version: v0.54.1
+    name: lazygit_0.54.1_Linux
     arch: x86_64
     file: lazygit
     extension: tar.gz
 
-nvim_url: https://github.com/neovim/neovim/releases/download
-nvim_version: v0.11.2
-nvim_name: nvim-linux-x86_64
-nvim_extension: tar.gz
+tarballs_file_arm64:
+  - url: https://github.com/junegunn/fzf/releases/download
+    version: v0.65.1
+    name: fzf-0.65.1-linux
+    arch: arm64
+    file: fzf
+    extension: tar.gz
+  - url: https://github.com/jesseduffield/lazygit/releases/download
+    version: v0.54.1
+    name: lazygit_0.54.1_Linux
+    arch: arm64
+    file: lazygit
+    extension: tar.gz
 
-nvim_old_url: https://github.com/neovim/neovim-releases/releases/download
-nvim_old_version: v0.11.2
-nvim_old_name: nvim-linux-x86_64
-nvim_old_extension: tar.gz
+starship:
+  url: https://github.com/starship/starship/releases/download/
+  version: v1.23.0
+  name: starship
+  compiler: unknown-linux-musl
+  extension: tar.gz
+
+nvim_ubuntu_2404:
+  nvim_url: https://github.com/neovim/neovim/releases/download
+  nvim_version: v0.11.3
+  nvim_name: nvim-linux-x86_64
+  nvim_extension: tar.gz
+
+nvim_ubuntu_2004:
+  nvim_url: https://github.com/neovim/neovim-releases/releases/download
+  nvim_version: v0.11.3
+  nvim_name: nvim-linux-x86_64
+  nvim_extension: tar.gz
+
+nvim_ubuntu_2004_arm64:
+  nvim_url: https://github.com/neovim/neovim-releases/releases/download
+  nvim_version: v0.11.3
+  nvim_name: nvim-linux-arm64
+  nvim_extension: tar.gz
+
+nvim_ubuntu_2404_arm64:
+  nvim_url: https://github.com/neovim/neovim/releases/download
+  nvim_version: v0.11.3
+  nvim_name: nvim-linux-arm64
+  nvim_extension: tar.gz
 
 fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
 fzy_source_package_name: "fzy"
