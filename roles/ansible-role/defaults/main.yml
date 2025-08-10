@@ -143,6 +143,13 @@ tarballs_file_arm64:
     file: lazygit
     extension: tar.gz
 
+starship:
+  url: https://github.com/starship/starship/releases/download/
+  version: v1.23.0
+  name: starship
+  compiler: unknown-linux-musl
+  extension: tar.gz
+
 nvim_ubuntu_2404:
   nvim_url: https://github.com/neovim/neovim/releases/download
   nvim_version: v0.11.3
