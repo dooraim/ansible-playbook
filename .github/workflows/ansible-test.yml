@@ -1,4 +1,4 @@
-name: Ubuntu Matrix Build
+name: Ubuntu ARM64 Build
 
 on:
   push:
@@ -6,12 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  ubuntu-matrix:
-    runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-24.04-arm64' || 'ubuntu-latest' }}
+  ubuntu-arm64:
+    runs-on: ubuntu-24.04-arm64
     strategy:
       matrix:
         ubuntu-version: ['20.04', '24.04']
-        platform: ['linux/amd64', 'linux/arm64']
     
     steps:
     - name: Checkout code
@@ -27,17 +26,14 @@ jobs:
         lscpu | grep "Architecture\|CPU op-mode\|Model name" || true
         echo ""
     
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    
-    - name: Print LSB Release for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+    - name: Print LSB Release for Ubuntu ${{ matrix.ubuntu-version }} ARM64
       run: |
         echo "=== Target Configuration ==="
         echo "Target Ubuntu version: ${{ matrix.ubuntu-version }}"
-        echo "Target platform: ${{ matrix.platform }}"
+        echo "Target platform: linux/arm64"
         echo ""
         echo "=== Running Ubuntu Container ==="
-        docker run --rm --platform=${{ matrix.platform }} ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
+        docker run --rm ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
           apt-get update && 
           apt-get install -y lsb-release && 
           echo '=== LSB Release Information ===' &&
