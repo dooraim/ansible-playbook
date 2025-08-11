@@ -82,15 +82,15 @@ jobs:
 
     - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
       run: |
-        sudo apt-get update &&
+        sudo apt-get update
         sudo apt-get install -y ansible \
         tar unzip git build-essential curl wget fontconfig &&
-        mkdir -p ~/.local/{bin,lib,share} &&
-        mkdir -p ~/.config &&
-        ansible --version &&
-        ansible-playbook local.yml &&
-        ls -la ~/.local/bin &&
-        export PATH=\$HOME/.local/bin:\$PATH &&
+        mkdir -p ~/.local/{bin,lib,share}
+        mkdir -p ~/.config
+        ansible --version
+        ansible-playbook local.yml
+        ls -la ~/.local/bin
+        export PATH=\$HOME/.local/bin:\$PATH
 
         echo '--- Checking installed binaries ---'
         bat --version
