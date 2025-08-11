@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         ubuntu-version: ['20.04', '24.04']
+        platform: ['linux/amd64', 'linux/arm64']
     
     steps:
     - name: Checkout code
