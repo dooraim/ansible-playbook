@@ -93,15 +93,15 @@ jobs:
         export PATH=\$HOME/.local/bin:\$PATH
 
         echo '--- Checking installed binaries ---'
-        bat --version
-        fd --version
-        fzf --version
-        fzy --version
-        lazygit --version
-        nvim --version
-        peco --version
-        pfetch --version
-        rg --version
-        starship --version
-        node --version
-        npm --version
+        ~/.local/bin/bat --version
+        ~/.local/bin/fd --version
+        ~/.local/bin/fzf --version
+        ~/.local/bin/fzy --version
+        ~/.local/bin/lazygit --version
+        ~/.local/bin/nvim --version
+        ~/.local/bin/peco --version
+        ~/.local/bin/pfetch --version
+        ~/.local/bin/rg --version
+        ~/.local/bin/starship --version
+        ~/.local/bin/node --version
+        ~/.local/bin/npm --version
