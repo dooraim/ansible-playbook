@@ -26,19 +26,5 @@ jobs:
         lscpu | grep "Architecture\|CPU op-mode\|Model name" || true
         echo ""
     
-    - name: Print LSB Release for Ubuntu ${{ matrix.ubuntu-version }} ARM64
-      run: |
-        echo "=== Target Configuration ==="
-        echo "Target Ubuntu version: ${{ matrix.ubuntu-version }}"
-        echo "Target platform: linux/arm64"
-        echo ""
-        echo "=== Running Ubuntu Container ==="
-        docker run --rm ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
-          apt-get update && 
-          apt-get install -y lsb-release && 
-          echo '=== LSB Release Information ===' &&
-          lsb_release -a &&
-          echo '=== Container Architecture Information ===' &&
-          echo 'Container architecture: '$(uname -m) &&
-          echo 'Container platform: '$(uname -s)-$(uname -m)
-        "
+    - name: Check CPU architecture
+      run: lscpu
