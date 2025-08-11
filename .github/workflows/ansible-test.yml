@@ -1,4 +1,4 @@
-name: Ubuntu Matrix Build
+name: Ubuntu ARM64 Build
 
 on:
   push:
@@ -6,53 +6,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  ubuntu-matrix:
-    runs-on: ubuntu-latest
+  ubuntu-arm64:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        ubuntu-version: ['20.04', '24.04']
-        platform: ['linux/amd64', 'linux/arm64']
+        os: ['ubuntu-20.04-arm', 'ubuntu-24.04-arm']
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    
-    - name: Print LSB Release for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+    - name: Check GitHub Runner Architecture
       run: |
-        echo "Running on Ubuntu ${{ matrix.ubuntu-version }} for platform ${{ matrix.platform }}"
-        docker run --rm --platform=${{ matrix.platform }} ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
-          apt-get update && 
-          apt-get install -y lsb-release && 
-          echo '=== LSB Release Information ===' &&
-          lsb_release -a &&
-          echo '=== Architecture Information ===' &&
-          uname -m
-        "
-    - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+        echo "=== GitHub Runner Information ==="
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner Architecture: $(uname -m)"
+        echo "Runner Platform: $(uname -s)-$(uname -m)"
+        echo "CPU Info:"
+        lscpu | grep "Architecture\|CPU op-mode\|Model name" || true
+        echo ""
+    
+    - name: Check CPU architecture
+      run: lscpu
+      
+    - name: Check OS Version
       run: |
-          docker run --rm --platform=${{ matrix.platform }} \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
-              set -e
-              apt-get update &&
-              apt-get install -y python3 python3-pip sshpass ansible \
-              tar unzip git build-essential curl wget fontconfig &&
-              mkdir -p ~/.local/{bin,lib,share} &&
-              mkdir -p ~/.config &&
-              ansible --version &&
-              ansible-playbook local.yml &&
-              ls -la ~/.local/bin &&
-              export PATH=\$HOME/.local/bin:\$PATH &&
-
-              echo '--- Checking installed binaries ---'
-              for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
-                \$cmd --version
-              done
-            "
+        sudo apt-get update && 
+        sudo apt-get install -y lsb-release && 
+        echo '=== LSB Release Information ===' &&
+        lsb_release -a
