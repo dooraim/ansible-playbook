@@ -26,3 +26,5 @@ jobs:
           echo '=== LSB Release Information ===' &&
           lsb_release -a
         "
+    - name: Check CPU architecture
+      run: lscpu
