@@ -7,10 +7,10 @@ on:
 
 jobs:
   ubuntu-arm64:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        ubuntu-version: ['20.04', '24.04']
+        os: ['ubuntu-20.04-arm', 'ubuntu-24.04-arm']
     
     steps:
     - name: Checkout code
@@ -28,3 +28,10 @@ jobs:
     
     - name: Check CPU architecture
       run: lscpu
+      
+    - name: Check OS Version
+      run: |
+        apt-get update && 
+        apt-get install -y lsb-release && 
+        echo '=== LSB Release Information ===' &&
+        lsb_release -a
