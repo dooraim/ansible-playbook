@@ -93,6 +93,6 @@ jobs:
         export PATH=\$HOME/.local/bin:\$PATH &&
 
         echo '--- Checking installed binaries ---'
-        for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
-          \$cmd --version
+        for cmd_arm64 in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
+          \$cmd_arm64 --version
         done
