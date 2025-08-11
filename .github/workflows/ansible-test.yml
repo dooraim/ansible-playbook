@@ -104,4 +104,3 @@ jobs:
         ~/.local/bin/rg --version
         ~/.local/bin/starship --version
         ~/.local/bin/node --version
-        ~/.local/bin/npm --version
