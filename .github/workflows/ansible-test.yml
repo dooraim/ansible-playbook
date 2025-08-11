@@ -34,3 +34,25 @@ jobs:
           echo '=== Architecture Information ===' &&
           uname -m
         "
+    - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+      run: |
+          docker run --rm --platform=${{ matrix.platform }} \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
+              set -e
+              apt-get update &&
+              apt-get install -y python3 python3-pip sshpass ansible \
+              tar unzip git build-essential curl wget fontconfig &&
+              mkdir -p ~/.local/{bin,lib,share} &&
+              mkdir -p ~/.config &&
+              ansible --version &&
+              ansible-playbook local.yml &&
+              ls -la ~/.local/bin &&
+              export PATH=\$HOME/.local/bin:\$PATH &&
+
+              echo '--- Checking installed binaries ---'
+              for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
+                \$cmd --version
+              done
+            "
