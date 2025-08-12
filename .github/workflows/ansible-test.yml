@@ -1,45 +1,48 @@
-name: Test Ansible Role on Multiple Platforms
+name: Ubuntu Matrix Build
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
-  test-ansible:
-    name: Test on ${{ matrix.platform.name }}
-    runs-on: ${{ matrix.platform.runner }}
+  ubuntu-matrix:
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        platform:
-          - name: ubuntu-20.04-x86_64
-            image: ubuntu:20.04
-            arch: amd64
-            runner: ubuntu-20.04
-          - name: ubuntu-24.04-x86_64
-            image: ubuntu:24.04
-            arch: amd64
-            runner: ubuntu-24.04
-          - name: ubuntu-24.04-arm64
-            image: ubuntu:24.04
-            arch: arm64
-            runner: ubuntu-24.04-arm64  # Native ARM64 runner
-
-    env:
-      PLATFORM: linux/${{ matrix.platform.arch }}
-
+        ubuntu-version: ['20.04', '24.04']
+        platform: ['linux/amd64']
+    
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Run Ansible tests in Docker
-        run: |
-          docker run --rm --platform $PLATFORM \
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Print LSB Release for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+      run: |
+        echo "Running on Ubuntu ${{ matrix.ubuntu-version }} for platform ${{ matrix.platform }}"
+        docker run --rm --platform=${{ matrix.platform }} ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
+          apt-get update && 
+          apt-get install -y lsb-release && 
+          echo '=== LSB Release Information ===' &&
+          lsb_release -a &&
+          echo '=== Architecture Information ===' &&
+          uname -m
+        "
+    - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+      run: |
+          docker run --rm --platform=${{ matrix.platform }} \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace \
-            ${{ matrix.platform.image }} bash -c "
+            ubuntu:${{ matrix.ubuntu-version }} /bin/bash -c "
               set -e
               apt-get update &&
-              apt-get install -y python3 python3-pip sshpass ansible \
+              apt-get install -y ansible \
               tar unzip git build-essential curl wget fontconfig &&
               mkdir -p ~/.local/{bin,lib,share} &&
               mkdir -p ~/.config &&
@@ -49,8 +52,55 @@ jobs:
               export PATH=\$HOME/.local/bin:\$PATH &&
 
               echo '--- Checking installed binaries ---'
-              for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship; do
+              for cmd in bat fd fzf fzy lazygit nvim peco pfetch rg starship node npm; do
                 \$cmd --version
               done
             "
 
+  ubuntu-arm64:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-24.04-arm']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Check GitHub Runner Architecture
+      run: |
+        echo "=== GitHub Runner Information ==="
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner Architecture: $(uname -m)"
+        echo "Runner Platform: $(uname -s)-$(uname -m)"
+        echo "CPU Info:"
+        lscpu | grep "Architecture\|CPU op-mode\|Model name" || true
+        echo ""
+    
+    - name: Check CPU architecture
+      run: lscpu
+
+    - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ansible \
+        tar unzip git build-essential curl wget fontconfig &&
+        mkdir -p ~/.local/{bin,lib,share}
+        mkdir -p ~/.config
+        ansible --version
+        ansible-playbook local.yml
+        ls -la ~/.local/bin
+        export PATH=\$HOME/.local/bin:\$PATH
+
+        echo '--- Checking installed binaries ---'
+        ~/.local/bin/bat --version
+        ~/.local/bin/fd --version
+        ~/.local/bin/fzf --version
+        ~/.local/bin/fzy --version
+        ~/.local/bin/lazygit --version
+        ~/.local/bin/nvim --version
+        ~/.local/bin/peco --version
+        ~/.local/bin/pfetch --version
+        ~/.local/bin/rg --version
+        ~/.local/bin/starship --version
+        ~/.local/bin/node --version
