@@ -1,17 +1,17 @@
-- name: Show download URL
-  debug:
-    msg: >-
-      {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
-      {{- tarballs_config[item].file_prefix -}}-v{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}.{{ tarballs_config[item].architectures[arch][os].extension }}
-  vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
-  loop:
-    - fzf
-    - lazygit
-    - bat
-    - fd
-    - ripgrep
+# - name: Show download URL
+#   debug:
+#     msg: >-
+#       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
+#       {{- tarballs_config[item].file_prefix -}}-v{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}.{{ tarballs_config[item].architectures[arch][os].extension }}
+#   vars:
+#     os: "{{ ansible_system | lower }}"
+#     arch: "{{ ansible_architecture | lower }}"
+#   loop:
+#     - fzf
+#     - lazygit
+#     - bat
+#     - fd
+#     - ripgrep
 
 - name: Remove all files
   shell: |

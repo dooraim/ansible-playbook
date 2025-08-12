@@ -27,4 +27,4 @@
     cp pfetch {{ ansible_env.HOME }}/.local/bin/.
   args:
     chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
-  when: ansible_facts['os_family'] == "Darwin"
+  when: ansible_os_family == "Darwin"

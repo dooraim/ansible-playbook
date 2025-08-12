@@ -153,6 +153,12 @@ tarballs_config:
           os_suffix: darwin
           arch_suffix: arm64
           extension: "tar.gz"
+      aarch64:
+        linux:
+          os_suffix: linux
+          arch_suffix: arm64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
   lazygit:
     url: https://github.com/jesseduffield/lazygit/releases/download
     version: 0.54.1
@@ -177,6 +183,12 @@ tarballs_config:
           os_suffix: darwin
           arch_suffix: arm64
           extension: "tar.gz"
+      aarch64:
+        linux:
+          os_suffix: linux
+          arch_suffix: arm64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
   bat:
     url: https://github.com/sharkdp/bat/releases/download
     version: 0.25.0
@@ -198,7 +210,7 @@ tarballs_config:
       arm64:
         linux:
           os_suffix: Linux
-          arch_suffix: aarch64
+          arch_suffix: arm64
           extension: tar.gz
           compiler: unknown-linux-gnu
         darwin:
@@ -206,6 +218,12 @@ tarballs_config:
             arch_suffix: aarch64
             extension: tar.gz
             compiler: apple-darwin
+      aarch64:
+        linux:
+          os_suffix: linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
   fd:
     url: https://github.com/sharkdp/fd/releases/download
     version: 10.2.0
@@ -236,6 +254,12 @@ tarballs_config:
             arch_suffix: aarch64
             extension: tar.gz
             compiler: apple-darwin
+      aarch64:
+        linux:
+          os_suffix: linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
   ripgrep:
     compiler: unknown-linux-gnu
     url: https://github.com/BurntSushi/ripgrep/releases/download
@@ -266,6 +290,12 @@ tarballs_config:
             arch_suffix: aarch64
             extension: tar.gz
             compiler: apple-darwin
+      aarch64:
+        linux:
+          os_suffix: linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
 
 # Installation directory
 install_dir: "{{ ansible_env.HOME }}/.local/bin"
