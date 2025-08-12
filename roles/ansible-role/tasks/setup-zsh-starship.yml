@@ -81,21 +81,29 @@
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
-  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_os_family == "Ubuntu"
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Download starship arm64
   get_url:
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
-  when: ansible_architecture in ['aarch64', 'arm64'] and ansible_os_family == "Ubuntu"
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['aarch64', 'arm64', 'armv8l']
 
 - name: Download starship darwin
   get_url:
     url: "{{ starship_darwin.url }}/{{ starship_darwin.version }}/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Compile and install from source pfetch ubuntu
+  shell: |
+    ls -la {{ ansible_env.HOME }}/myapp/
 
 - name: Remove files with shell loop
   shell: rm {{ ansible_env.HOME }}/.local/bin/{{ starship.name }}
@@ -110,19 +118,23 @@
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
-  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_os_family == "Ubuntu"
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Extract tarballs arm64
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
-  when: ansible_architecture in ['arm64', 'aarch64'] and ansible_os_family == "Ubuntu"
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['aarch64', 'arm64', 'armv8l']
 
 - name: Extract tarballs darwin
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
-  when: ansible_os_family in ['Darwin']
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
