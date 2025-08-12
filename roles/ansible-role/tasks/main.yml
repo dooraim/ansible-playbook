@@ -30,7 +30,6 @@
 
 - include_tasks: install-pfetch.yml
 - include_tasks: install-packages-tarball-dir.yml
-- include_tasks: install-packages-tarball-file.yml
 - include_tasks: install-packages-fzy.yml
 - include_tasks: install-npm.yml
 - include_tasks: install-neovim.yml
