@@ -69,74 +69,6 @@ nvm_version: "v0.40.3"
 node_version: "22"
 nvm_install_url: "https://raw.githubusercontent.com/nvm-sh/nvm"
 
-tarballs_dir:
-  - url: https://github.com/sharkdp/bat/releases/download
-    version: v0.25.0
-    arch: x86_64
-    target: unknown-linux-gnu
-    name: bat
-    file: bat
-    extension: tar.gz
-  - url: https://github.com/sharkdp/fd/releases/download
-    version: v10.2.0
-    arch: x86_64
-    target: unknown-linux-gnu
-    name: fd
-    file: fd
-    extension: tar.gz
-  - url: https://github.com/BurntSushi/ripgrep/releases/download
-    version: 14.1.1
-    arch: x86_64
-    target: unknown-linux-musl
-    name: ripgrep
-    file: rg
-    extension: tar.gz
-
-tarballs_dir_arm64:
-  - url: https://github.com/sharkdp/bat/releases/download
-    version: v0.25.0
-    arch: aarch64
-    target: unknown-linux-gnu
-    name: bat
-    file: bat
-    extension: tar.gz
-  - url: https://github.com/sharkdp/fd/releases/download
-    version: v10.2.0
-    arch: aarch64
-    target: unknown-linux-gnu
-    name: fd
-    file: fd
-    extension: tar.gz
-  - url: https://github.com/BurntSushi/ripgrep/releases/download
-    version: 14.1.1
-    arch: aarch64
-    target: unknown-linux-gnu
-    name: ripgrep
-    file: rg
-    extension: tar.gz
-
-tarballs_dir_darwin:
-  - url: https://github.com/sharkdp/bat/releases/download
-    version: v0.25.0
-    arch: aarch64
-    target: apple-darwin
-    name: bat
-    file: bat
-    extension: tar.gz
-  - url: https://github.com/sharkdp/fd/releases/download
-    version: v10.2.0
-    arch: aarch64
-    target: apple-darwin
-    name: fd
-    file: fd
-    extension: tar.gz
-  - url: https://github.com/BurntSushi/ripgrep/releases/download
-    version: 14.1.1
-    arch: aarch64
-    target: apple-darwin
-    name: ripgrep
-    file: rg
-
 starship:
   url: https://github.com/starship/starship/releases/download
   version: v1.23.0
@@ -245,7 +177,95 @@ tarballs_config:
           os_suffix: darwin
           arch_suffix: arm64
           extension: "tar.gz"
-
+  bat:
+    url: https://github.com/sharkdp/bat/releases/download
+    version: 0.25.0
+    file_prefix: bat
+    file_name: bat
+    extension: tar.gz
+    architectures:
+      amd64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
+      arm64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
+        darwin:
+            os_suffix: darwin
+            arch_suffix: aarch64
+            extension: tar.gz
+            compiler: apple-darwin
+  fd:
+    url: https://github.com/sharkdp/fd/releases/download
+    version: 10.2.0
+    compiler: unknown-linux-gnu
+    file_prefix: fd
+    file_name: fd
+    extension: tar.gz
+    architectures:
+      amd64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
+      arm64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
+        darwin:
+            os_suffix: darwin
+            arch_suffix: aarch64
+            extension: tar.gz
+            compiler: apple-darwin
+  ripgrep:
+    compiler: unknown-linux-gnu
+    url: https://github.com/BurntSushi/ripgrep/releases/download
+    version: 14.1.1
+    file_prefix: rg
+    file_name: ripgrep
+    extension: tar.gz
+    architectures:
+      amd64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
+      arm64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
+        darwin:
+            os_suffix: darwin
+            arch_suffix: aarch64
+            extension: tar.gz
+            compiler: apple-darwin
 
 # Installation directory
 install_dir: "{{ ansible_env.HOME }}/.local/bin"
