@@ -81,14 +81,21 @@
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_os_family == "Ubuntu"
 
 - name: Download starship arm64
   get_url:
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
-  when: ansible_architecture in ['aarch64', 'arm64']
+  when: ansible_architecture in ['aarch64', 'arm64'] and ansible_os_family == "Ubuntu"
+
+- name: Download starship darwin
+  get_url:
+    url: "{{ starship_darwin.url }}/{{ starship_darwin.version }}/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/"
+    mode: '0644'
+  when: ansible_os_family == "Darwin"
 
 - name: Remove files with shell loop
   shell: rm {{ ansible_env.HOME }}/.local/bin/{{ starship.name }}
@@ -103,13 +110,19 @@
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_architecture in ['x86_64', 'amd64'] and ansible_os_family == "Ubuntu"
 
 - name: Extract tarballs arm64
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
-  when: ansible_architecture in ['arm64', 'aarch64']
+  when: ansible_architecture in ['arm64', 'aarch64'] and ansible_os_family == "Ubuntu"
+
+- name: Extract tarballs darwin
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+  when: ansible_os_family in ['Darwin']
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:

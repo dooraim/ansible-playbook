@@ -115,40 +115,47 @@ tarballs_dir_arm64:
     file: rg
     extension: tar.gz
 
-tarballs_file:
-  - url: https://github.com/junegunn/fzf/releases/download
-    version: v0.65.1
-    name: fzf-0.65.1-linux
-    arch: amd64
-    file: fzf
+tarballs_dir_darwin:
+  - url: https://github.com/sharkdp/bat/releases/download
+    version: v0.25.0
+    arch: aarch64
+    target: apple-darwin
+    name: bat
+    file: bat
     extension: tar.gz
-  - url: https://github.com/jesseduffield/lazygit/releases/download
-    version: v0.54.1
-    name: lazygit_0.54.1_Linux
-    arch: x86_64
-    file: lazygit
+  - url: https://github.com/sharkdp/fd/releases/download
+    version: v10.2.0
+    arch: aarch64
+    target: apple-darwin
+    name: fd
+    file: fd
     extension: tar.gz
-
-tarballs_file_arm64:
-  - url: https://github.com/junegunn/fzf/releases/download
-    version: v0.65.1
-    name: fzf-0.65.1-linux
-    arch: arm64
-    file: fzf
-    extension: tar.gz
-  - url: https://github.com/jesseduffield/lazygit/releases/download
-    version: v0.54.1
-    name: lazygit_0.54.1_Linux
-    arch: arm64
-    file: lazygit
-    extension: tar.gz
+  - url: https://github.com/BurntSushi/ripgrep/releases/download
+    version: 14.1.1
+    arch: aarch64
+    target: apple-darwin
+    name: ripgrep
+    file: rg
 
 starship:
-  url: https://github.com/starship/starship/releases/download/
+  url: https://github.com/starship/starship/releases/download
   version: v1.23.0
   name: starship
   compiler: unknown-linux-musl
   extension: tar.gz
+
+starship_darwin:
+  url: https://github.com/starship/starship/releases/download
+  version: v1.23.0
+  name: starship
+  compiler: aarch64-apple-darwin
+  extension: tar.gz
+
+nvim_darwin:
+  nvim_url: https://github.com/neovim/neovim/releases/download
+  nvim_version: v0.11.3
+  nvim_name: nvim-macos-arm64
+  nvim_extension: tar.gz
 
 nvim_ubuntu_2404:
   nvim_url: https://github.com/neovim/neovim/releases/download
@@ -188,3 +195,58 @@ luarock_extension: zip
 nvm_url: https://github.com/nvm-sh/nvm/archive/refs/tags
 nvm_version: 0.40.3
 nvm_extention: zip
+
+tarballs_config:
+  fzf:
+    url: https://github.com/junegunn/fzf/releases/download
+    version: 0.65.1
+    file_prefix: fzf
+    extension: tar.gz
+    architectures:
+      amd64:
+        linux:
+          os_suffix: linux
+          arch_suffix: amd64
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: amd64
+          extension: "tar.gz"
+      arm64:
+        linux:
+          os_suffix: linux
+          arch_suffix: arm64
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: arm64
+          extension: "tar.gz"
+  lazygit:
+    url: https://github.com/jesseduffield/lazygit/releases/download
+    version: 0.54.1
+    file_prefix: lazygit
+    extension: "tar.gz"
+    architectures:
+      amd64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          extension: "tar.gz"
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: "tar.gz"
+      arm64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: arm64
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: arm64
+          extension: "tar.gz"
+
+
+# Installation directory
+install_dir: "{{ ansible_env.HOME }}/.local/bin"
+temp_dir: "{{ ansible_env.HOME }}/myapp"

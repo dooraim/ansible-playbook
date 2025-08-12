@@ -15,9 +15,16 @@
     path: "{{ ansible_env.HOME }}/.local/bin/pfetch"
     state: absent
 
-- name: Compile and install from source pfetch
+- name: Compile and install from source pfetch ubuntu
   args:
     chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
   shell: |
     make install PREFIX={{ ansible_env.HOME }}/.local
+  when: ansible_os_family == "Ubuntu"
 
+- name: Install pfetch darwin
+  shell: |
+    cp pfetch {{ ansible_env.HOME }}/.local/bin/.
+  args:
+    chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
+  when: ansible_os_family == "Darwin"
