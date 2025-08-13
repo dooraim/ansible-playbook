@@ -14,8 +14,29 @@
 
 - name: Install from script
   shell: |
-    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh
+    nvm install 22
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm"
+    executable: /bin/bash
+
+- name: Create symlink for node
+  shell: ln -sf  {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/node {{ ansible_env.HOME }}/.local/bin/node
+
+- name: Create symlink for npm
+  shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
 
 - name: Check versions with different flags
-  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm --version"
+  command: "export PATH=$HOME/.local/bin:$PATH {{ item }} --version"
+  register: versions
+  loop:
+    - npm
+    - node
+    - nvm
   failed_when: false
+
+- name: Display all versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"
