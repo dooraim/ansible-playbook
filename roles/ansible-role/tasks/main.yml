@@ -41,6 +41,9 @@
 - include_tasks: install-packages-fzy.yml
 - include_tasks: install-npm.yml
 - include_tasks: install-neovim.yml
+  when: not (ansible_distribution == "Ubuntu"
+             and ansible_distribution_version == "20.04"
+             and ansible_architecture in ['arm64', 'aarch64'])
 
 - name: Remove myapp
   ansible.builtin.file:
