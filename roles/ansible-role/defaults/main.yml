@@ -135,6 +135,15 @@ tarballs_config:
     file_prefix: fzf
     extension: tar.gz
     architectures:
+      x86_64:
+          linux:
+            os_suffix: linux
+            arch_suffix: amd64
+            extension: tar.gz
+          darwin:
+            os_suffix: darwin
+            arch_suffix: amd64
+            extension: "tar.gz"
       amd64:
         linux:
           os_suffix: linux
@@ -165,6 +174,15 @@ tarballs_config:
     file_prefix: lazygit
     extension: "tar.gz"
     architectures:
+      x86_64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          extension: "tar.gz"
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: "tar.gz"
       amd64:
         linux:
           os_suffix: Linux
@@ -196,6 +214,17 @@ tarballs_config:
     file_name: bat
     extension: tar.gz
     architectures:
+      x86_64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
       amd64:
         linux:
           os_suffix: Linux
@@ -232,6 +261,17 @@ tarballs_config:
     file_name: fd
     extension: tar.gz
     architectures:
+      x86_64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
       amd64:
         linux:
           os_suffix: Linux
@@ -268,6 +308,17 @@ tarballs_config:
     file_name: ripgrep
     extension: tar.gz
     architectures:
+      x86_64:
+        linux:
+          os_suffix: Linux
+          arch_suffix: x86_64
+          compiler: unknown-linux-gnu
+          extension: tar.gz
+        darwin:
+          os_suffix: darwin
+          arch_suffix: x86_64
+          extension: tar.gz
+          compiler: apple-darwin
       amd64:
         linux:
           os_suffix: Linux
