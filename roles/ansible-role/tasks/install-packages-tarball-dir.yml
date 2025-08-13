@@ -150,3 +150,18 @@
     - lazygit
     - bat
     - fd
+
+- name: Check versions with different flags
+  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  register: versions
+  loop:
+    - fzf
+    - lazygit
+    - bat
+    - fd
+  failed_when: false
+
+- name: Display all versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"

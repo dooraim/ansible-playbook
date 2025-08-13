@@ -12,43 +12,9 @@
     path: "{{ ansible_env.HOME }}/.nvm"
     state: absent
 
-- name: Ensure is removed
-  file:
-    path: "{{ ansible_env.HOME }}/.npm"
-    state: absent
-
-- name: Download tarballs with custom names
-  get_url:
-    url: "{{ nvm_url }}/v{{ nvm_version}}.{{ nvm_extention }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
-    mode: '0644'
-
-- name: Ensure ~/.local exists
-  file:
-    path: "{{ ansible_env.HOME }}/.nvm"
-    state: directory
-    mode: '0755'
-
-- name: Extract tarballs
-  unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}.{{ nvm_extention }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
-
-- name: Moving file
-  shell: "mv {{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}/* {{ ansible_env.HOME }}/.nvm/."
-  args:
-    executable: /bin/bash
-
-- name: Install nvm using bash
+- name: Compile and install from source fzy
   shell: |
-    export NVM_DIR="$HOME/.nvm" && \
-    . "$NVM_DIR/nvm.sh" && \
-    nvm install node
-  args:
-    executable: /bin/bash
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 - name: Create symlink for node
   shell: ln -sf  ~/.nvm/versions/node/v24.5.0/bin/node ~/.local/bin/node
-
-- name: Create symlink for npm
-  shell: ln -sf ~/.nvm/versions/node/v24.5.0/bin/npm ~/.local/bin/npm
