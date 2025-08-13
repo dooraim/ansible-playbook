@@ -127,7 +127,7 @@
   copy:
     src: >-
       {{ ansible_env.HOME }}/myapp/
-      {{- tarballs_config[item].file_prefix -}}-v{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].file_name -}}-v{{- tarballs_config[item].version -}}-
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
     dest: "{{ ansible_env.HOME }}/.local/bin/"
@@ -140,6 +140,22 @@
     - bat
     - fd
 
+- name: Copy bin file to ~/.local/bin from directory
+  copy:
+    src: >-
+      {{ ansible_env.HOME }}/myapp/
+      {{- tarballs_config[item].file_name -}}-{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+    force: yes
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - ripgrep
+
 - name: Make file {{ item.name }} in ~/.local/bin/ executable
   file:
     path: "{{ ansible_env.HOME }}/.local/bin/{{- tarballs_config[item].file_prefix -}}"
@@ -149,7 +165,7 @@
     - fzf
     - lazygit
     - bat
-    - fd
+    - ripgrep
 
 - name: Check versions with different flags
   command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
@@ -159,6 +175,7 @@
     - lazygit
     - bat
     - fd
+    - rg
   failed_when: false
 
 - name: Display all versions
