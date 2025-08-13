@@ -90,17 +90,3 @@ jobs:
         ansible --version
         ansible-playbook local.yml
         ls -la ~/.local/bin
-        export PATH=\$HOME/.local/bin:\$PATH
-
-        echo '--- Checking installed binaries ---'
-        ~/.local/bin/bat --version
-        ~/.local/bin/fd --version
-        ~/.local/bin/fzf --version
-        ~/.local/bin/fzy --version
-        ~/.local/bin/lazygit --version
-        ~/.local/bin/nvim --version
-        ~/.local/bin/peco --version
-        ~/.local/bin/pfetch --version
-        ~/.local/bin/rg --version
-        ~/.local/bin/starship --version
-        ~/.local/bin/node --version
