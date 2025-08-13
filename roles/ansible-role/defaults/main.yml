@@ -312,7 +312,7 @@ tarballs_config:
         linux:
           os_suffix: Linux
           arch_suffix: x86_64
-          compiler: unknown-linux-gnu
+          compiler: unknown-linux-musl
           extension: tar.gz
         darwin:
           os_suffix: darwin
@@ -323,7 +323,7 @@ tarballs_config:
         linux:
           os_suffix: Linux
           arch_suffix: x86_64
-          compiler: unknown-linux-gnu
+          compiler: unknown-linux-musl
           extension: tar.gz
         darwin:
           os_suffix: darwin

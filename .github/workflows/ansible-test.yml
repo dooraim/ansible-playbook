@@ -112,4 +112,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
+          mkdir -p ~/.local/{bin,lib,share}
+          mkdir -p ~/.config
           ansible-playbook local.yml
