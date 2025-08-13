@@ -165,16 +165,17 @@
     - fzf
     - lazygit
     - bat
+    - fd
     - ripgrep
 
 - name: Check versions with different flags
   command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
   register: versions
   loop:
-    - fzf
-    - lazygit
     - bat
     - fd
+    - fzf
+    - lazygit
     - rg
   failed_when: false
 

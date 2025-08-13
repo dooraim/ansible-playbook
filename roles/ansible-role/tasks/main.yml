@@ -44,6 +44,7 @@
   when: not (ansible_distribution == "Ubuntu"
              and ansible_distribution_version == "20.04"
              and ansible_architecture in ['arm64', 'aarch64'])
+- include_tasks: check_packages.yml
 
 - name: Remove myapp
   ansible.builtin.file:
