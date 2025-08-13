@@ -14,6 +14,8 @@
 
 - name: Install from script
   shell: |
+    export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+    mkdir -p "$NVM_DIR"
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
     . {{ ansible_env.HOME }}/.nvm/nvm.sh
     nvm install 22
