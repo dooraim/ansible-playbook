@@ -12,9 +12,10 @@
     path: "{{ ansible_env.HOME }}/.nvm"
     state: absent
 
-- name: Compile and install from source fzy
+- name: Install from script
   shell: |
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
-- name: Create symlink for node
-  shell: ln -sf  ~/.nvm/versions/node/v24.5.0/bin/node ~/.local/bin/node
+- name: Check versions with different flags
+  shell: "source {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm --version"
+  failed_when: false
