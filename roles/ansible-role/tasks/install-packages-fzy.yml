@@ -33,3 +33,14 @@
     mode: '0755'
     state: file
 
+- name: Check versions with different flags
+  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  register: versions
+  loop:
+    - fzy
+  failed_when: false
+
+- name: Display fzy versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"

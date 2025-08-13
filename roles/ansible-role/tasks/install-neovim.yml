@@ -3,27 +3,36 @@
   set_fact:
     nvim_list: >-
       {{ (
-          ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('20.04', '==')
-        ) | ternary(
-          nvim_ubuntu_2004,
-          (
-            ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('24.04', '==')
+          ansible_os_family == "Darwin"
           ) | ternary(
-            nvim_ubuntu_2404,
+            nvim_darwin,
+          (
+            ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('20.04', '==')
+          ) | ternary(
+            nvim_ubuntu_2004,
             (
-              ansible_architecture in ['arm64', 'aarch64'] and ansible_distribution_version is version('20.04', '==')
+              ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('24.04', '==')
             ) | ternary(
-              nvim_ubuntu_2004_arm64,
+              nvim_ubuntu_2404,
               (
-                ansible_architecture in ['arm64', 'aarch64'] and ansible_distribution_version is version('24.04', '==')
+                ansible_architecture in ['arm64', 'aarch64'] and ansible_distribution_version is version('20.04', '==')
               ) | ternary(
-                nvim_ubuntu_2404_arm64,
-                []
+                nvim_ubuntu_2004_arm64,
+                (
+                  ansible_architecture in ['arm64', 'aarch64'] and ansible_distribution_version is version('24.04', '==')
+                ) | ternary(
+                  nvim_ubuntu_2404_arm64,
+                  []
+                )
               )
             )
           )
-        ) 
+        )
       }}
+
+- name: Print URL
+  ansible.builtin.debug:
+    msg: "{{ nvim_list.nvim_url }}/{{ nvim_list.nvim_version }}/{{ nvim_list.nvim_name }}.{{ nvim_list.nvim_extension }}"
 
 - name: Download tarballs neovim locals with custom names
   ansible.builtin.get_url:

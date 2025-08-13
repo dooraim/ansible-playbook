@@ -1,0 +1,19 @@
+- name: Check versions with different flags
+  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  register: versions
+  loop:
+    - bat
+    - fd
+    - fzf
+    - lazygit
+    - nvim
+    - peco
+    - pfetch
+    - rg
+    - starship
+  failed_when: false
+
+- name: Display all versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"

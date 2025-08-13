@@ -1,52 +1,185 @@
----
-- name: Select tarballs list based on architecture
-  set_fact:
-    tarballs_list: "{{ (ansible_architecture in ['x86_64', 'amd64'])
-                       | ternary(tarballs_dir, (ansible_architecture in ['arm64', 'aarch64'])
-                       | ternary(tarballs_dir_arm64, [])) }}"
+# - name: Show download URL
+#   debug:
+#     msg: >-
+#       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
+#       {{- tarballs_config[item].file_prefix -}}-v{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}.{{ tarballs_config[item].architectures[arch][os].extension }}
+#   vars:
+#     os: "{{ ansible_system | lower }}"
+#     arch: "{{ ansible_architecture | lower }}"
+#   loop:
+#     - fzf
+#     - lazygit
+#     - bat
+#     - fd
+#     - ripgrep
 
-- name: Remove files with shell loop
-  shell: rm {{ ansible_env.HOME }}/.local/bin/{{ item.file }}
-  loop: "{{ tarballs_list }}"
+- name: Remove all files
+  shell: |
+    rm -rf {{ ansible_env.HOME }}/.local/bin/{{- tarballs_config[item].file_prefix -}}
   failed_when: false
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - fzf
+    - lazygit
 
+# {{ url }}/v{{ version }}/{{ file_prefix }}-{{ version }}-{{ os }}_{{ arch_suffix }}.tar.gz
 - name: Download tarballs with custom names
-  ansible.builtin.get_url:
-    url: "{{ item.url }}/{{ item.version }}/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+  get_url:
+    url: >-
+      {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
+      {{- tarballs_config[item].file_prefix -}}-{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}_{{- tarballs_config[item].architectures[arch][os].arch_suffix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
+    dest: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
-  loop: "{{ tarballs_list }}"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - fzf
 
+# {{ url }}/v{{ version }}/{{ file_prefix }}_{{ version }}_{{ os }}_{{ arch_suffix }}.tar.gz
 - name: Download tarballs with custom names
-  ansible.builtin.get_url:
-    url: "{{ item.url }}/{{ item.version }}/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+  get_url:
+    url: >-
+      {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
+      {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].version }}_{{ tarballs_config[item].architectures[arch][os].os_suffix }}_{{- tarballs_config[item].architectures[arch][os].arch_suffix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
+    dest: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
-  loop: "{{ tarballs_list }}"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - lazygit
 
-- name: Extract tarballs
+- name: Extract tarballs single directory
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+    src: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     dest: "{{ ansible_env.HOME }}/myapp/"
-  loop: "{{ tarballs_list }}"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - fzf
+    - lazygit
 
-- name: Ensure is removed
-  file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
-    state: absent
-  loop: "{{ tarballs_list }}"
-
-- name: Copy bin file to ~/.local/bin
+- name: Copy bin file to ~/.local/bin from single directory
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}/{{ item.file }}"
+    src: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
     remote_src: yes
     force: yes
-  loop: "{{ tarballs_list }}"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - fzf
+    - lazygit
+
+# {{ url }}/v{{ version }}/{{ file_prefix }}-v{{ version }}-{{ arch_suffix }}-{{ compilers }}.tar.gz
+- name: Download tarballs with custom names from directory
+  get_url:
+    url: >-
+      {{- tarballs_config[item].url -}}/v{{- tarballs_config[item].version -}}/
+      {{- tarballs_config[item].file_prefix -}}-v{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}.
+      {{- tarballs_config[item].architectures[arch][os].extension -}}
+    dest: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    mode: '0644'
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - bat
+    - fd
+
+# {{ url }}/{{ version }}/{{ file_name }}-{{ version }}-{{ arch_suffix }}-{{ compilers }}.tar.gz
+- name: Download tarballs with custom names from directory
+  get_url:
+    url: >-
+      {{- tarballs_config[item].url -}}/{{- tarballs_config[item].version -}}/
+      {{- tarballs_config[item].file_name -}}-{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}.
+      {{- tarballs_config[item].architectures[arch][os].extension -}}
+    dest: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_name -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    mode: '0644'
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - ripgrep
+
+- name: Extract tarballs from directory
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_name -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - bat
+    - fd
+    - ripgrep
+
+- name: Copy bin file to ~/.local/bin from directory
+  copy:
+    src: >-
+      {{ ansible_env.HOME }}/myapp/
+      {{- tarballs_config[item].file_name -}}-v{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+    force: yes
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - bat
+    - fd
+
+- name: Copy bin file to ~/.local/bin from directory
+  copy:
+    src: >-
+      {{ ansible_env.HOME }}/myapp/
+      {{- tarballs_config[item].file_name -}}-{{- tarballs_config[item].version -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+    force: yes
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - ripgrep
 
 - name: Make file {{ item.name }} in ~/.local/bin/ executable
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
+  file:
+    path: "{{ ansible_env.HOME }}/.local/bin/{{- tarballs_config[item].file_prefix -}}"
     mode: '0755'
     state: file
-  loop: "{{ tarballs_list }}"
+  loop:
+    - fzf
+    - lazygit
+    - bat
+    - fd
+    - ripgrep
+
+- name: Check versions with different flags
+  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  register: versions
+  loop:
+    - bat
+    - fd
+    - fzf
+    - lazygit
+    - rg
+  failed_when: false
+
+- name: Display all versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"

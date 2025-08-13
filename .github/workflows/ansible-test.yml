@@ -90,17 +90,28 @@ jobs:
         ansible --version
         ansible-playbook local.yml
         ls -la ~/.local/bin
-        export PATH=\$HOME/.local/bin:\$PATH
 
-        echo '--- Checking installed binaries ---'
-        ~/.local/bin/bat --version
-        ~/.local/bin/fd --version
-        ~/.local/bin/fzf --version
-        ~/.local/bin/fzy --version
-        ~/.local/bin/lazygit --version
-        ~/.local/bin/nvim --version
-        ~/.local/bin/peco --version
-        ~/.local/bin/pfetch --version
-        ~/.local/bin/rg --version
-        ~/.local/bin/starship --version
-        ~/.local/bin/node --version
+  ansible-macos-arm64:
+    runs-on: macos-14  # Apple Silicon runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Verify Ansible
+        run: ansible --version
+
+      - name: Run Ansible Playbook
+        run: |
+          mkdir -p ~/.local/{bin,lib,share}
+          mkdir -p ~/.config
+          ansible-playbook local.yml

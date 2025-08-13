@@ -1,29 +1,50 @@
 ---
-- name: Download tarballs with custom peco
+- name: Download tarballs with custom peco x86
   ansible.builtin.get_url:
     url: "https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz"
     dest: "{{ ansible_env.HOME }}/myapp/peco_linux_amd64.tar.gz"
     mode: '0644'
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
-- name: Extract tarballs peco
+- name: Extract tarballs peco x86
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/peco_linux_amd64.tar.gz"
     dest: "{{ ansible_env.HOME }}/myapp/"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
-- name: Download tarballs with custom peco
+- name: Download tarballs with custom peco arm64
   ansible.builtin.get_url:
     url: "https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_arm64.tar.gz"
     dest: "{{ ansible_env.HOME }}/myapp/peco_linux_arm64.tar.gz"
     mode: '0644'
-  when: ansible_architecture in ['arm64', 'aarch64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['aarch64', 'arm64']
 
-- name: Extract tarballs peco
+- name: Extract tarballs peco arm64
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/peco_linux_arm64.tar.gz"
     dest: "{{ ansible_env.HOME }}/myapp/"
-  when: ansible_architecture in ['arm64', 'aarch64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['aarch64', 'arm64']
+
+- name: Download tarballs with custom peco darwin
+  ansible.builtin.get_url:
+    url: "https://github.com/peco/peco/releases/download/v0.5.11/peco_darwin_arm64.zip"
+    dest: "{{ ansible_env.HOME }}/myapp/peco_darwin_arm64.tar.gz"
+    mode: '0644'
+  when: ansible_os_family == "Darwin"
+
+- name: Extract tarballs peco darwin
+  unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/peco_darwin_arm64.tar.gz"
+    dest: "{{ ansible_env.HOME }}/myapp/"
+  when: ansible_os_family == "Darwin"
 
 - name: Remove all peco files
   shell: rm -rf {{ ansible_env.HOME }}/.local/bin/peco
@@ -34,21 +55,33 @@
     path: "{{ ansible_env.HOME }}/.local/bin/peco"
     state: absent
 
-- name: Copy bin file to ~/.local/bin
+- name: Copy bin file to ~/.local/bin x86
   copy:
     src: "{{ ansible_env.HOME }}/myapp/peco_linux_amd64/peco"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
     remote_src: yes
     force: yes
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
-- name: Copy bin file to ~/.local/bin
+- name: Copy bin file to ~/.local/bin amr64
   copy:
     src: "{{ ansible_env.HOME }}/myapp/peco_linux_arm64/peco"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
     remote_src: yes
     force: yes
-  when: ansible_architecture in ['aarch64', 'arm64']
+  when: 
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['architecture'] in ['aarch64', 'arm64']
+
+- name: Copy bin file to ~/.local/bin darwin
+  copy:
+    src: "{{ ansible_env.HOME }}/myapp/peco_darwin_arm64/peco"
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+    force: yes
+  when: ansible_os_family == "Darwin"
 
 - name: Make file in ~/.local/bin/ executable peco
   ansible.builtin.file:

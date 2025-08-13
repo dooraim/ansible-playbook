@@ -12,43 +12,33 @@
     path: "{{ ansible_env.HOME }}/.nvm"
     state: absent
 
-- name: Ensure is removed
-  file:
-    path: "{{ ansible_env.HOME }}/.npm"
-    state: absent
-
-- name: Download tarballs with custom names
-  get_url:
-    url: "{{ nvm_url }}/v{{ nvm_version}}.{{ nvm_extention }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
-    mode: '0644'
-
-- name: Ensure ~/.local exists
-  file:
-    path: "{{ ansible_env.HOME }}/.nvm"
-    state: directory
-    mode: '0755'
-
-- name: Extract tarballs
-  unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}.{{ nvm_extention }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
-
-- name: Moving file
-  shell: "mv {{ ansible_env.HOME }}/myapp/nvm-{{ nvm_version }}/* {{ ansible_env.HOME }}/.nvm/."
-  args:
-    executable: /bin/bash
-
-- name: Install nvm using bash
+- name: Install from script
   shell: |
-    export NVM_DIR="$HOME/.nvm" && \
-    . "$NVM_DIR/nvm.sh" && \
-    nvm install node
+    export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+    mkdir -p "$NVM_DIR"
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh
+    nvm install 22
   args:
+    creates: "{{ ansible_env.HOME }}/.nvm"
     executable: /bin/bash
 
 - name: Create symlink for node
-  shell: ln -sf  ~/.nvm/versions/node/v24.5.0/bin/node ~/.local/bin/node
+  shell: ln -sf  {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/node {{ ansible_env.HOME }}/.local/bin/node
 
 - name: Create symlink for npm
-  shell: ln -sf ~/.nvm/versions/node/v24.5.0/bin/npm ~/.local/bin/npm
+  shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
+
+- name: Check versions with different flags
+  command: "export PATH=$HOME/.local/bin:$PATH {{ item }} --version"
+  register: versions
+  loop:
+    - npm
+    - node
+    - nvm
+  failed_when: false
+
+- name: Display all versions
+  debug:
+    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
+  loop: "{{ versions.results }}"
