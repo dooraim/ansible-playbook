@@ -4,9 +4,8 @@ format = """
 [](surface0)\
 $os\
 $username\
-[](bg:rosewater fg:surface0)\
 $hostname\
-[](bg:flamingo fg:rosewater)\
+[](bg:flamingo fg:surface0)\
 $shell\
 [](bg:peach fg:flamingo)\
 $directory\
@@ -101,14 +100,14 @@ RedHatEnterprise = "󱄛"
 show_always = true
 style_user = "bg:surface0 fg:text"
 style_root = "bg:surface0 fg:text"
-format = '[ $user ]($style)'
+format = '[ $user]($style)'
 
 [hostname]
 ssh_only = false
-format = '[ $hostname ]($style)'
+format = '[@$hostname ]($style)'
 trim_at = '.companyname.com'
 disabled = false
-style = "bg:rosewater fg:mantle"
+style = "bg:surface0 fg:text"
 
 # ~/.config/starship.toml
 
