@@ -30,6 +30,7 @@
     state: directory
     mode: '0755'
 
+- include_tasks: setup-create-dir.yml
 - include_tasks: setup-fonts.yml
 - include_tasks: setup-zsh-starship.yml
 - include_tasks: setup-peco.yaml

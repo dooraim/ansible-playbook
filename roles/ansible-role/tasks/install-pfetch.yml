@@ -20,7 +20,7 @@
     chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
   shell: |
     make install PREFIX={{ ansible_env.HOME }}/.local
-  when: ansible_facts['distribution'] == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora"
 
 - name: Install pfetch darwin
   shell: |
