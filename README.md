@@ -1,3 +1,9 @@
+[![macOS ARM64](https://github.com/dooraim/ansible-playbook/actions/workflows/macos-arm64.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/macos-arm64.yml)
+[![Ubuntu AMD64 20.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2004.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2004.yml)
+[![Ubuntu AMD64 24.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2404.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2404.yml)
+[![Ubuntu ARM64 24.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-arm64-2404.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-arm64-2404.yml)
+
+
 # Ansible-Based Setup for Zsh (Powerlevel10k), Neovim, and Tmux
 
 *Tested on Ubuntu 20.04 and Ubuntu 24.04*
@@ -46,3 +52,11 @@ To refine this list, `tr ' ' '\n'` is used to convert the space-separated output
 
 Finally, `paste -sd, -` joins this newline-separated list into a single comma-separated string, which is the format expected by the `usermod -aG` command. The `-aG` flags tell `usermod` to append (`-a`) the user to the specified supplementary groups (`-G`) without removing them from existing ones.
 
+# Fedora
+
+Install the following packages
+
+```bash
+$ sudo dnf install ansible curl wget unzip tar zsh
+$ sudo dnf install gcc g++ make
+```
