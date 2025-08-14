@@ -1,0 +1,41 @@
+name: Ubuntu-24.04 ARM64
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ubuntu-arm64:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-24.04-arm']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Check GitHub Runner Architecture
+      run: |
+        echo "=== GitHub Runner Information ==="
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner Architecture: $(uname -m)"
+        echo "Runner Platform: $(uname -s)-$(uname -m)"
+        echo "CPU Info:"
+        lscpu | grep "Architecture\|CPU op-mode\|Model name" || true
+        echo ""
+    
+    - name: Check CPU architecture
+      run: lscpu
+
+    - name: Ansible tests for Ubuntu ${{ matrix.ubuntu-version }} on ${{ matrix.platform }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ansible \
+        tar unzip git build-essential curl wget fontconfig &&
+        mkdir -p ~/.local/{bin,lib,share}
+        mkdir -p ~/.config
+        ansible --version
+        ansible-playbook local.yml
+        ls -la ~/.local/bin

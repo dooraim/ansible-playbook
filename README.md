@@ -46,3 +46,11 @@ To refine this list, `tr ' ' '\n'` is used to convert the space-separated output
 
 Finally, `paste -sd, -` joins this newline-separated list into a single comma-separated string, which is the format expected by the `usermod -aG` command. The `-aG` flags tell `usermod` to append (`-a`) the user to the specified supplementary groups (`-G`) without removing them from existing ones.
 
+# Fedora
+
+Install the following packages
+
+```bash
+$ sudo dnf install ansible curl wget unzip tar zsh
+$ sudo dnf install gcc g++ make
+```
