@@ -43,7 +43,7 @@ jobs:
             fedora:42 /bin/bash -c "
               set -e
               sudo dnf install -y \
-              ansible curl wget unzip tar zsh gcc g++ make &&
+              ansible curl wget unzip tar zsh gcc g++ make fontconfig &&
               mkdir -p ~/.local/{bin,lib,share} &&
               mkdir -p ~/.config &&
               ansible --version &&
