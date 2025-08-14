@@ -1,9 +1,3 @@
-[![macOS ARM64](https://github.com/dooraim/ansible-playbook/actions/workflows/macos-arm64.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/macos-arm64.yml)
-[![Ubuntu AMD64 20.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2004.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2004.yml)
-[![Ubuntu AMD64 24.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2404.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-amd64-2404.yml)
-[![Ubuntu ARM64 24.04](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-arm64-2404.yml/badge.svg?branch=fedora)](https://github.com/dooraim/ansible-playbook/actions/workflows/ubuntu-arm64-2404.yml)
-
-
 # Ansible-Based Setup for Zsh (Powerlevel10k), Neovim, and Tmux
 
 *Tested on Ubuntu 20.04 and Ubuntu 24.04*
