@@ -42,7 +42,7 @@ jobs:
             -w /workspace \
             fedora:42 /bin/bash -c "
               set -e
-              sudo dnf install \
+              sudo dnf install -y \
               ansible curl wget unzip tar zsh gcc g++ make &&
               mkdir -p ~/.local/{bin,lib,share} &&
               mkdir -p ~/.config &&
