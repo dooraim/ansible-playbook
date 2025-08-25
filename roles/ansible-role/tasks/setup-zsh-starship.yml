@@ -5,6 +5,7 @@
     rm -rf {{ ansible_env.HOME }}/.p10k.zsh
     rm -rf {{ ansible_env.HOME }}/.config/starship.toml
     rm -rf {{ ansible_env.HOME }}/.zshrc
+    rm -rf {{ ansible_env.HOME }}/.bashrc
     rm -rf {{ ansible_env.HOME }}/.alias_fzf
     rm -rf {{ ansible_env.HOME }}/.alias_git
     rm -rf {{ ansible_env.HOME }}/.alias_forgit
@@ -66,6 +67,13 @@
   template:
     src: "zshrc-starship.j2"
     dest: "{{ ansible_env.HOME }}/.zshrc"
+    backup: yes
+    mode: 'u=rw,go=r'
+
+- name: copy bashrc with starship
+  template:
+    src: "bashrc-starship.j2"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
     backup: yes
     mode: 'u=rw,go=r'
 
