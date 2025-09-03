@@ -3,4 +3,5 @@
   shell: |
     mkdir -p {{ ansible_env.HOME }}/.local/bin
     mkdir -p {{ ansible_env.HOME }}/.local/share
-    mkdir -p {{ ansible_env.HOME }}/.local/lib§
+    mkdir -p {{ ansible_env.HOME }}/.local/lib
+    mkdir -p {{ ansible_env.HOME }}/.config
