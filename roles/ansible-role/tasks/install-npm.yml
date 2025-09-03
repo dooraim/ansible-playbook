@@ -24,10 +24,10 @@
     executable: /bin/bash
 
 - name: Create symlink for node
-  shell: ln -sf  {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/node {{ ansible_env.HOME }}/.local/bin/node
+  shell: ln -sf  {{ ansible_env.HOME }}/.nvm/versions/node/*/bin/node {{ ansible_env.HOME }}/.local/bin/node
 
 - name: Create symlink for npm
-  shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/v22.18.0/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
+  shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/*/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
 
 - name: Check versions with different flags
   command: "export PATH=$HOME/.local/bin:$PATH {{ item }} --version"
@@ -36,7 +36,6 @@
     - npm
     - node
     - nvm
-  failed_when: false
 
 - name: Display all versions
   debug:
