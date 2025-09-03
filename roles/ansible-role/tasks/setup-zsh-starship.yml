@@ -70,12 +70,12 @@
     backup: yes
     mode: 'u=rw,go=r'
 
-- name: copy bashrc with starship
-  template:
-    src: "bashrc-starship.j2"
-    dest: "{{ ansible_env.HOME }}/.bashrc"
-    backup: yes
-    mode: 'u=rw,go=r'
+# - name: copy bashrc with starship
+#   template:
+#     src: "bashrc-starship.j2"
+#     dest: "{{ ansible_env.HOME }}/.bashrc"
+#     backup: yes
+#     mode: 'u=rw,go=r'
 
 - name: copy config starship file
   template:
