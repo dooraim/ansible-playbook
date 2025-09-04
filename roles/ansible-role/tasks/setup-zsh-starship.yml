@@ -90,7 +90,6 @@
     dest: "{{ ansible_env.HOME }}/myapp/"
     mode: '0644'
   when: 
-  - ansible_facts['distribution'] == "Ubuntu"
   - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Download starship arm64
@@ -127,7 +126,6 @@
     src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/"
   when: 
-  - ansible_facts['distribution'] == "Ubuntu"
   - ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Extract tarballs arm64
