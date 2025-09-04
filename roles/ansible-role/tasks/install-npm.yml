@@ -30,14 +30,8 @@
   shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/*/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
 
 - name: Check versions with different flags
-  command: "export PATH=$HOME/.local/bin:$PATH {{ item }} --version"
-  register: versions
-  loop:
-    - npm
-    - node
-    - nvm
+  shell: |
+    export PATH=$HOME/.local/bin:$PATH
+    {{ ansible_env.HOME }}/.local/bin/node --version
+    {{ ansible_env.HOME }}/.local/bin/npm --version
 
-- name: Display all versions
-  debug:
-    msg: "{{ item.stdout_lines[0] | default('Not found') }}"
-  loop: "{{ versions.results }}"
