@@ -23,6 +23,7 @@
   loop:
     - fzf
     - lazygit
+    - eza
 
 # {{ url }}/v{{ version }}/{{ file_prefix }}-{{ version }}-{{ os }}_{{ arch_suffix }}.tar.gz
 - name: Download tarballs with custom names
@@ -52,6 +53,22 @@
   loop:
     - lazygit
 
+
+# {{ url }}/v{{ version }}/{{ file_prefix }}_{{ arch }}-{{ compiler }}.tar.gz
+# https://github.com/eza-community/eza/releases/download/v0.23.4/eza_aarch64-unknown-linux-gnu.tar.gz
+- name: Download tarballs with custom names
+  get_url:
+    url: >-
+      {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
+      {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].architectures[arch][os].arch_suffix }}-{{- tarballs_config[item].architectures[arch][os].compiler -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
+    dest: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    mode: '0644'
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - eza
+
 - name: Extract tarballs single directory
   unarchive:
     src: "{{ ansible_env.HOME }}/myapp/{{- tarballs_config[item].file_prefix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}"
@@ -62,6 +79,7 @@
   loop:
     - fzf
     - lazygit
+    - eza
 
 - name: Copy bin file to ~/.local/bin from single directory
   copy:
@@ -75,6 +93,7 @@
   loop:
     - fzf
     - lazygit
+    - eza
 
 # {{ url }}/v{{ version }}/{{ file_prefix }}-v{{ version }}-{{ arch_suffix }}-{{ compilers }}.tar.gz
 - name: Download tarballs with custom names from directory
@@ -167,6 +186,7 @@
     - bat
     - fd
     - ripgrep
+    - eza
 
 - name: Check versions with different flags
   command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
