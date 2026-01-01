@@ -1,51 +1,98 @@
-# Config from Ansible
+# Managed by Ansible
+# NOTE: Avoid manual edits if this file is fully managed by automation
 
-# Configure True Colors
+##### TERMINAL & COLORS #####
+
+# Enable true color support
+# SUGGESTION: Consider using "tmux-256color" if available on your system
+# It provides better feature detection than "screen-256color"
 set -g default-terminal "screen-256color"
 
-# Change keybinds for splitting windows
+##### PANE SPLITTING KEY BINDINGS #####
+
+# Change key bindings for splitting panes
 unbind %
 bind | split-window -h
 
 unbind '"'
 bind - split-window -v
 
-# Add keybinds for easily resizing tmux panes
+# SUGGESTION: If you often split from the current path, consider:
+# bind | split-window -h -c "#{pane_current_path}"
+# bind - split-window -v -c "#{pane_current_path}"
+
+##### PANE RESIZING #####
+
+# Key bindings for resizing panes (repeatable with -r)
 bind -r j resize-pane -D 5
 bind -r k resize-pane -U 5
 bind -r l resize-pane -R 5
 bind -r h resize-pane -L 5
 
-# Add keybind for maximizing and minimizing tmux pane
+# SUGGESTION: You can reduce step size (e.g., 1 or 2) for finer control
+
+##### PANE ZOOM #####
+
+# Toggle pane zoom (maximize / restore)
 bind -r m resize-pane -Z
 
-# Enable the mouse in tmux
-# If active ctrl+c for copy doesn't run correctly
+##### MOUSE SUPPORT #####
+
+# Enable mouse support in tmux
+# NOTE: When enabled, Ctrl+C selection copying may conflict with terminal behavior
 set -g mouse on
 
-# tpm plugin
+# SUGGESTION: For better copy behavior, consider using tmux-yank plugin
+
+##### PLUGIN MANAGEMENT #####
+
+# TPM (Tmux Plugin Manager)
 set -g @plugin 'tmux-plugins/tpm'
 
-# list of tmux plugins
+# Theme plugins
 # set -g @plugin 'egel/tmux-gruvbox'
-# set -g @tmux-gruvbox 'dark' # or 'light'
+# set -g @tmux-gruvbox 'dark'  # or 'light'
 set -g @plugin 'fabioluciano/tmux-tokyo-night'
 
-### Tokyo Night Theme configuration
+##### THEME CONFIGURATION #####
+
+# Tokyo Night theme configuration
 set -g @theme_variation 'moon'
-set -g @theme_plugins 'datetime,weather,playerctl,yay'
-set -g @plugin 'tmux-plugins/tmux-resurrect' # persist tmux sessions after computer restart
-set -g @plugin 'tmux-plugins/tmux-continuum' # automatically saves sessions for you every 15 minutes
 
-# set -g @resurrect-capture-pane-contents 'on' # allow tmux-ressurect to capture pane contents
-# set -g @continuum-restore 'on' # enable tmux-continuum functionality
+# SUGGESTION: Available variations often include:
+# storm | moon | night | day
 
-# Set scrollback buffer to 10000
+##### SESSION MANAGEMENT #####
+
+# Automatically save tmux sessions every 15 minutes
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+# SUGGESTION: Pair with tmux-resurrect for full session restoration
+# set -g @plugin 'tmux-plugins/tmux-resurrect'
+
+##### HISTORY & WINDOW BEHAVIOR #####
+
+# Increase scrollback buffer size
 set -g history-limit 10000
 
-# Not rename panel
+# Prevent applications from renaming windows
+# Uncomment if window titles change unexpectedly
 # set-option -g allow-rename off
 
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+##### STATUS BAR / POWERKIT #####
+
+# Powerkit configuration
+set -g @powerkit_keybinding_conflict_action skip
+set -g @powerkit_plugins "battery,cpu,memory,datetime"
+
+# Enable window index icons
+set -g @powerkit_window_index_icons "true"
+
+# SUGGESTION: Consider adding network or uptime modules if supported
+
+##### TPM INITIALIZATION #####
+
+# Initialize TPM
+# IMPORTANT: This must remain at the very bottom of tmux.conf
 run '~/.tmux/plugins/tpm/tpm'
 
