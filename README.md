@@ -7,7 +7,7 @@ This Ansible configuration automates the setup of a modern development environme
 To begin, you must install Ansible and Zsh using the following command:
 
 ```bash
-sudo apt update && sudo apt install ansible zsh make gcc build-essential unzip zip tar curl wget fontconfig -y
+sudo apt update && sudo apt install ansible zsh make gcc build-essential unzip zip tar curl wget fontconfig sshfs -y
 ```
 
 Create the following directory
