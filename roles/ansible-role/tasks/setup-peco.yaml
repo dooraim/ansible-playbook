@@ -22,7 +22,7 @@
     dest: "{{ ansible_env.HOME }}/myapp/peco_linux_arm64.tar.gz"
     mode: '0644'
   when: 
-  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora"
+  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
   - ansible_facts['architecture'] in ['aarch64', 'arm64']
 
 - name: Extract tarballs peco arm64
@@ -30,7 +30,7 @@
     src: "{{ ansible_env.HOME }}/myapp/peco_linux_arm64.tar.gz"
     dest: "{{ ansible_env.HOME }}/myapp/"
   when: 
-  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora"
+  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
   - ansible_facts['architecture'] in ['aarch64', 'arm64']
 
 - name: Download tarballs with custom peco darwin
@@ -72,7 +72,7 @@
     remote_src: yes
     force: yes
   when: 
-  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora"
+  - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
   - ansible_facts['architecture'] in ['aarch64', 'arm64']
 
 - name: Copy bin file to ~/.local/bin darwin

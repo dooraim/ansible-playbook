@@ -19,7 +19,7 @@
               ) | ternary(
                 nvim_ubuntu_2004_arm64,
                 (
-                  ansible_architecture in ['arm64', 'aarch64'] and ( ansible_distribution_version is version('24.04', '==') or ansible_facts['distribution'] == "Fedora" )
+                  ansible_architecture in ['arm64', 'aarch64'] and ( ansible_distribution_version is version('24.04', '==') or ansible_facts['distribution'] == "Fedora"  or ansible_facts['distribution'] == "Debian" )
                 ) | ternary(
                   nvim_ubuntu_2404_arm64,
                   []
