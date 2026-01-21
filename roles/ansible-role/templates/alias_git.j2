@@ -6,6 +6,8 @@ alias gln='logging'
 alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
 alias glga="git log --graph --oneline --all --decorate"
+# git branch delete merged branch
+alias gbd="git branch --merged | grep -Ev "(^\*|^\+|master|main|dev)" | xargs --no-run-if-empty git branch -d"
 
 logging(){
   if [ "$1" ]; then
