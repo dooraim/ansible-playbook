@@ -3,10 +3,11 @@
 -- Add any additional keymaps here
 
 local wk = require("which-key")
+local live_grep_args = require("telescope").extensions.live_grep_args.live_grep_args
 local telescope = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader><space>', telescope.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>/', telescope.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>/', live_grep_args, { desc = 'Telescope live grep args' })
 vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
 
 wk.register({
