@@ -9,10 +9,10 @@
   command: git config --global core.editor "{{ git_core_editor }}"
 
 - name: Set Git signed commit
-  commad: git config --global gpg.format ssh
+  command: git config --global gpg.format ssh
 
 - name: Set Git signed commit ssh pub key
-  command: git config --global user.signingkey ~/.ssh/"{{ git_pub_key }}"
+  command: git config --global user.signingkey "{{ git_pub_key }}"
 
 - name: Set Git signed always
   command: git config --global commit.gpgsign true
