@@ -85,31 +85,31 @@ starship_darwin:
 
 nvim_darwin:
   nvim_url: https://github.com/neovim/neovim/releases/download
-  nvim_version: v0.11.3
+  nvim_version: v0.12.2
   nvim_name: nvim-macos-arm64
   nvim_extension: tar.gz
 
 nvim_ubuntu_2404:
   nvim_url: https://github.com/neovim/neovim/releases/download
-  nvim_version: v0.11.3
+  nvim_version: v0.12.2
   nvim_name: nvim-linux-x86_64
   nvim_extension: tar.gz
 
 nvim_ubuntu_2004:
   nvim_url: https://github.com/neovim/neovim-releases/releases/download
-  nvim_version: v0.11.3
+  nvim_version: v0.12.2
   nvim_name: nvim-linux-x86_64
   nvim_extension: tar.gz
 
 nvim_ubuntu_2004_arm64:
   nvim_url: https://github.com/neovim/neovim-releases/releases/download
-  nvim_version: v0.11.3
+  nvim_version: v0.12.2
   nvim_name: nvim-linux-arm64
   nvim_extension: tar.gz
 
 nvim_ubuntu_2404_arm64:
   nvim_url: https://github.com/neovim/neovim/releases/download
-  nvim_version: v0.11.3
+  nvim_version: v0.12.2
   nvim_name: nvim-linux-arm64
   nvim_extension: tar.gz
 
