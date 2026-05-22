@@ -384,10 +384,10 @@ tarballs_config:
           extension: tar.gz
           compiler: unknown-linux-gnu
         darwin:
-            os_suffix: darwin
-            arch_suffix: aarch64
-            extension: tar.gz
-            compiler: apple-darwin
+          os_suffix: Linux
+          arch_suffix: aarch64
+          extension: tar.gz
+          compiler: unknown-linux-gnu
       aarch64:
         linux:
           os_suffix: linux
