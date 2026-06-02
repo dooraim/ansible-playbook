@@ -1,38 +1,90 @@
 # Ansible-Based Setup for Zsh (Powerlevel10k), Neovim, and Tmux
 
-*Tested on Ubuntu 20.04 and Ubuntu 24.04*
+*Tested on Ubuntu 20.04, Ubuntu 24.04, Fedora, and macOS (arm64)*
 
-This Ansible configuration automates the setup of a modern development environment consisting of **Zsh** (with **Powerlevel10k**), **Neovim**, and **Tmux**. It is designed to work on both **Ubuntu 20.04** and **Ubuntu 24.04**, and assumes a local, non-root user environment for everything except the initial installation of Ansible and Zsh.
+This Ansible configuration automates the setup of a modern development environment consisting of **Zsh** (with **Starship**), **Neovim**, **Tmux**, and a set of CLI tools. It is designed to work on Ubuntu 20.04, Ubuntu 24.04, Fedora, Debian, and macOS, and assumes a local, non-root user environment for everything except the initial installation of Ansible and Zsh.
 
-To begin, you must install Ansible and Zsh using the following command:
+## Prerequisites
+
+### Ubuntu / Debian
 
 ```bash
 sudo apt update && sudo apt install ansible zsh make gcc build-essential unzip zip tar curl wget fontconfig sshfs -y
 ```
 
-Create the following directory
+### Fedora
+
+```bash
+sudo dnf install ansible curl wget unzip tar zsh
+sudo dnf install gcc g++ make
+```
+
+### macOS
+
+```bash
+brew install ansible
+```
+
+Create the config directory if it does not exist:
 
 ```bash
 mkdir -p ~/.config
 ```
 
-Once installed, clone the Ansible playbook repository or prepare your own `playbook.yml`. The playbook is executed locally with:
+## Usage
+
+Clone the repository and run the full playbook:
 
 ```bash
-ansible-playbook local.ym
+ansible-playbook local.yml
 ```
 
-The playbook will install Neovim, Tmux, and the required plugins (like `packer.nvim` for Neovim) in the user's home directory without requiring further use of `sudo`. It also installs **Oh My Zsh** and configures the **Powerlevel10k** theme to provide a powerful and visually appealing shell experience.
+### Selective execution with tags
 
-To make Zsh the default shell, the playbook includes the command:
+Each component is tagged so you can run only what you need:
 
 ```bash
-chsh -s $(which zsh)
+# Single component
+ansible-playbook local.yml --tags neovim
+ansible-playbook local.yml --tags tmux
+ansible-playbook local.yml --tags git
+
+# Multiple components
+ansible-playbook local.yml --tags git,zsh
+
+# Everything except neovim
+ansible-playbook local.yml --skip-tags neovim
 ```
 
-This change takes effect after restarting your terminal or logging out and back in.
+Available tags:
 
-All configurations are placed in user-level directories such as `~/.config`, `~/.zshrc`, and `~/.tmux.conf`, ensuring the setup works even in environments where root access is restricted. This approach makes the setup ideal for personal machines, virtual environments, or shared systems.
+| Tag | Description |
+|---|---|
+| `dirs` | Create local directories |
+| `fonts` | Install Nerd Fonts |
+| `zsh` | Zsh + Starship prompt |
+| `peco` | peco interactive filter |
+| `git` | Git global configuration |
+| `tmux` | Tmux + TPM plugins |
+| `pfetch` | pfetch system info tool |
+| `packages` | CLI tools: fzf, lazygit, eza, bat, fd, ripgrep |
+| `fzy` | fzy fuzzy finder |
+| `npm` | Node.js via nvm |
+| `ai-agents` | Claude Code and OpenCode |
+| `neovim` | Neovim + config |
+
+> **Note:** setup/cleanup tasks (`myapp` temp directory, OS info display, package version check) always run regardless of tags.
+
+## Installed tools
+
+- **Shell:** Zsh with Starship prompt
+- **Editor:** Neovim (latest stable)
+- **Terminal multiplexer:** Tmux with TPM
+- **CLI tools:** fzf, lazygit, eza, bat, fd, ripgrep, fzy, peco, pfetch
+- **Development:** Node.js (via nvm), npm packages
+- **AI agents:** Claude Code, OpenCode
+
+All configurations are placed in user-level directories (`~/.config`, `~/.zshrc`, `~/.tmux.conf`) — no `sudo` required after the initial setup.
 
 ## Explanation of the Command to Add and Configure a User
 
