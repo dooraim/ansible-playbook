@@ -30,23 +30,23 @@
     state: directory
     mode: '0755'
 
-- include_tasks: setup-create-dir.yml
-- include_tasks: setup-fonts.yml
-- include_tasks: setup-zsh-starship.yml
-- include_tasks: setup-peco.yaml
-- include_tasks: setup-git.yml
-- include_tasks: setup-tmux.yml
+- ansible.builtin.include_tasks: setup-create-dir.yml
+- ansible.builtin.include_tasks: setup-fonts.yml
+- ansible.builtin.include_tasks: setup-zsh-starship.yml
+- ansible.builtin.include_tasks: setup-peco.yaml
+- ansible.builtin.include_tasks: setup-git.yml
+- ansible.builtin.include_tasks: setup-tmux.yml
 
-- include_tasks: install-pfetch.yml
-- include_tasks: install-packages-tarball-dir.yml
-- include_tasks: install-packages-fzy.yml
-- include_tasks: install-npm.yml
-- include_tasks: install-ai-agents.yml
-- include_tasks: install-neovim.yml
+- ansible.builtin.include_tasks: install-pfetch.yml
+- ansible.builtin.include_tasks: install-packages-tarball-dir.yml
+- ansible.builtin.include_tasks: install-packages-fzy.yml
+- ansible.builtin.include_tasks: install-npm.yml
+- ansible.builtin.include_tasks: install-ai-agents.yml
+- ansible.builtin.include_tasks: install-neovim.yml
   when: not (ansible_distribution == "Ubuntu"
              and ansible_distribution_version == "20.04"
              and ansible_architecture in ['arm64', 'aarch64'])
-- include_tasks: check_packages.yml
+- ansible.builtin.include_tasks: check_packages.yml
 
 - name: Remove myapp
   ansible.builtin.file:
