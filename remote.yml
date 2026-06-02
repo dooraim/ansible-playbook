@@ -1,0 +1,6 @@
+---
+- hosts: remote
+  remote_user: "{{ ansible_user | default(ansible_env.USER) }}"
+
+  roles:
+    - ansible-role

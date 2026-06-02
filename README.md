@@ -86,6 +86,41 @@ Available tags:
 
 All configurations are placed in user-level directories (`~/.config`, `~/.zshrc`, `~/.tmux.conf`) — no `sudo` required after the initial setup.
 
+### Remote execution via SSH
+
+Copy `inventory.example` to `inventory` and fill in the remote host details:
+
+```bash
+cp inventory.example inventory
+```
+
+Edit `inventory`:
+
+```ini
+[remote]
+myserver ansible_host=192.168.1.100 ansible_user=nicoorlando
+```
+
+Run against the remote host using `remote.yml`:
+
+```bash
+ansible-playbook -i inventory remote.yml
+```
+
+With a specific SSH key:
+
+```bash
+ansible-playbook -i inventory remote.yml --private-key ~/.ssh/id_ed25519
+```
+
+Tags work the same way:
+
+```bash
+ansible-playbook -i inventory remote.yml --tags neovim
+```
+
+> **Note:** The remote host only needs SSH access and Python installed (present by default on any modern Linux). Ansible itself only needs to be installed on the machine you run the command from.
+
 ## Explanation of the Command to Add and Configure a User
 
 The following Linux shell command is used to create a new user and assign them to the same secondary groups as an existing user:
