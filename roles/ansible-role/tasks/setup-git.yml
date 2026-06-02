@@ -1,19 +1,19 @@
 ---
 - name: Set Git user name
-  command: git config --global user.name "{{ git_user_name }}"
+  ansible.builtin.command: git config --global user.name "{{ git_user_name }}"
 
 - name: Set Git user email
-  command: git config --global user.email "{{ git_user_email }}"
+  ansible.builtin.command: git config --global user.email "{{ git_user_email }}"
 
 - name: Set Git core editor
-  command: git config --global core.editor "{{ git_core_editor }}"
+  ansible.builtin.command: git config --global core.editor "{{ git_core_editor }}"
 
 - name: Set Git signed commit
-  command: git config --global gpg.format ssh
+  ansible.builtin.command: git config --global gpg.format ssh
 
 - name: Set Git signed commit ssh pub key
-  command: git config --global user.signingkey "{{ git_pub_key }}"
+  ansible.builtin.command: git config --global user.signingkey "{{ git_pub_key }}"
 
 - name: Set Git signed always
-  command: git config --global commit.gpgsign true
+  ansible.builtin.command: git config --global commit.gpgsign true
 

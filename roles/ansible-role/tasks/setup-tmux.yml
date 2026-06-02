@@ -1,27 +1,21 @@
 ---
-- name: Remove all tmux files
-  shell: |
-    rm -rf {{ ansible_env.HOME }}/.tmux
-    rm -rf {{ ansible_env.HOME }}/.tmux.conf
-  failed_when: false
-
-- name: Ensure is removed from .tmux/plugins
-  file:
+- name: Remove tmux plugins directory
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.tmux/plugins"
     state: absent
 
-- name: Ensure is removed from .tmux.conf
-  file:
+- name: Remove .tmux.conf
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.tmux.conf"
     state: absent
 
 - name: Clone TPM repository
-  git:
+  ansible.builtin.git:
     repo: "https://github.com/tmux-plugins/tpm.git"
     dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
-- name: write .tmux.conf for user
-  template:
+- name: Write .tmux.conf for user
+  ansible.builtin.template:
     src: tmux.conf.j2
     dest: "{{ ansible_env.HOME }}/.tmux.conf"
     backup: yes

@@ -348,52 +348,31 @@ tarballs_config:
           extension: tar.gz
           compiler: unknown-linux-gnu
   eza:
-    compiler: unknown-linux-gnu
     url: https://github.com/eza-community/eza/releases/download
     version: 0.23.4
     file_prefix: eza
-    file_name: eza
-    extension: tar.gz
+    extension: zip
     architectures:
       x86_64:
         linux:
-          os_suffix: Linux
           arch_suffix: x86_64
           compiler: unknown-linux-musl
-          extension: tar.gz
-        darwin:
-          os_suffix: darwin
-          arch_suffix: x86_64
-          extension: tar.gz
-          compiler: apple-darwin
+          extension: zip
       amd64:
         linux:
-          os_suffix: Linux
           arch_suffix: x86_64
           compiler: unknown-linux-musl
-          extension: tar.gz
-        darwin:
-          os_suffix: darwin
-          arch_suffix: x86_64
-          extension: tar.gz
-          compiler: apple-darwin
+          extension: zip
       arm64:
         linux:
-          os_suffix: Linux
           arch_suffix: aarch64
-          extension: tar.gz
           compiler: unknown-linux-gnu
-        darwin:
-          os_suffix: Linux
-          arch_suffix: aarch64
-          extension: tar.gz
-          compiler: unknown-linux-gnu
+          extension: zip
       aarch64:
         linux:
-          os_suffix: linux
           arch_suffix: aarch64
-          extension: tar.gz
           compiler: unknown-linux-gnu
+          extension: zip
 
 # Installation directory
 install_dir: "{{ ansible_env.HOME }}/.local/bin"

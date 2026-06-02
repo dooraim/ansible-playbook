@@ -1,7 +1,11 @@
 ---
 - name: Install Claude Code
-  shell: curl -fsSL https://claude.ai/install.sh | bash
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://claude.ai/install.sh | bash
+    executable: /bin/bash
 
 - name: Install OpenCode
-  shell: curl -fsSL https://opencode.ai/install | bash
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://opencode.ai/install | bash
+    executable: /bin/bash
 

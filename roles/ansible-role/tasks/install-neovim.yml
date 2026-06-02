@@ -1,6 +1,6 @@
 ---
 - name: Select nvim list based on architecture and Ubuntu version
-  set_fact:
+  ansible.builtin.set_fact:
     nvim_list: >-
       {{ (
           ansible_os_family == "Darwin"
@@ -41,57 +41,49 @@
     mode: '0644'
 
 - name: Extract tarballs neovim
-  unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/neovim.tar.gz"
+  ansible.builtin.unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
     dest: "{{ ansible_env.HOME }}/myapp"
 
-- name: Remove all neovim files
-  shell: |
-    rm -rf {{ ansible_env.HOME }}/.config/nvim
-    rm -rf {{ ansible_env.HOME }}/.local/bin/neovim
-    rm -rf {{ ansible_env.HOME }}/.local/lib/neovim
-    rm -rf {{ ansible_env.HOME }}/.local/share/neovim
-  failed_when: false
-
-- name: Ensure is removed from .config
-  file:
+- name: Remove neovim config directory
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.config/nvim"
     state: absent
 
-- name: Ensure is removed from bin
-  file:
+- name: Remove neovim bin directory
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.local/bin/neovim"
     state: absent
 
-- name: Ensure is removed from lib
+- name: Remove neovim lib directory
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.local/lib/nvim"
     state: absent
 
-- name: Ensure is removed from share
+- name: Remove neovim share directory
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.local/share/nvim"
     state: absent
 
 - name: Copy bin file to ~/.local/bin for neovim
-  copy:
+  ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/bin"
     dest: "{{ ansible_env.HOME }}/.local/"
     remote_src: yes
 
-- name: Copy bin file to ~/.local/lib for neovim
-  copy:
+- name: Copy lib files for neovim
+  ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/lib"
     dest: "{{ ansible_env.HOME }}/.local/"
     remote_src: yes
 
-- name: Copy bin file to ~/.local/share for neovim
-  copy:
+- name: Copy share files for neovim
+  ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/share"
     dest: "{{ ansible_env.HOME }}/.local/"
     remote_src: yes
 
-- name: Create nvim directory
+- name: Copy nvim config directory
   ansible.builtin.copy:
     src: nvim
     dest: "{{ ansible_env.HOME }}/.config/"

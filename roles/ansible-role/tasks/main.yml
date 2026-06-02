@@ -4,52 +4,82 @@
   ansible.builtin.debug:
     msg: "Running on Ubuntu 20.04"
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "20.04"
+  tags: always
 
 - name: Task for Ubuntu 24.04
   ansible.builtin.debug:
     msg: "Running on Ubuntu 24.04"
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04"
+  tags: always
 
 - name: Display OS facts
-  debug:
+  ansible.builtin.debug:
     msg: |
       OS Family: {{ ansible_facts['os_family'] }}
       Distribution: {{ ansible_facts['distribution'] }}
       Distribution Version: {{ ansible_facts['distribution_version'] }}
       Distribution Release: {{ ansible_facts['distribution_release'] }}
       architectures: {{ ansible_architecture }}
+  tags: always
 
 - name: Remove myapp
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/myapp"
     state: absent
+  tags: always
 
 - name: Create ~/myapp directory
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/myapp"
     state: directory
     mode: '0755'
+  tags: always
 
-- include_tasks: setup-create-dir.yml
-- include_tasks: setup-fonts.yml
-- include_tasks: setup-zsh-starship.yml
-- include_tasks: setup-peco.yaml
-- include_tasks: setup-git.yml
-- include_tasks: setup-tmux.yml
+- ansible.builtin.import_tasks: setup-create-dir.yml
+  tags: dirs
 
-- include_tasks: install-pfetch.yml
-- include_tasks: install-packages-tarball-dir.yml
-- include_tasks: install-packages-fzy.yml
-- include_tasks: install-npm.yml
-- include_tasks: install-ai-agents.yml
-- include_tasks: install-neovim.yml
+- ansible.builtin.import_tasks: setup-fonts.yml
+  tags: fonts
+
+- ansible.builtin.import_tasks: setup-zsh-starship.yml
+  tags: zsh
+
+- ansible.builtin.import_tasks: setup-peco.yaml
+  tags: peco
+
+- ansible.builtin.import_tasks: setup-git.yml
+  tags: git
+
+- ansible.builtin.import_tasks: setup-tmux.yml
+  tags: tmux
+
+- ansible.builtin.import_tasks: install-pfetch.yml
+  tags: pfetch
+
+- ansible.builtin.import_tasks: install-packages-tarball-dir.yml
+  tags: packages
+
+- ansible.builtin.import_tasks: install-packages-fzy.yml
+  tags: fzy
+
+- ansible.builtin.import_tasks: install-npm.yml
+  tags: npm
+
+- ansible.builtin.import_tasks: install-ai-agents.yml
+  tags: ai-agents
+
+- ansible.builtin.import_tasks: install-neovim.yml
   when: not (ansible_distribution == "Ubuntu"
              and ansible_distribution_version == "20.04"
              and ansible_architecture in ['arm64', 'aarch64'])
-- include_tasks: check_packages.yml
+  tags: neovim
+
+- ansible.builtin.import_tasks: check_packages.yml
+  tags: always
 
 - name: Remove myapp
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/myapp"
     state: absent
+  tags: always
 
