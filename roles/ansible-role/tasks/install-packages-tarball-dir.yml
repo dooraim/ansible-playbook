@@ -54,18 +54,24 @@
     - lazygit
 
 # URL format: {url}/v{version}/{file_prefix}_{arch_suffix}-{compiler}.{ext}
-- name: Download eza tarball
+# eza only provides Linux binaries; macOS is handled via Homebrew below
+- name: Download eza zip (Linux only)
   ansible.builtin.get_url:
     url: >-
       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
-      {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].architectures[arch][os].arch_suffix }}-{{- tarballs_config[item].architectures[arch][os].compiler -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+      {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].architectures[arch]['linux'].arch_suffix }}-{{- tarballs_config[item].architectures[arch]['linux'].compiler -}}.{{ tarballs_config[item].architectures[arch]['linux'].extension }}
+    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch]['linux'].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
     arch: "{{ ansible_architecture | lower }}"
   loop:
     - eza
+  when: ansible_os_family != "Darwin"
+
+- name: Install eza via Homebrew (macOS only)
+  ansible.builtin.command: brew install eza
+  when: ansible_os_family == "Darwin"
+  changed_when: true
 
 - name: Extract single-file tarballs
   ansible.builtin.unarchive:
@@ -77,7 +83,14 @@
   loop:
     - fzf
     - lazygit
-    - eza
+
+- name: Extract eza zip (Linux only)
+  ansible.builtin.unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/eza.zip"
+    dest: "{{ ansible_env.HOME }}/myapp/"
+  vars:
+    arch: "{{ ansible_architecture | lower }}"
+  when: ansible_os_family != "Darwin"
 
 - name: Copy single-file binaries to ~/.local/bin
   ansible.builtin.copy:
@@ -91,7 +104,14 @@
   loop:
     - fzf
     - lazygit
-    - eza
+
+- name: Copy eza binary to ~/.local/bin (Linux only)
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/myapp/eza"
+    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    remote_src: yes
+    force: yes
+  when: ansible_os_family != "Darwin"
 
 # URL format: {url}/v{version}/{file_prefix}-v{version}-{arch_suffix}-{compiler}.{ext}
 - name: Download bat and fd tarballs
@@ -184,7 +204,13 @@
     - bat
     - fd
     - ripgrep
-    - eza
+
+- name: Make eza executable (Linux only)
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin/eza"
+    mode: '0755'
+    state: file
+  when: ansible_os_family != "Darwin"
 
 - name: Check installed versions
   ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
