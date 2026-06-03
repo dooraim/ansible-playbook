@@ -2,8 +2,24 @@
 # Command Directory
 #-------------------------------------------------------------
 
-alias lz='eza -lg --header --git --icons'
-alias ll='ls -lah'
+# Replace ls with eza
+alias ls='eza'
+
+# Long format with all the bells and whistles
+alias ll='eza -lah --icons --git --group-directories-first'
+
+# Tree view with sensible depth
+alias lt='eza --tree --level=2 --icons'
+
+# Just show hidden files
+alias la='eza -a'
+
+# Simple long format
+alias l='eza -lh'
+
+# Special aliases for specific tasks
+alias lsize='eza -lah --sort=size --reverse'
+alias ltime='eza -lah --sort=modified --reverse'
 
 #-------------------------------------------------------------
 # Bash
