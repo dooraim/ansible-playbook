@@ -84,6 +84,7 @@
     - fzf
     - lazygit
 
+
 - name: Extract eza zip (Linux only)
   ansible.builtin.unarchive:
     src: "{{ ansible_env.HOME }}/myapp/eza.zip"
@@ -131,7 +132,34 @@
     - bat
     - fd
 
-# URL format: {url}/{version}/{file_name}-{version}-{arch_suffix}-{compiler}.{ext}
+# https://github.com/aristocratos/btop/releases/download/v1.4.7/btop-x86_64-unknown-linux-musl.tar.gz
+# URL format: {url}/{version}/{file_name}-{arch_suffix}-{compiler}.{ext}
+- name: Download btop tarball
+  ansible.builtin.get_url:
+    url: >-
+      {{- tarballs_config[item].url -}}/{{- tarballs_config[item].version -}}/
+      {{- tarballs_config[item].file_name -}}-
+      {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
+      {{- tarballs_config[item].architectures[arch][os].compiler -}}.
+      {{- tarballs_config[item].architectures[arch][os].extension -}}
+    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    mode: '0644'
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - btop
+
+- name: Extract btop tarballs
+  ansible.builtin.unarchive:
+    src: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_env.HOME }}/myapp/"
+  vars:
+    os: "{{ ansible_system | lower }}"
+    arch: "{{ ansible_architecture | lower }}"
+  loop:
+    - btop
+
 - name: Download ripgrep tarball
   ansible.builtin.get_url:
     url: >-

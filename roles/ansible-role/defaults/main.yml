@@ -300,6 +300,37 @@ tarballs_config:
           arch_suffix: aarch64
           extension: tar.gz
           compiler: unknown-linux-gnu
+  btop:
+    url: "https://github.com/aristocratos/btop/releases/download"
+    file_prefix: btop
+    file_name: btop
+    version: "v1.4.7"
+    extension: "tar.gz"
+    architectures:
+      x86_64:
+        linux:
+          arch_suffix: x86_64
+          compiler: unknown-linux-musl
+          extension: "tar.gz"
+          os_suffix: Linux
+      amd64:
+        linux:
+          arch_suffix: x86_64
+          compiler: unknown-linux-musl
+          extension: "tar.gz"
+          os_suffix: Linux
+      arm64:
+        linux:
+          arch_suffix: aarch64
+          compiler: unknown-linux-musl
+          extension: "tar.gz"
+          os_suffix: Linux
+      aarch64:
+        linux:
+          arch_suffix: aarch64
+          compiler: unknown-linux-musl
+          extension: "tar.gz"
+          os_suffix: Linux
   ripgrep:
     compiler: unknown-linux-gnu
     url: https://github.com/BurntSushi/ripgrep/releases/download
