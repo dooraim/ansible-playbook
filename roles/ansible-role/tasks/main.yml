@@ -62,6 +62,10 @@
 - ansible.builtin.import_tasks: install-packages-fzy.yml
   tags: fzy
 
+- ansible.builtin.import_tasks: install-btop.yml
+  when: not (ansible_distribution == "Darwin")
+  tags: btop
+
 - ansible.builtin.import_tasks: install-npm.yml
   tags: npm
 

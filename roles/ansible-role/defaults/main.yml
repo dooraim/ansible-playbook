@@ -325,6 +325,11 @@ tarballs_config:
           compiler: unknown-linux-musl
           extension: "tar.gz"
           os_suffix: Linux
+        darwin:
+          arch_suffix: aarch64
+          compiler: unknown-linux-musl
+          extension: "tar.gz"
+          os_suffix: Linux
       aarch64:
         linux:
           arch_suffix: aarch64
