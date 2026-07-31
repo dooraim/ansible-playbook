@@ -12,6 +12,12 @@
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04"
   tags: always
 
+- name: Task for Ubuntu 26.04
+  ansible.builtin.debug:
+    msg: "Running on Ubuntu 26.04"
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "26.04"
+  tags: always
+
 - name: Display OS facts
   ansible.builtin.debug:
     msg: |
