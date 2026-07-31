@@ -95,6 +95,12 @@ nvim_ubuntu_2404:
   nvim_name: nvim-linux-x86_64
   nvim_extension: tar.gz
 
+nvim_ubuntu_2604:
+  nvim_url: https://github.com/neovim/neovim/releases/download
+  nvim_version: v0.12.2
+  nvim_name: nvim-linux-x86_64
+  nvim_extension: tar.gz
+
 nvim_ubuntu_2004:
   nvim_url: https://github.com/neovim/neovim-releases/releases/download
   nvim_version: v0.12.2
@@ -123,10 +129,6 @@ luarock_version: v3.12.2
 luarock_name: linux-x86_64
 luarock_file: luarocks
 luarock_extension: zip
-
-nvm_url: https://github.com/nvm-sh/nvm/archive/refs/tags
-nvm_version: 0.40.3
-nvm_extention: zip
 
 tarballs_config:
   fzf:
