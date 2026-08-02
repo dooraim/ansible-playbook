@@ -1,0 +1,22 @@
+---
+- name: Install Herdr
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://herdr.dev/install.sh | bash
+    executable: /bin/bash
+
+- name: Remove existing herdr configuration
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/herdr/config.toml"
+    state: absent
+
+- name: Create herdr configuration directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/herdr"
+    state: directory
+    mode: '0755'
+
+- name: Copy herdr configuration
+  ansible.builtin.template:
+    src: herdr_config.toml.j2
+    dest: "{{ ansible_env.HOME }}/.config/herdr/config.toml"
+    mode: '0644'
