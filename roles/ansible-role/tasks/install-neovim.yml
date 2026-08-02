@@ -3,27 +3,27 @@
   ansible.builtin.set_fact:
     nvim_list: >-
       {{ (
-          ansible_os_family == "Darwin"
+          ansible_facts['os_family'] == "Darwin"
           ) | ternary(
             nvim_darwin,
           (
-            ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('20.04', '==')
+            ansible_facts['architecture'] in ['x86_64', 'amd64'] and ansible_facts['distribution_version'] is version('20.04', '==')
           ) | ternary(
             nvim_ubuntu_2004,
             (
-              ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('24.04', '==')
+              ansible_facts['architecture'] in ['x86_64', 'amd64'] and ansible_facts['distribution_version'] is version('24.04', '==')
             ) | ternary(
               nvim_ubuntu_2404,
               (
-                ansible_architecture in ['x86_64', 'amd64'] and ansible_distribution_version is version('26.04', '==')
+                ansible_facts['architecture'] in ['x86_64', 'amd64'] and ansible_facts['distribution_version'] is version('26.04', '==')
               ) | ternary(
                 nvim_ubuntu_2604,
                 (
-                  ansible_architecture in ['arm64', 'aarch64'] and ansible_distribution_version is version('20.04', '==')
+                  ansible_facts['architecture'] in ['arm64', 'aarch64'] and ansible_facts['distribution_version'] is version('20.04', '==')
                 ) | ternary(
                   nvim_ubuntu_2004_arm64,
                   (
-                    ansible_architecture in ['arm64', 'aarch64'] and ( ansible_distribution_version is version('24.04', '==') or ansible_facts['distribution'] == "Fedora"  or ansible_facts['distribution'] == "Debian" )
+                    ansible_facts['architecture'] in ['arm64', 'aarch64'] and ( ansible_facts['distribution_version'] is version('24.04', '==') or ansible_facts['distribution'] == "Fedora"  or ansible_facts['distribution'] == "Debian" )
                   ) | ternary(
                     nvim_ubuntu_2404_arm64,
                     []
@@ -42,60 +42,60 @@
 - name: Download tarballs neovim locals with custom names
   ansible.builtin.get_url:
     url: "{{ nvim_list.nvim_url }}/{{ nvim_list.nvim_version }}/{{ nvim_list.nvim_name }}.{{ nvim_list.nvim_extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
     mode: '0644'
 
 - name: Extract tarballs neovim
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp"
 
 - name: Remove neovim config directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/nvim"
+    path: "{{ ansible_facts['env'].HOME }}/.config/nvim"
     state: absent
 
 - name: Remove neovim bin directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/neovim"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/neovim"
     state: absent
 
 - name: Remove neovim lib directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/lib/nvim"
+    path: "{{ ansible_facts['env'].HOME }}/.local/lib/nvim"
     state: absent
 
 - name: Remove neovim share directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/share/nvim"
+    path: "{{ ansible_facts['env'].HOME }}/.local/share/nvim"
     state: absent
 
 - name: Copy bin file to ~/.local/bin for neovim
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/bin"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_list.nvim_name }}/bin"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Copy lib files for neovim
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/lib"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_list.nvim_name }}/lib"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Copy share files for neovim
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_list.nvim_name }}/share"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_list.nvim_name }}/share"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Copy nvim config directory
   ansible.builtin.copy:
     src: nvim
-    dest: "{{ ansible_env.HOME }}/.config/"
+    dest: "{{ ansible_facts['env'].HOME }}/.config/"
     mode: '0644'
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/nvim"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/nvim"
     mode: '0755'
     state: file

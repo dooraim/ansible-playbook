@@ -25,18 +25,18 @@
       Distribution: {{ ansible_facts['distribution'] }}
       Distribution Version: {{ ansible_facts['distribution_version'] }}
       Distribution Release: {{ ansible_facts['distribution_release'] }}
-      architectures: {{ ansible_architecture }}
+      architectures: {{ ansible_facts['architecture'] }}
   tags: always
 
 - name: Remove myapp
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/myapp"
+    path: "{{ ansible_facts['env'].HOME }}/myapp"
     state: absent
   tags: always
 
 - name: Create ~/myapp directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/myapp"
+    path: "{{ ansible_facts['env'].HOME }}/myapp"
     state: directory
     mode: '0755'
   tags: always
@@ -69,7 +69,7 @@
   tags: fzy
 
 - ansible.builtin.import_tasks: install-btop.yml
-  when: not (ansible_distribution == "Darwin")
+  when: not (ansible_facts['distribution'] == "Darwin")
   tags: btop
 
 - ansible.builtin.import_tasks: install-npm.yml
@@ -82,9 +82,9 @@
   tags: herdr
 
 - ansible.builtin.import_tasks: install-neovim.yml
-  when: not (ansible_distribution == "Ubuntu"
-             and ansible_distribution_version == "20.04"
-             and ansible_architecture in ['arm64', 'aarch64'])
+  when: not (ansible_facts['distribution'] == "Ubuntu"
+             and ansible_facts['distribution_version'] == "20.04"
+             and ansible_facts['architecture'] in ['arm64', 'aarch64'])
   tags: neovim
 
 - ansible.builtin.import_tasks: check_packages.yml
@@ -92,7 +92,7 @@
 
 - name: Remove myapp
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/myapp"
+    path: "{{ ansible_facts['env'].HOME }}/myapp"
     state: absent
   tags: always
 

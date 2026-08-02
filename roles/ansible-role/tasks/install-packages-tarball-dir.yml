@@ -4,8 +4,8 @@
 #       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
 #       {{- tarballs_config[item].file_prefix -}}-v{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}.{{ tarballs_config[item].architectures[arch][os].extension }}
 #   vars:
-#     os: "{{ ansible_system | lower }}"
-#     arch: "{{ ansible_architecture | lower }}"
+#     os: "{{ ansible_facts['system'] | lower }}"
+#     arch: "{{ ansible_facts['architecture'] | lower }}"
 #   loop:
 #     - fzf
 #     - lazygit
@@ -15,11 +15,11 @@
 
 - name: Remove existing binaries for single-file packages
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ tarballs_config[item].file_prefix }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ tarballs_config[item].file_prefix }}"
     state: absent
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - fzf
     - lazygit
@@ -31,11 +31,11 @@
     url: >-
       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
       {{- tarballs_config[item].file_prefix -}}-{{ tarballs_config[item].version }}-{{ tarballs_config[item].architectures[arch][os].os_suffix }}_{{- tarballs_config[item].architectures[arch][os].arch_suffix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - fzf
 
@@ -45,11 +45,11 @@
     url: >-
       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
       {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].version }}_{{ tarballs_config[item].architectures[arch][os].os_suffix }}_{{- tarballs_config[item].architectures[arch][os].arch_suffix -}}.{{ tarballs_config[item].architectures[arch][os].extension }}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - lazygit
 
@@ -60,26 +60,26 @@
     url: >-
       {{ tarballs_config[item].url }}/v{{ tarballs_config[item].version }}/
       {{- tarballs_config[item].file_prefix -}}_{{ tarballs_config[item].architectures[arch]['linux'].arch_suffix }}-{{- tarballs_config[item].architectures[arch]['linux'].compiler -}}.{{ tarballs_config[item].architectures[arch]['linux'].extension }}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch]['linux'].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch]['linux'].extension }}"
     mode: '0644'
   vars:
-    arch: "{{ ansible_architecture | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - eza
-  when: ansible_os_family != "Darwin"
+  when: ansible_facts['os_family'] != "Darwin"
 
 - name: Install eza via Homebrew (macOS only)
   ansible.builtin.command: brew install eza
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
   changed_when: true
 
 - name: Extract single-file tarballs
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - fzf
     - lazygit
@@ -87,32 +87,32 @@
 
 - name: Extract eza zip (Linux only)
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/eza.zip"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/eza.zip"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
   vars:
-    arch: "{{ ansible_architecture | lower }}"
-  when: ansible_os_family != "Darwin"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
+  when: ansible_facts['os_family'] != "Darwin"
 
 - name: Copy single-file binaries to ~/.local/bin
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
     force: yes
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - fzf
     - lazygit
 
 - name: Copy eza binary to ~/.local/bin (Linux only)
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/myapp/eza"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/eza"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
     force: yes
-  when: ansible_os_family != "Darwin"
+  when: ansible_facts['os_family'] != "Darwin"
 
 # URL format: {url}/v{version}/{file_prefix}-v{version}-{arch_suffix}-{compiler}.{ext}
 - name: Download bat and fd tarballs
@@ -123,11 +123,11 @@
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}.
       {{- tarballs_config[item].architectures[arch][os].extension -}}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_prefix }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - bat
     - fd
@@ -141,21 +141,21 @@
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}.
       {{- tarballs_config[item].architectures[arch][os].extension -}}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - ripgrep
 
 - name: Extract directory-based tarballs
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - bat
     - fd
@@ -164,16 +164,16 @@
 - name: Copy bat and fd binaries to ~/.local/bin
   ansible.builtin.copy:
     src: >-
-      {{ ansible_env.HOME }}/myapp/
+      {{ ansible_facts['env'].HOME }}/myapp/
       {{- tarballs_config[item].file_name -}}-v{{- tarballs_config[item].version -}}-
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
     force: yes
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - bat
     - fd
@@ -181,22 +181,22 @@
 - name: Copy ripgrep binary to ~/.local/bin
   ansible.builtin.copy:
     src: >-
-      {{ ansible_env.HOME }}/myapp/
+      {{ ansible_facts['env'].HOME }}/myapp/
       {{- tarballs_config[item].file_name -}}-{{- tarballs_config[item].version -}}-
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}/{{- tarballs_config[item].file_prefix -}}
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
     force: yes
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - ripgrep
 
 - name: Make binaries executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ tarballs_config[item].file_prefix }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ tarballs_config[item].file_prefix }}"
     mode: '0755'
     state: file
   loop:
@@ -208,13 +208,13 @@
 
 - name: Make eza executable (Linux only)
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/eza"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/eza"
     mode: '0755'
     state: file
-  when: ansible_os_family != "Darwin"
+  when: ansible_facts['os_family'] != "Darwin"
 
 - name: Check installed versions
-  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  ansible.builtin.command: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ item }} --version"
   register: versions
   loop:
     - bat

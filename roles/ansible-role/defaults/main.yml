@@ -9,7 +9,7 @@ p10k_repository_url: 'https://github.com/romkatv/powerlevel10k.git'
 # Install p10k for the following linux users
 # Default: the linux user running Ansible
 p10k_users:
-  - "{{ ansible_user_id }}"
+  - "{{ ansible_facts['user_id'] }}"
 
 # Zsh plugin used, zsh, ohmyzsh, prezto, Zim, etc..
 # All plugin names can be found here https://github.com/romkatv/powerlevel10k#installation
@@ -121,8 +121,8 @@ nvim_ubuntu_2404_arm64:
 
 fzy_source_package_url: "https://github.com/jhawthorn/fzy.git"
 fzy_source_package_name: "fzy"
-fzy_dest: "{{ ansible_env.HOME }}/fzy"
-fzy_source_package_prefix: "{{ ansible_env.HOME }}/.local/bin"
+fzy_dest: "{{ ansible_facts['env'].HOME }}/fzy"
+fzy_source_package_prefix: "{{ ansible_facts['env'].HOME }}/.local/bin"
 
 luarock_url: https://github.com/luarocks/luarocks/releases/download
 luarock_version: v3.12.2
@@ -413,5 +413,5 @@ tarballs_config:
           extension: zip
 
 # Installation directory
-install_dir: "{{ ansible_env.HOME }}/.local/bin"
-temp_dir: "{{ ansible_env.HOME }}/myapp"
+install_dir: "{{ ansible_facts['env'].HOME }}/.local/bin"
+temp_dir: "{{ ansible_facts['env'].HOME }}/myapp"

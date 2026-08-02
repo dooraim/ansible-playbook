@@ -1,7 +1,7 @@
 ---
 - name: Create dir .local
   shell: |
-    mkdir -p {{ ansible_env.HOME }}/.local/bin
-    mkdir -p {{ ansible_env.HOME }}/.local/share
-    mkdir -p {{ ansible_env.HOME }}/.local/lib
-    mkdir -p {{ ansible_env.HOME }}/.config
+    mkdir -p {{ ansible_facts['env'].HOME }}/.local/bin
+    mkdir -p {{ ansible_facts['env'].HOME }}/.local/share
+    mkdir -p {{ ansible_facts['env'].HOME }}/.local/lib
+    mkdir -p {{ ansible_facts['env'].HOME }}/.config

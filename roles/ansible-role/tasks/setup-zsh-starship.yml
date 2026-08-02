@@ -1,19 +1,19 @@
 ---
 - name: Remove all zsh files
   shell: |
-    rm -rf {{ ansible_env.HOME }}/.oh-my-zsh
-    rm -rf {{ ansible_env.HOME }}/.p10k.zsh
-    rm -rf {{ ansible_env.HOME }}/.config/starship.toml
-    rm -rf {{ ansible_env.HOME }}/.zshrc
-    rm -rf {{ ansible_env.HOME }}/.bashrc
-    rm -rf {{ ansible_env.HOME }}/.alias_fzf
-    rm -rf {{ ansible_env.HOME }}/.alias_git
-    rm -rf {{ ansible_env.HOME }}/.alias_forgit
-    rm -rf {{ ansible_env.HOME }}/.alias_lab
-    rm -rf {{ ansible_env.HOME }}/.alias_tmux
-    rm -rf {{ ansible_env.HOME }}/.alias_utility
-    rm -rf {{ ansible_env.HOME }}/.alias_yab
-    ls -la {{ ansible_env.HOME }}
+    rm -rf {{ ansible_facts['env'].HOME }}/.oh-my-zsh
+    rm -rf {{ ansible_facts['env'].HOME }}/.p10k.zsh
+    rm -rf {{ ansible_facts['env'].HOME }}/.config/starship.toml
+    rm -rf {{ ansible_facts['env'].HOME }}/.zshrc
+    rm -rf {{ ansible_facts['env'].HOME }}/.bashrc
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_fzf
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_git
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_forgit
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_lab
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_tmux
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_utility
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_yab
+    ls -la {{ ansible_facts['env'].HOME }}
   failed_when: false
 
 - name: clone oh-my-zsh for user
@@ -23,36 +23,36 @@
     - skip_ansible_lint
   git:
     repo: "https://github.com/ohmyzsh/ohmyzsh.git"
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    dest: "{{ ansible_facts['env'].HOME }}/.oh-my-zsh"
 
 - name: clone zsh-autosuggestions for users
   git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     version: master
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+    dest: '{{ ansible_facts["env"].HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
 
 - name: clone forgit for users
   git:
     repo: 'https://github.com/wfxr/forgit.git'
     version: 755b3dd9f85c044a3bd76059b24b1ad63d5c0617
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/forgit'
+    dest: '{{ ansible_facts["env"].HOME }}/.oh-my-zsh/custom/plugins/forgit'
 
 - name: clone syntax highlighting  for users
   git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
     version: master
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+    dest: '{{ ansible_facts["env"].HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
 
 - name: clone enhancd for users
   git:
     repo: 'https://github.com/babarot/enhancd.git'
     version: main
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/enhancd'
+    dest: '{{ ansible_facts["env"].HOME }}/.oh-my-zsh/custom/plugins/enhancd'
 
 - name: copy alias
   template:
     src: "{{ item }}.j2"
-    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.{{ item }}"
     backup: yes
     mode: 'u=rw,go=r'
   loop:
@@ -66,28 +66,28 @@
 - name: copy zsh with starship
   template:
     src: "zshrc-starship.j2"
-    dest: "{{ ansible_env.HOME }}/.zshrc"
+    dest: "{{ ansible_facts['env'].HOME }}/.zshrc"
     backup: yes
     mode: 'u=rw,go=r'
 
 # - name: copy bashrc with starship
 #   template:
 #     src: "bashrc-starship.j2"
-#     dest: "{{ ansible_env.HOME }}/.bashrc"
+#     dest: "{{ ansible_facts['env'].HOME }}/.bashrc"
 #     backup: yes
 #     mode: 'u=rw,go=r'
 
 - name: copy config starship file
   template:
     src: "starship.j2"
-    dest: "{{ ansible_env.HOME }}/.config/starship.toml"
+    dest: "{{ ansible_facts['env'].HOME }}/.config/starship.toml"
     backup: yes
     mode: 'u=rw,go=r'
 
 - name: Download starship x86
   get_url:
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
     mode: '0644'
   when: 
   - ansible_facts['distribution'] == "Ubuntu"
@@ -96,7 +96,7 @@
 - name: Download starship arm64
   get_url:
     url: "{{ starship.url }}/{{ starship.version }}/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
     mode: '0644'
   when: 
   - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
@@ -105,27 +105,27 @@
 - name: Download starship darwin
   get_url:
     url: "{{ starship_darwin.url }}/{{ starship_darwin.version }}/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
     mode: '0644'
   when: ansible_facts['os_family'] == "Darwin"
 
 - name: Compile and install from source pfetch ubuntu
   shell: |
-    ls -la {{ ansible_env.HOME }}/myapp/
+    ls -la {{ ansible_facts['env'].HOME }}/myapp/
 
 - name: Remove files with shell loop
-  shell: rm {{ ansible_env.HOME }}/.local/bin/{{ starship.name }}
+  shell: rm {{ ansible_facts['env'].HOME }}/.local/bin/{{ starship.name }}
   failed_when: false
 
 - name: Ensure is removed
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ starship.name }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ starship.name }}"
     state: absent
 
 - name: Extract tarballs x86
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ starship.name }}-x86_64-{{ starship.compiler }}.{{ starship.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
   when:
   - ansible_facts['distribution'] == "Ubuntu"
@@ -133,8 +133,8 @@
 
 - name: Extract tarballs arm64
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ starship.name }}-aarch64-{{ starship.compiler }}.{{ starship.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
   when:
   - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
@@ -142,13 +142,13 @@
 
 - name: Extract tarballs darwin
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ starship_darwin.name }}-{{ starship_darwin.compiler }}.{{ starship_darwin.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
   when: ansible_facts['os_family'] == "Darwin"
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ starship.name }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ starship.name }}"
     mode: '0755'
     state: file
