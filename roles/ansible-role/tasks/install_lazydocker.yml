@@ -1,0 +1,5 @@
+---
+- name: Install Lazydocker
+  ansible.builtin.shell:
+    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+    executable: /bin/bash

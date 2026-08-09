@@ -75,6 +75,9 @@
 - ansible.builtin.import_tasks: install_herdr.yml
   tags: herdr
 
+- ansible.builtin.import_tasks: install_lazydocker.yml
+  tags: lazydocker
+
 - ansible.builtin.import_tasks: install-neovim.yml
   when: not (ansible_distribution == "Ubuntu"
              and ansible_distribution_version == "20.04"
