@@ -3,12 +3,12 @@
 -- Add any additional keymaps here
 
 local wk = require("which-key")
-local live_grep_args = require("telescope").extensions.live_grep_args.live_grep_args
-local telescope = require('telescope.builtin')
+-- local live_grep_args = require("telescope").extensions.live_grep_args.live_grep_args
+-- local telescope = require('telescope.builtin')
 
-vim.keymap.set('n', '<leader><space>', telescope.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>/', live_grep_args, { desc = 'Telescope live grep args' })
-vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
+-- vim.keymap.set('n', '<leader><space>', telescope.find_files, { desc = 'Telescope find files' })
+-- vim.keymap.set('n', '<leader>/', live_grep_args, { desc = 'Telescope live grep args' })
+-- vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
 
 wk.register({
   d = {
@@ -19,16 +19,16 @@ wk.register({
     r = { "<cmd>DiffviewRefresh<CR>", "Refresh DiffView" },
     t = { "<cmd>DiffviewToggleFiles<CR>", "Toggle File Panel" },
   },
-  f = {
-    name = "+find",
-    ["<space>"] = { telescope.find_files, "Find Files" },
-    ["/"]       = { telescope.live_grep,  "Live Grep" },
-    [","]       = { telescope.buffers,  "Buffers" },
-    f           = { telescope.find_files, "Find Files" },
-    g           = { telescope.live_grep,  "Live Grep" },
-    b           = { telescope.buffers,    "Buffers" },
-    h           = { telescope.help_tags,  "Help Tags" },
-  },
+  -- f = {
+  --   name = "+find",
+  --   ["<space>"] = { telescope.find_files, "Find Files" },
+  --   ["/"]       = { telescope.live_grep,  "Live Grep" },
+  --   [","]       = { telescope.buffers,  "Buffers" },
+  --   f           = { telescope.find_files, "Find Files" },
+  --   g           = { telescope.live_grep,  "Live Grep" },
+  --   b           = { telescope.buffers,    "Buffers" },
+  --   h           = { telescope.help_tags,  "Help Tags" },
+  -- },
   g = {
     name = "Git",
     b = { "<cmd>GitBlameToggle<CR>", "Toggle Blame" },
