@@ -9,9 +9,9 @@ return {
   },
   keys = {
     {
-      "<leader>gt",
+      "<leader>vt",
       "<cmd>ToggleTerm direction=float<CR>",
-      desc = "Toggle Terminal (forgit)",
+      desc = "Toggle Terminal",
       mode = { "n", "t" },
     },
   },
