@@ -40,5 +40,8 @@ wk.register({
     p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview Hunk" },
     i = { "<cmd>Gitsigns preview_hunk_inline<CR>", "Preview Hunk Inline" },
   },
+  v = {
+    name = "View",
+  },
 }, { prefix = "<leader>" })
 
