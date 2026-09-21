@@ -3,45 +3,28 @@
 -- Add any additional keymaps here
 
 local wk = require("which-key")
--- local live_grep_args = require("telescope").extensions.live_grep_args.live_grep_args
--- local telescope = require('telescope.builtin')
 
--- vim.keymap.set('n', '<leader><space>', telescope.find_files, { desc = 'Telescope find files' })
--- vim.keymap.set('n', '<leader>/', live_grep_args, { desc = 'Telescope live grep args' })
--- vim.keymap.set('n', '<leader>,', telescope.buffers, { desc = 'Telescope buffers' })
+-- Le keymap Git di LazyVim definite in lazyvim/config/keymaps.lua (lazygit,
+-- git log, blame, browse) vanno cancellate qui: questo file viene caricato
+-- dopo quello di LazyVim. Quelle degli spec dei plugin stanno invece in
+-- lua/plugins/lazyvim-git-keys.lua. Sotto <leader>g resta solo fugitive.
+for _, lhs in ipairs({ "<leader>gg", "<leader>gG", "<leader>gL", "<leader>gb", "<leader>gf", "<leader>gl" }) do
+  pcall(vim.keymap.del, "n", lhs)
+end
+for _, lhs in ipairs({ "<leader>gB", "<leader>gY" }) do
+  pcall(vim.keymap.del, "n", lhs)
+  pcall(vim.keymap.del, "x", lhs)
+end
 
-wk.register({
-  d = {
-    name = "DiffView",
-    o = { "<cmd>DiffviewOpen<CR>", "Open DiffView" },
-    c = { "<cmd>DiffviewClose<CR>", "Close DiffView" },
-    h = { "<cmd>DiffviewFileHistory<CR>", "File History (Git)" },
-    r = { "<cmd>DiffviewRefresh<CR>", "Refresh DiffView" },
-    t = { "<cmd>DiffviewToggleFiles<CR>", "Toggle File Panel" },
-  },
-  -- f = {
-  --   name = "+find",
-  --   ["<space>"] = { telescope.find_files, "Find Files" },
-  --   ["/"]       = { telescope.live_grep,  "Live Grep" },
-  --   [","]       = { telescope.buffers,  "Buffers" },
-  --   f           = { telescope.find_files, "Find Files" },
-  --   g           = { telescope.live_grep,  "Live Grep" },
-  --   b           = { telescope.buffers,    "Buffers" },
-  --   h           = { telescope.help_tags,  "Help Tags" },
-  -- },
-  g = {
-    name = "Git",
-    b = { "<cmd>GitBlameToggle<CR>", "Toggle Blame" },
-    l = { "<cmd>GitBlameCopySHA<CR>", "Copy Commit SHA" },
-    o = { "<cmd>GitBlameOpenCommitURL<CR>", "Open Commit in Browser" },
-    f = { "<cmd>GitBlameOpenFileURL<CR>", "Open File URL in Browser" },
-    s = { "<cmd>Gitsigns stage_hunk<CR>", "Stage Hunk" },
-    r = { "<cmd>Gitsigns reset_hunk<CR>", "Reset Hunk" },
-    p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview Hunk" },
-    i = { "<cmd>Gitsigns preview_hunk_inline<CR>", "Preview Hunk Inline" },
-  },
-  v = {
-    name = "View",
-  },
-}, { prefix = "<leader>" })
+-- Etichette dei gruppi: le keymap dei plugin stanno nei rispettivi spec
+-- (fugitive.lua per Git, fzf.lua per find/view), cosi' non si sdoppiano.
+wk.add({
+  { "<leader>g", group = "Git" },
+  { "<leader>gh", hidden = true }, -- gruppo "hunks" di gitsigns, ora disabilitato
+  { "<leader>v", group = "View" },
+})
 
+-- Diff tra due file qualsiasi (Vim nativo, non c'entra Git).
+-- <leader>vd lascia la cmdline aperta: scrivi il path e completa con <Tab>.
+vim.keymap.set("n", "<leader>vd", ":vert diffsplit ", { desc = "Diff vs file..." })
+vim.keymap.set("n", "<leader>vD", "<cmd>diffoff!<cr>", { desc = "Diff off (all windows)" })
