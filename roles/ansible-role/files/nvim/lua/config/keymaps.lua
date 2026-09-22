@@ -8,7 +8,9 @@ local wk = require("which-key")
 -- git log, blame, browse) vanno cancellate qui: questo file viene caricato
 -- dopo quello di LazyVim. Quelle degli spec dei plugin stanno invece in
 -- lua/plugins/lazyvim-git-keys.lua. Sotto <leader>g resta solo fugitive.
-for _, lhs in ipairs({ "<leader>gg", "<leader>gG", "<leader>gL", "<leader>gb", "<leader>gf", "<leader>gl" }) do
+-- NB: <leader>gg e <leader>gG NON vanno cancellate qui: le rivendica flog.lua
+-- con uno spec `keys`, e LazyVim (safe_keymap_set) rispetta gia' quel claim.
+for _, lhs in ipairs({ "<leader>gL", "<leader>gb", "<leader>gf", "<leader>gl" }) do
   pcall(vim.keymap.del, "n", lhs)
 end
 for _, lhs in ipairs({ "<leader>gB", "<leader>gY" }) do
