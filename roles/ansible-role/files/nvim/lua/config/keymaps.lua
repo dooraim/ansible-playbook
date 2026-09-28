@@ -30,3 +30,24 @@ wk.add({
 -- <leader>vd lascia la cmdline aperta: scrivi il path e completa con <Tab>.
 vim.keymap.set("n", "<leader>vd", ":vert diffsplit ", { desc = "Diff vs file..." })
 vim.keymap.set("n", "<leader>vD", "<cmd>diffoff!<cr>", { desc = "Diff off (all windows)" })
+
+-- Copia la selezione negli appunti di sistema (via SSH passa per OSC52,
+-- vedi options.lua). Il semplice y resta sul registro interno di Neovim.
+vim.keymap.set("x", "<leader>yc", '"+y', { desc = "Copy selection to clipboard" })
+
+-- Copia "path:riga" (o "path:inizio-fine" in visual) negli appunti,
+-- con il path relativo alla cwd.
+vim.keymap.set("n", "<leader>yr", function()
+  local ref = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+  vim.fn.setreg("+", ref)
+  vim.notify("Copiato: " .. ref)
+end, { desc = "Copy file:line reference" })
+vim.keymap.set("x", "<leader>yr", function()
+  local s, e = vim.fn.line("v"), vim.fn.line(".")
+  if s > e then
+    s, e = e, s
+  end
+  local ref = vim.fn.expand("%:.") .. ":" .. (s == e and s or s .. "-" .. e)
+  vim.fn.setreg("+", ref)
+  vim.notify("Copiato: " .. ref)
+end, { desc = "Copy file:lines reference" })
