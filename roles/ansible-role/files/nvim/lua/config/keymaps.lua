@@ -22,7 +22,7 @@ end
 -- (fugitive.lua per Git, fzf.lua per find/view), cosi' non si sdoppiano.
 wk.add({
   { "<leader>g", group = "Git" },
-  { "<leader>gh", hidden = true }, -- gruppo "hunks" di gitsigns, ora disabilitato
+  { "<leader>gh", hidden = true }, -- gruppo "hunks" di gitsigns: keymap disattivate, restano solo i segni
   { "<leader>v", group = "View" },
 })
 
