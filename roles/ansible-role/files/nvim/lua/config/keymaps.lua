@@ -25,6 +25,7 @@ wk.add({
   { "<leader>g", group = "Git" },
   { "<leader>gh", hidden = true }, -- gruppo "hunks" di gitsigns: keymap disattivate, restano solo i segni
   { "<leader>v", group = "View" },
+  { "<leader>y", group = "Yank" },
 })
 
 -- Diff tra due file qualsiasi (Vim nativo, non c'entra Git).
@@ -52,3 +53,18 @@ vim.keymap.set("x", "<leader>yr", function()
   vim.fn.setreg("+", ref)
   vim.notify("Copiato: " .. ref)
 end, { desc = "Copy file:lines reference" })
+
+-- Copia negli appunti il path del file corrente in vari formati
+-- (modificatori di expand(), vedi :h filename-modifiers).
+for lhs, spec in pairs({
+  ["<leader>yp"] = { "%:p", "Copy absolute path" },
+  ["<leader>yP"] = { "%:.", "Copy relative path" },
+  ["<leader>yn"] = { "%:t", "Copy file name" },
+  ["<leader>yd"] = { "%:p:h", "Copy directory path" },
+}) do
+  vim.keymap.set("n", lhs, function()
+    local path = vim.fn.expand(spec[1])
+    vim.fn.setreg("+", path)
+    vim.notify("Copiato: " .. path)
+  end, { desc = spec[2] })
+end
