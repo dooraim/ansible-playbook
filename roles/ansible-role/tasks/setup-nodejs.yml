@@ -7,13 +7,13 @@
 - name: Install NVM
   shell: "curl -o- {{ nvm_install_url }}/{{ nvm_version}}/install.sh | bash"
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm"
+    creates: "{{ ansible_facts['env'].HOME }}/.nvm"
 
 - name: Install Node.js using NVM
   shell: ". $HOME/.nvm/nvm.sh && nvm install {{ node_version }}"
   args:
     executable: /bin/zsh
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ node_version }}"
+    creates: "{{ ansible_facts['env'].HOME }}/.nvm/versions/node/v{{ node_version }}"
 
 - name: Verify Node.js version
   shell: ". $HOME/.nvm/nvm.sh && node -v"

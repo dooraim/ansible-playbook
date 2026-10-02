@@ -2,39 +2,39 @@
 - name: Clone the repository from Git fzy
   git:
     repo: "{{ fzy_source_package_url | default('https://github.com/jhawthorn/fzy.git') }}"
-    dest: "{{ ansible_env.HOME }}/myapp/fzy"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/fzy"
     version: "{{ fzy_source_repo_branch | default('master') }}"
     force: yes
 
 - name: Compile and install from source fzy
   args:
-    chdir: "{{ ansible_env.HOME }}/myapp/fzy"
+    chdir: "{{ ansible_facts['env'].HOME }}/myapp/fzy"
   shell: |
     make
 
 - name: Remove files with shell loop
-  shell: rm {{ ansible_env.HOME }}/.local/bin/fzy
+  shell: rm {{ ansible_facts['env'].HOME }}/.local/bin/fzy
   failed_when: false
 
 - name: Ensure is removed
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin/fzy"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/fzy"
     state: absent
 
 - name: Copy bin file to ~/.local/bin fzy
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/fzy/fzy"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/fzy/fzy"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/fzy"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/fzy"
     mode: '0755'
     state: file
 
 - name: Check versions with different flags
-  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  command: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ item }} --version"
   register: versions
   loop:
     - fzy

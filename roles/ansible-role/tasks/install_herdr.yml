@@ -6,17 +6,17 @@
 
 - name: Remove existing herdr configuration
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/herdr/config.toml"
+    path: "{{ ansible_facts['env'].HOME }}/.config/herdr/config.toml"
     state: absent
 
 - name: Create herdr configuration directory
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/herdr"
+    path: "{{ ansible_facts['env'].HOME }}/.config/herdr"
     state: directory
     mode: '0755'
 
 - name: Copy herdr configuration
   ansible.builtin.template:
     src: herdr_config.toml.j2
-    dest: "{{ ansible_env.HOME }}/.config/herdr/config.toml"
+    dest: "{{ ansible_facts['env'].HOME }}/.config/herdr/config.toml"
     mode: '0644'

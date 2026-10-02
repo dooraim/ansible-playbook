@@ -2,60 +2,60 @@
 - name: Download tarballs with custom names
   ansible.builtin.get_url:
     url: "{{ item.url }}/{{ item.version }}/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
     mode: '0644'
   loop: "{{ tarballs_dir }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Extract tarballs
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}.{{ item.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp"
   loop: "{{ tarballs_dir }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Copy bin file to ~/.local/bin
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}/{{ item.file }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.name }}-{{ item.version }}-{{ item.arch }}-{{ item.target }}/{{ item.file }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
   loop: "{{ tarballs_dir }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ item.file }}"
     mode: '0755'
     state: file
   loop: "{{ tarballs_dir }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Download tarballs with custom names
   ansible.builtin.get_url:
     url: "{{ item.url }}/{{ item.version }}/{{ item.name }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
     mode: '0644'
   loop: "{{ tarballs_file }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Extract tarballs
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.name }}.{{ item.extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp"
   loop: "{{ tarballs_file }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Copy bin file to ~/.local/bin
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ item.file }}"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ item.file }}"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
   loop: "{{ tarballs_file }}"
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/{{ item.file }}"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ item.file }}"
     mode: '0755'
     state: file
   loop: "{{ tarballs_file }}"
@@ -64,61 +64,61 @@
 - name: Clone the repository from Git fzy
   git:
     repo: "{{ fzy_source_package_url | default('https://github.com/jhawthorn/fzy.git') }}"
-    dest: "{{ ansible_env.HOME }}/myapp/fzy"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/fzy"
     version: "{{ fzy_source_repo_branch | default('master') }}"
     force: yes
 
 - name: Compile and install from source fzy
   args:
-    chdir: "{{ ansible_env.HOME }}/myapp/fzy"
+    chdir: "{{ ansible_facts['env'].HOME }}/myapp/fzy"
   shell: |
     make
 
 - name: Copy bin file to ~/.local/bin fzy
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/fzy/fzy"
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/fzy/fzy"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
 
 - name: Make file in ~/.local/bin/ executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/fzy"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/fzy"
     mode: '0755'
     state: file
 
 - name: Download tarballs neovim locals with custom names
   ansible.builtin.get_url:
     url: "{{ nvim_old_url }}/{{ nvim_old_version }}/{{ nvim_old_name }}.{{ nvim_old_extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/{{ nvim_old_name }}.{{ nvim_old_extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_old_name }}.{{ nvim_old_extension }}"
     mode: '0644'
-  when: ansible_architecture in ['x86_64', 'amd64']
+  when: ansible_facts['architecture'] in ['x86_64', 'amd64']
 
 - name: Extract tarballs neovim
   unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_old_name }}.{{ nvim_old_extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_old_name }}.{{ nvim_old_extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp"
 
 - name: Copy bin file to ~/.local/bin for neovim
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_old_name }}/bin"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_old_name }}/bin"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Copy bin file to ~/.local/lib for neovim
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_old_name }}/lib"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_old_name }}/lib"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Copy bin file to ~/.local/share for neovim
   copy:
-    src: "{{ ansible_env.HOME }}/myapp/{{ nvim_old_name }}/share"
-    dest: "{{ ansible_env.HOME }}/.local/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ nvim_old_name }}/share"
+    dest: "{{ ansible_facts['env'].HOME }}/.local/"
     remote_src: yes
 
 - name: Create nvim directory
   ansible.builtin.copy:
     src: nvim
-    dest: "{{ ansible_env.HOME }}/.config/"
+    dest: "{{ ansible_facts['env'].HOME }}/.config/"
     mode: '0644'
 

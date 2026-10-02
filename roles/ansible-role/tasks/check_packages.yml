@@ -1,5 +1,5 @@
 - name: Check versions with different flags
-  command: "{{ ansible_env.HOME }}/.local/bin/{{ item }} --version"
+  command: "{{ ansible_facts['env'].HOME }}/.local/bin/{{ item }} --version"
   register: versions
   loop:
     - bat

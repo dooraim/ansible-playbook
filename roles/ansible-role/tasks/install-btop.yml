@@ -10,34 +10,34 @@
       {{- tarballs_config[item].architectures[arch][os].arch_suffix -}}-
       {{- tarballs_config[item].architectures[arch][os].compiler -}}.
       {{- tarballs_config[item].architectures[arch][os].extension -}}
-    dest: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     mode: '0644'
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - btop
 
 - name: Extract btop tarballs
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
-    dest: "{{ ansible_env.HOME }}/myapp/"
+    src: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/"
   vars:
-    os: "{{ ansible_system | lower }}"
-    arch: "{{ ansible_architecture | lower }}"
+    os: "{{ ansible_facts['system'] | lower }}"
+    arch: "{{ ansible_facts['architecture'] | lower }}"
   loop:
     - btop
 
 - name: Copy bat and fd binaries to ~/.local/bin
   ansible.builtin.copy:
     src: >-
-      {{ ansible_env.HOME }}/myapp/btop/bin/btop
-    dest: "{{ ansible_env.HOME }}/.local/bin/"
+      {{ ansible_facts['env'].HOME }}/myapp/btop/bin/btop
+    dest: "{{ ansible_facts['env'].HOME }}/.local/bin/"
     remote_src: yes
     force: yes
 
 - name: Make file in ~/.local/bin/btop executable
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin/btop"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/btop"
     mode: '0755'
     state: file

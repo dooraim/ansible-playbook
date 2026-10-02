@@ -1,37 +1,37 @@
 ---
 - name: Remove all files
   shell: |
-    rm -rf {{ ansible_env.HOME }}/.nvm
-    rm -rf {{ ansible_env.HOME }}/.npm
-    rm -rf {{ ansible_env.HOME }}/.local/bin/node
-    rm -rf {{ ansible_env.HOME }}/.local/bin/npm
+    rm -rf {{ ansible_facts['env'].HOME }}/.nvm
+    rm -rf {{ ansible_facts['env'].HOME }}/.npm
+    rm -rf {{ ansible_facts['env'].HOME }}/.local/bin/node
+    rm -rf {{ ansible_facts['env'].HOME }}/.local/bin/npm
   failed_when: false
 
 - name: Ensure is removed
   file:
-    path: "{{ ansible_env.HOME }}/.nvm"
+    path: "{{ ansible_facts['env'].HOME }}/.nvm"
     state: absent
 
 - name: Install from script
   shell: |
-    export NVM_DIR="{{ ansible_env.HOME }}/.nvm"
+    export NVM_DIR="{{ ansible_facts['env'].HOME }}/.nvm"
     mkdir -p "$NVM_DIR"
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    . {{ ansible_env.HOME }}/.nvm/nvm.sh
+    . {{ ansible_facts['env'].HOME }}/.nvm/nvm.sh
     nvm install 22
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm"
+    creates: "{{ ansible_facts['env'].HOME }}/.nvm"
     executable: /bin/bash
 
 - name: Create symlink for node
-  shell: ln -sf  {{ ansible_env.HOME }}/.nvm/versions/node/*/bin/node {{ ansible_env.HOME }}/.local/bin/node
+  shell: ln -sf  {{ ansible_facts['env'].HOME }}/.nvm/versions/node/*/bin/node {{ ansible_facts['env'].HOME }}/.local/bin/node
 
 - name: Create symlink for npm
-  shell: ln -sf {{ ansible_env.HOME }}/.nvm/versions/node/*/bin/npm {{ ansible_env.HOME }}/.local/bin/npm
+  shell: ln -sf {{ ansible_facts['env'].HOME }}/.nvm/versions/node/*/bin/npm {{ ansible_facts['env'].HOME }}/.local/bin/npm
 
 - name: Check versions with different flags
   shell: |
     export PATH=$HOME/.local/bin:$PATH
-    {{ ansible_env.HOME }}/.local/bin/node --version
-    {{ ansible_env.HOME }}/.local/bin/npm --version
+    {{ ansible_facts['env'].HOME }}/.local/bin/node --version
+    {{ ansible_facts['env'].HOME }}/.local/bin/npm --version
 

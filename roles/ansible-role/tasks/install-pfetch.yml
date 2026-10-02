@@ -2,29 +2,29 @@
 - name: Clone the repository from Git pfetch
   git:
     repo: "https://github.com/dylanaraps/pfetch.git"
-    dest: "{{ ansible_env.HOME }}/myapp/pfetch"
+    dest: "{{ ansible_facts['env'].HOME }}/myapp/pfetch"
     version: "master"
     force: yes
 
 - name: Remove all pfetch files
-  shell: rm -rf {{ ansible_env.HOME }}/pfetch
+  shell: rm -rf {{ ansible_facts['env'].HOME }}/pfetch
   failed_when: false
 
 - name: Ensure is removed
   file:
-    path: "{{ ansible_env.HOME }}/.local/bin/pfetch"
+    path: "{{ ansible_facts['env'].HOME }}/.local/bin/pfetch"
     state: absent
 
 - name: Compile and install from source pfetch ubuntu
   args:
-    chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
+    chdir: "{{ ansible_facts['env'].HOME }}/myapp/pfetch"
   shell: |
-    make install PREFIX={{ ansible_env.HOME }}/.local
+    make install PREFIX={{ ansible_facts['env'].HOME }}/.local
   when: ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "Debian"
 
 - name: Install pfetch darwin
   shell: |
-    cp pfetch {{ ansible_env.HOME }}/.local/bin/.
+    cp pfetch {{ ansible_facts['env'].HOME }}/.local/bin/.
   args:
-    chdir: "{{ ansible_env.HOME }}/myapp/pfetch"
-  when: ansible_os_family == "Darwin"
+    chdir: "{{ ansible_facts['env'].HOME }}/myapp/pfetch"
+  when: ansible_facts['os_family'] == "Darwin"
