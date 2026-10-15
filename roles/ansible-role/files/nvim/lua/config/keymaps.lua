@@ -33,6 +33,12 @@ wk.add({
 vim.keymap.set("n", "<leader>vd", ":vert diffsplit ", { desc = "Diff vs file..." })
 vim.keymap.set("n", "<leader>vD", "<cmd>diffoff!<cr>", { desc = "Diff off (all windows)" })
 
+-- Chiude il file (buffer) corrente senza chiudere la finestra/tab, come
+-- <leader>bd di LazyVim. Il gruppo <leader><tab> e' quello dei tab di LazyVim.
+vim.keymap.set("n", "<leader><tab>c", function()
+  Snacks.bufdelete()
+end, { desc = "Close file (buffer)" })
+
 -- Copia la selezione negli appunti di sistema (via SSH passa per OSC52,
 -- vedi options.lua). Il semplice y resta sul registro interno di Neovim.
 vim.keymap.set("x", "<leader>yc", '"+y', { desc = "Copy selection to clipboard" })
