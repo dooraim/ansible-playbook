@@ -22,6 +22,7 @@
   ansible.builtin.unarchive:
     src: "{{ ansible_facts['env'].HOME }}/myapp/{{ tarballs_config[item].file_name }}.{{ tarballs_config[item].architectures[arch][os].extension }}"
     dest: "{{ ansible_facts['env'].HOME }}/myapp/"
+    remote_src: yes
   vars:
     os: "{{ ansible_facts['system'] | lower }}"
     arch: "{{ ansible_facts['architecture'] | lower }}"

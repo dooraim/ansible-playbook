@@ -49,6 +49,7 @@
   ansible.builtin.unarchive:
     src: "{{ ansible_facts['env'].HOME }}/myapp/neovim.{{ nvim_list.nvim_extension }}"
     dest: "{{ ansible_facts['env'].HOME }}/myapp"
+    remote_src: yes
 
 - name: Remove neovim config directory
   ansible.builtin.file:

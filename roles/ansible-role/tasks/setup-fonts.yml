@@ -15,6 +15,7 @@
   unarchive:
     src: "{{ ansible_facts['env'].HOME }}/myapp/Meslo.zip"
     dest: "{{ ansible_facts['env'].HOME }}/.local/share/fonts"
+    remote_src: yes
 
 - name: Download zip with custom fonts noto-sans
   ansible.builtin.get_url:
@@ -26,6 +27,7 @@
   unarchive:
     src: "{{ ansible_facts['env'].HOME }}/myapp/noto-sans.zip"
     dest: "{{ ansible_facts['env'].HOME }}/.local/share/fonts"
+    remote_src: yes
 
 - name: Download zip with custom fonts JetBrainsMono
   ansible.builtin.get_url:
@@ -37,6 +39,7 @@
   unarchive:
     src: "{{ ansible_facts['env'].HOME }}/myapp/JetBrainsMono.zip"
     dest: "{{ ansible_facts['env'].HOME }}/.local/share/fonts"
+    remote_src: yes
 
 - name: Clear and regenerate your font cache
   shell: "fc-cache -f -v"
