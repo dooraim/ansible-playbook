@@ -20,3 +20,29 @@
     src: herdr_config.toml.j2
     dest: "{{ ansible_facts['env'].HOME }}/.config/herdr/config.toml"
     mode: '0644'
+
+- name: Check herdr scripts source directory on controller
+  ansible.builtin.stat:
+    path: "{{ herdr_scripts_src }}"
+  delegate_to: localhost
+  become: false
+  register: herdr_scripts_src_stat
+
+- name: Create herdr scripts directory
+  ansible.builtin.file:
+    path: "{{ herdr_scripts_dest }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy herdr scripts
+  ansible.builtin.copy:
+    src: "{{ herdr_scripts_src }}"
+    dest: "{{ herdr_scripts_dest }}/"
+    mode: preserve
+  when: herdr_scripts_src_stat.stat.isdir is defined and herdr_scripts_src_stat.stat.isdir
+
+- name: Copy herdr alias
+  ansible.builtin.template:
+    src: alias_herdr.j2
+    dest: "{{ ansible_facts['env'].HOME }}/.alias_herdr"
+    mode: 'u=rw,go=r'

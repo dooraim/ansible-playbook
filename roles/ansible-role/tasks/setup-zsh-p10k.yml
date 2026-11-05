@@ -10,6 +10,7 @@
     rm -rf {{ ansible_facts['env'].HOME }}/.alias_lab
     rm -rf {{ ansible_facts['env'].HOME }}/.alias_tmux
     rm -rf {{ ansible_facts['env'].HOME }}/.alias_utility
+    rm -rf {{ ansible_facts['env'].HOME }}/.alias_herdr
     rm -rf {{ ansible_facts['env'].HOME }}/.alias_yab
   failed_when: false
 

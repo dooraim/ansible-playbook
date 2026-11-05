@@ -1,0 +1,32 @@
+#-------------------------------------------------------------
+# HERDR
+#-------------------------------------------------------------
+alias hbsp='{{ herdr_scripts_dest }}/start_herdr_bsp.sh'
+alias htb='{{ herdr_scripts_dest }}/start_herdr_tb.sh'
+
+alias hml='herdr machine list'
+alias hmd='herdr machine disable'
+alias hme='herdr machine enable'
+alias hmdesk='herdr machine add vu24y25-80183 --label "server desk-mx-l" --remote-session desk-mx-l'
+alias hsl='herdr session list'
+
+# Add a machine: hma <ssh name server> <label> <remote session>
+hma() {
+  [ $# -eq 3 ] || { echo >&2 "Usage: hma <ssh name server> <label> <remote session>"; return 1; }
+  herdr machine add "$1" --label "$2" --remote-session "$3"
+}
+
+# Remove all machines
+hmrmall() {
+  herdr machine list | awk '{print $1}' | while read -r id; do
+    herdr machine remove "$id"
+  done
+}
+
+# Stop and delete all sessions except default
+hsrmall() {
+  herdr session list | awk 'NR>1 && $1!="default" {print $1}' | while read -r s; do
+    herdr session stop "$s"
+    herdr session delete "$s"
+  done
+}
