@@ -119,6 +119,37 @@ Tags work the same way:
 ansible-playbook -i inventory remote.yml --tags neovim
 ```
 
+### R&D PCs and board farm executors
+
+`inventory.yml` lists the R&D PCs (`devpc`) and the board farm executors
+(`bf-runners`) as children of the `remote` group, with the same host names and
+IPs as the `inventory` of the `sysadmin/ansible` repository
+(`git@gitlab.lan.dave.eu:sysadmin/ansible.git`, cloned in
+`~/devel/ansible`). Keep the two in sync when hosts are added or
+moved there.
+
+The environment is installed for the `norlando` user only (`ansible_user` of
+the `remote` group): Ansible connects as `norlando` and writes only to its home
+directory, so its SSH key must be authorized on every host and no `sudo` is
+needed. The prerequisites above (zsh, build tools, ...) must already be
+installed on the hosts.
+
+Check SSH access first:
+
+```bash
+ansible -i inventory.yml remote -m ping
+```
+
+Then run `remote.yml` on all the hosts, on one group or on a single host:
+
+```bash
+ansible-playbook -i inventory.yml remote.yml
+ansible-playbook -i inventory.yml remote.yml -l devpc
+ansible-playbook -i inventory.yml remote.yml -l bf-runners
+ansible-playbook -i inventory.yml remote.yml -l PU24Y23023
+ansible-playbook -i inventory.yml remote.yml -l bf-runners --tags zsh
+```
+
 > **Note:** The remote host only needs SSH access and Python installed (present by default on any modern Linux). Ansible itself only needs to be installed on the machine you run the command from.
 
 ## Explanation of the Command to Add and Configure a User

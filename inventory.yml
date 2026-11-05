@@ -1,0 +1,51 @@
+---
+# Hosts and IPs taken from ~/devel/ansible/inventory (groups devpc and
+# bf-runners): keep them in sync when hosts are added or moved there.
+#
+#   ansible-playbook -i inventory.yml remote.yml                  # all
+#   ansible-playbook -i inventory.yml remote.yml -l bf-runners    # one group
+#   ansible-playbook -i inventory.yml remote.yml -l PU24Y23023    # one host
+all:
+  children:
+    local:
+      hosts:
+        localhost:
+          ansible_connection: local
+
+    remote:
+      vars:
+        # the environment (~/.zshrc, ~/.config, ...) is installed for norlando
+        # only
+        ansible_user: norlando
+        ansible_port: 22
+      children:
+        devpc:
+          hosts:
+            nuc01:
+              ansible_host: 192.168.0.113
+            nuc02:
+              ansible_host: 192.168.0.114
+            nimbus:
+              ansible_host: 192.168.0.21
+            PU20Y24038:
+              ansible_host: 192.168.0.112
+            PU24Y26053:
+              ansible_host: 192.168.0.193
+            PU26Y26056:
+              ansible_host: 192.168.0.196
+            PU26Y26057:
+              ansible_host: 192.168.0.197
+
+        # board farm executors (10.203.70.0 network)
+        bf-runners:
+          hosts:
+            PU24Y23023:
+              ansible_host: 10.203.70.13
+            PU24Y23024:
+              ansible_host: 10.203.70.14
+            PU24Y23026:
+              ansible_host: 10.203.70.16
+            PU26Y26054:
+              ansible_host: 10.203.70.17
+            PU26Y26055:
+              ansible_host: 10.203.70.18
