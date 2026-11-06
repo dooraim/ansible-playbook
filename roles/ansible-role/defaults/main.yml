@@ -419,3 +419,7 @@ temp_dir: "{{ ansible_facts['env'].HOME }}/myapp"
 # Herdr helper scripts: copied from the controller to herdr_scripts_dest
 herdr_scripts_src: "{{ lookup('env', 'HOME') }}/devel/notes/docs/files/Herdr/"
 herdr_scripts_dest: "{{ ansible_facts['env'].HOME }}/devel/herdr"
+
+# uuu (NXP i.MX mfgtools)
+uuu_version: "1.5.243"
+uuu_url: "https://github.com/nxp-imx/mfgtools/releases/download/uuu_{{ uuu_version }}/uuu"

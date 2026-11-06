@@ -84,6 +84,12 @@
 - ansible.builtin.import_tasks: install_lazydocker.yml
   tags: lazydocker
 
+- ansible.builtin.import_tasks: install-uuu.yml
+  when:
+    - ansible_facts['system'] == "Linux"
+    - ansible_facts['architecture'] in ['x86_64', 'amd64']
+  tags: uuu
+
 - ansible.builtin.import_tasks: install-neovim.yml
   when: not (ansible_facts['distribution'] == "Ubuntu"
              and ansible_facts['distribution_version'] == "20.04"

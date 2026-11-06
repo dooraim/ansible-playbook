@@ -9,14 +9,14 @@ This Ansible configuration automates the setup of a modern development environme
 ### Ubuntu / Debian
 
 ```bash
-sudo apt update && sudo apt install ansible zsh make gcc build-essential unzip zip tar curl wget fontconfig sshfs -y
+sudo apt update && sudo apt install ansible zsh make gcc build-essential unzip zip tar curl wget fontconfig sshfs libusb-1.0-0 -y
 ```
 
 ### Fedora
 
 ```bash
 sudo dnf install ansible curl wget unzip tar zsh
-sudo dnf install gcc g++ make
+sudo dnf install gcc g++ make libusb1
 ```
 
 ### macOS
@@ -176,5 +176,5 @@ Install the following packages
 
 ```bash
 $ sudo dnf install ansible curl wget unzip tar zsh
-$ sudo dnf install gcc g++ make
+$ sudo dnf install gcc g++ make libusb1
 ```

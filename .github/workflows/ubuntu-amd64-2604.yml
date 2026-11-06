@@ -43,7 +43,7 @@ jobs:
               set -e
               apt-get update &&
               apt-get install -y ansible \
-              tar unzip git build-essential curl wget fontconfig &&
+              tar unzip git build-essential curl wget fontconfig libusb-1.0-0 &&
               mkdir -p ~/.local/{bin,lib,share} &&
               mkdir -p ~/.config &&
               ansible --version &&
