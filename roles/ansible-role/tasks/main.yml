@@ -81,6 +81,9 @@
 - ansible.builtin.import_tasks: install_herdr.yml
   tags: herdr
 
+- ansible.builtin.import_tasks: install-herdr-app.yml
+  tags: herdr-app
+
 - ansible.builtin.import_tasks: install_lazydocker.yml
   tags: lazydocker
 

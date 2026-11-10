@@ -72,6 +72,7 @@ Available tags:
 | `npm` | Node.js via nvm |
 | `ai-agents` | Claude Code and OpenCode |
 | `neovim` | Neovim + config |
+| `herdr-app` | Herdr desktop app + Pokémon Sinnoh layout (the layout is installed once the app has been opened and `~/.config/herdr-app` exists) |
 
 > **Note:** setup/cleanup tasks (`myapp` temp directory, OS info display, package version check) always run regardless of tags.
 

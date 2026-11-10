@@ -420,6 +420,16 @@ temp_dir: "{{ ansible_facts['env'].HOME }}/myapp"
 herdr_scripts_src: "{{ lookup('env', 'HOME') }}/devel/notes/docs/files/Herdr/"
 herdr_scripts_dest: "{{ ansible_facts['env'].HOME }}/devel/herdr"
 
+# Herdr desktop app (herdr-app) and its Pokémon Sinnoh layout
+herdr_app_install_url: "https://releases.herdr.dev/app/install.sh"
+# Debian/Ubuntu packages bundled (without root) when the system lacks them
+herdr_app_lib_packages:
+  - libxkbcommon-x11-0
+  - libxcb-xkb1
+herdr_app_lib_dir: "{{ ansible_facts['env'].HOME }}/.local/lib/herdr-app"
+herdr_sinnoh_repo: "https://github.com/nick-datalane/herdr-sinnoh.git"
+herdr_sinnoh_version: "acd74fea4cc9e3a7b85a791cc064b3fe05897008"
+
 # uuu (NXP i.MX mfgtools)
 uuu_version: "1.5.243"
 uuu_url: "https://github.com/nxp-imx/mfgtools/releases/download/uuu_{{ uuu_version }}/uuu"
