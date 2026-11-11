@@ -49,3 +49,5 @@ all:
               ansible_host: 10.203.70.17
             PU26Y26055:
               ansible_host: 10.203.70.18
+            PU26Y26056:
+              ansible_host: 10.203.70.19
